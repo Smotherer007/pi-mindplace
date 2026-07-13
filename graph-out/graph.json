@@ -5,8 +5,8 @@
       "label": "index.ts",
       "type": "file",
       "sourceFile": "index.ts",
-      "centrality": 0.026,
-      "community": 68
+      "centrality": 0.024,
+      "community": 69
     },
     {
       "id": "index_graphPath",
@@ -15,14 +15,14 @@
       "sourceFile": "index.ts",
       "sourceLocation": "L31",
       "centrality": 0.007,
-      "community": 68
+      "community": 69
     },
     {
       "id": "package_file",
       "label": "package.json",
       "type": "file",
       "sourceFile": "package.json",
-      "centrality": 0.085,
+      "centrality": 0.079,
       "community": 3
     },
     {
@@ -167,7 +167,7 @@
       "type": "file",
       "sourceFile": "src/detect.ts",
       "centrality": 0.009,
-      "community": 72
+      "community": 73
     },
     {
       "id": "src_detect_detect",
@@ -175,151 +175,160 @@
       "type": "function",
       "sourceFile": "src/detect.ts",
       "sourceLocation": "L28",
-      "centrality": 0.006,
-      "community": 72
+      "centrality": 0.005,
+      "community": 73
     },
     {
       "id": "src_extract_file",
       "label": "src/extract.ts",
       "type": "file",
       "sourceFile": "src/extract.ts",
-      "centrality": 0.039,
-      "community": 72
+      "centrality": 0.038,
+      "community": 73
     },
     {
       "id": "src_extract_fileHash",
       "label": "fileHash",
       "type": "function",
       "sourceFile": "src/extract.ts",
-      "sourceLocation": "L44",
+      "sourceLocation": "L62",
       "centrality": 0.006,
-      "community": 72
+      "community": 73
     },
     {
       "id": "src_extract_CacheEntry",
       "label": "CacheEntry",
       "type": "interface",
       "sourceFile": "src/extract.ts",
-      "sourceLocation": "L48",
+      "sourceLocation": "L66",
       "centrality": 0.004,
-      "community": 72
+      "community": 73
     },
     {
       "id": "src_extract_loadCache",
       "label": "loadCache",
       "type": "function",
       "sourceFile": "src/extract.ts",
-      "sourceLocation": "L54",
+      "sourceLocation": "L72",
       "centrality": 0.006,
-      "community": 72
+      "community": 73
     },
     {
       "id": "src_extract_saveCache",
       "label": "saveCache",
       "type": "function",
       "sourceFile": "src/extract.ts",
-      "sourceLocation": "L67",
+      "sourceLocation": "L85",
       "centrality": 0.006,
-      "community": 72
+      "community": 73
     },
     {
       "id": "src_extract_nodeId",
       "label": "nodeId",
       "type": "function",
       "sourceFile": "src/extract.ts",
-      "sourceLocation": "L76",
-      "centrality": 0.015,
-      "community": 72
+      "sourceLocation": "L94",
+      "centrality": 0.016,
+      "community": 73
     },
     {
       "id": "src_extract_pickGrammar",
       "label": "pickGrammar",
       "type": "function",
       "sourceFile": "src/extract.ts",
-      "sourceLocation": "L82",
-      "centrality": 0.006,
-      "community": 72
+      "sourceLocation": "L100",
+      "centrality": 0.005,
+      "community": 73
     },
     {
       "id": "src_extract_extractJS_TS",
       "label": "extractJS_TS",
       "type": "function",
       "sourceFile": "src/extract.ts",
-      "sourceLocation": "L92",
-      "centrality": 0.011,
-      "community": 72
+      "sourceLocation": "L110",
+      "centrality": 0.01,
+      "community": 73
     },
     {
       "id": "src_extract_extractPython",
       "label": "extractPython",
       "type": "function",
       "sourceFile": "src/extract.ts",
-      "sourceLocation": "L215",
-      "centrality": 0.008,
-      "community": 72
+      "sourceLocation": "L233",
+      "centrality": 0.007,
+      "community": 73
     },
     {
       "id": "src_extract_extractGo",
       "label": "extractGo",
       "type": "function",
       "sourceFile": "src/extract.ts",
-      "sourceLocation": "L321",
-      "centrality": 0.008,
-      "community": 72
+      "sourceLocation": "L339",
+      "centrality": 0.007,
+      "community": 73
     },
     {
       "id": "src_extract_extractBash",
       "label": "extractBash",
       "type": "function",
       "sourceFile": "src/extract.ts",
-      "sourceLocation": "L388",
-      "centrality": 0.008,
-      "community": 72
+      "sourceLocation": "L406",
+      "centrality": 0.007,
+      "community": 73
     },
     {
       "id": "src_extract_extractJson",
       "label": "extractJson",
       "type": "function",
       "sourceFile": "src/extract.ts",
-      "sourceLocation": "L414",
-      "centrality": 0.008,
-      "community": 72
+      "sourceLocation": "L432",
+      "centrality": 0.007,
+      "community": 73
+    },
+    {
+      "id": "src_extract_extractGeneric",
+      "label": "extractGeneric",
+      "type": "function",
+      "sourceFile": "src/extract.ts",
+      "sourceLocation": "L456",
+      "centrality": 0.007,
+      "community": 73
     },
     {
       "id": "src_extract_extractFile",
       "label": "extractFile",
       "type": "function",
       "sourceFile": "src/extract.ts",
-      "sourceLocation": "L435",
-      "centrality": 0.02,
-      "community": 72
+      "sourceLocation": "L541",
+      "centrality": 0.021,
+      "community": 73
     },
     {
       "id": "src_extract_resolveModulePath",
       "label": "resolveModulePath",
       "type": "function",
       "sourceFile": "src/extract.ts",
-      "sourceLocation": "L487",
+      "sourceLocation": "L600",
       "description": "* Resolve a relative module path to an actual file. @param fromFile The importing file (relative to root) @param modPath The import path (e.g. \"./auth\") @param root Project root for absolute file exis",
       "centrality": 0.006,
-      "community": 72
+      "community": 73
     },
     {
       "id": "src_extract_extract",
       "label": "extract",
       "type": "function",
       "sourceFile": "src/extract.ts",
-      "sourceLocation": "L519",
-      "centrality": 0.014,
-      "community": 72
+      "sourceLocation": "L632",
+      "centrality": 0.013,
+      "community": 73
     },
     {
       "id": "src_graph_file",
       "label": "src/graph.ts",
       "type": "file",
       "sourceFile": "src/graph.ts",
-      "centrality": 0.052,
-      "community": 72
+      "centrality": 0.048,
+      "community": 73
     },
     {
       "id": "src_graph_KnowledgeGraph",
@@ -327,8 +336,8 @@
       "type": "class",
       "sourceFile": "src/graph.ts",
       "sourceLocation": "L15",
-      "centrality": 0.04,
-      "community": 72
+      "centrality": 0.037,
+      "community": 73
     },
     {
       "id": "src_graph_KnowledgeGraph_nodes",
@@ -337,7 +346,7 @@
       "sourceFile": "src/graph.ts",
       "sourceLocation": "L16",
       "centrality": 0.006,
-      "community": 72
+      "community": 73
     },
     {
       "id": "src_graph_KnowledgeGraph_edges",
@@ -346,7 +355,7 @@
       "sourceFile": "src/graph.ts",
       "sourceLocation": "L17",
       "centrality": 0.006,
-      "community": 72
+      "community": 73
     },
     {
       "id": "src_graph_KnowledgeGraph_adjacency",
@@ -356,7 +365,7 @@
       "sourceLocation": "L19",
       "description": "Adjacency: nodeId → set of connected nodeIds",
       "centrality": 0.006,
-      "community": 72
+      "community": 73
     },
     {
       "id": "src_graph_KnowledgeGraph_outgoing",
@@ -366,7 +375,7 @@
       "sourceLocation": "L21",
       "description": "Outgoing edges: nodeId → set of target nodeIds (for directed mode)",
       "centrality": 0.006,
-      "community": 72
+      "community": 73
     },
     {
       "id": "src_graph_KnowledgeGraph_isDirected",
@@ -376,7 +385,7 @@
       "sourceLocation": "L23",
       "description": "Whether the graph preserves edge direction",
       "centrality": 0.006,
-      "community": 72
+      "community": 73
     },
     {
       "id": "src_graph_KnowledgeGraph_fromExtraction",
@@ -386,7 +395,7 @@
       "sourceLocation": "L26",
       "description": "Build graph from extraction results",
       "centrality": 0.006,
-      "community": 72
+      "community": 73
     },
     {
       "id": "src_graph_KnowledgeGraph_merge",
@@ -396,7 +405,7 @@
       "sourceLocation": "L53",
       "description": "Add nodes/edges from another extraction (for incremental updates)",
       "centrality": 0.006,
-      "community": 72
+      "community": 73
     },
     {
       "id": "src_graph_KnowledgeGraph_computeCentrality",
@@ -406,7 +415,7 @@
       "sourceLocation": "L70",
       "description": "Compute PageRank centrality scores (power iteration, no numpy needed)",
       "centrality": 0.006,
-      "community": 72
+      "community": 73
     },
     {
       "id": "src_graph_KnowledgeGraph_detectCommunities",
@@ -416,7 +425,7 @@
       "sourceLocation": "L113",
       "description": "Louvain community detection",
       "centrality": 0.006,
-      "community": 72
+      "community": 73
     },
     {
       "id": "src_graph_KnowledgeGraph_topNodes",
@@ -426,7 +435,7 @@
       "sourceLocation": "L183",
       "description": "God nodes — highest degree nodes",
       "centrality": 0.006,
-      "community": 72
+      "community": 73
     },
     {
       "id": "src_graph_KnowledgeGraph_stats",
@@ -436,7 +445,7 @@
       "sourceLocation": "L195",
       "description": "Stats summary",
       "centrality": 0.006,
-      "community": 72
+      "community": 73
     },
     {
       "id": "src_graph_KnowledgeGraph_toJSON",
@@ -446,7 +455,7 @@
       "sourceLocation": "L209",
       "description": "Serialize to JSON-serializable object",
       "centrality": 0.006,
-      "community": 72
+      "community": 73
     },
     {
       "id": "src_graph_KnowledgeGraph_fromJSON",
@@ -456,15 +465,15 @@
       "sourceLocation": "L217",
       "description": "Deserialize from JSON",
       "centrality": 0.006,
-      "community": 72
+      "community": 73
     },
     {
       "id": "src_query_file",
       "label": "src/query.ts",
       "type": "file",
       "sourceFile": "src/query.ts",
-      "centrality": 0.036,
-      "community": 72
+      "centrality": 0.033,
+      "community": 73
     },
     {
       "id": "src_query_tokenize",
@@ -473,8 +482,8 @@
       "sourceFile": "src/query.ts",
       "sourceLocation": "L22",
       "description": "Tokenize text: split camelCase and snake_case",
-      "centrality": 0.007,
-      "community": 72
+      "centrality": 0.006,
+      "community": 73
     },
     {
       "id": "src_query_estimateTokens",
@@ -483,8 +492,8 @@
       "sourceFile": "src/query.ts",
       "sourceLocation": "L40",
       "description": "Estimate tokens in a string",
-      "centrality": 0.007,
-      "community": 72
+      "centrality": 0.006,
+      "community": 73
     },
     {
       "id": "src_query_TfIdfScorer",
@@ -493,8 +502,8 @@
       "sourceFile": "src/query.ts",
       "sourceLocation": "L45",
       "description": "TF-IDF scorer",
-      "centrality": 0.016,
-      "community": 72
+      "centrality": 0.015,
+      "community": 73
     },
     {
       "id": "src_query_TfIdfScorer_idf",
@@ -502,8 +511,8 @@
       "type": "method",
       "sourceFile": "src/query.ts",
       "sourceLocation": "L46",
-      "centrality": 0.007,
-      "community": 72
+      "centrality": 0.006,
+      "community": 73
     },
     {
       "id": "src_query_TfIdfScorer_docs",
@@ -511,8 +520,8 @@
       "type": "method",
       "sourceFile": "src/query.ts",
       "sourceLocation": "L47",
-      "centrality": 0.007,
-      "community": 72
+      "centrality": 0.006,
+      "community": 73
     },
     {
       "id": "src_query_TfIdfScorer_constructor",
@@ -520,8 +529,8 @@
       "type": "method",
       "sourceFile": "src/query.ts",
       "sourceLocation": "L49",
-      "centrality": 0.007,
-      "community": 72
+      "centrality": 0.006,
+      "community": 73
     },
     {
       "id": "src_query_TfIdfScorer_score",
@@ -530,8 +539,8 @@
       "sourceFile": "src/query.ts",
       "sourceLocation": "L80",
       "description": "Score a node against query tokens. Returns 0..1",
-      "centrality": 0.007,
-      "community": 72
+      "centrality": 0.006,
+      "community": 73
     },
     {
       "id": "src_query_formatNode",
@@ -540,8 +549,8 @@
       "sourceFile": "src/query.ts",
       "sourceLocation": "L133",
       "description": "Format a single node as markdown",
-      "centrality": 0.01,
-      "community": 72
+      "centrality": 0.009,
+      "community": 73
     },
     {
       "id": "src_query_query",
@@ -549,8 +558,8 @@
       "type": "function",
       "sourceFile": "src/query.ts",
       "sourceLocation": "L153",
-      "centrality": 0.013,
-      "community": 72
+      "centrality": 0.012,
+      "community": 73
     },
     {
       "id": "src_query_formatQueryResult",
@@ -558,16 +567,16 @@
       "type": "function",
       "sourceFile": "src/query.ts",
       "sourceLocation": "L272",
-      "centrality": 0.007,
-      "community": 72
+      "centrality": 0.006,
+      "community": 73
     },
     {
       "id": "src_report_file",
       "label": "src/report.ts",
       "type": "file",
       "sourceFile": "src/report.ts",
-      "centrality": 0.021,
-      "community": 72
+      "centrality": 0.019,
+      "community": 73
     },
     {
       "id": "src_report_Surprise",
@@ -575,8 +584,8 @@
       "type": "interface",
       "sourceFile": "src/report.ts",
       "sourceLocation": "L15",
-      "centrality": 0.005,
-      "community": 72
+      "centrality": 0.004,
+      "community": 73
     },
     {
       "id": "src_report_generateReport",
@@ -584,8 +593,8 @@
       "type": "function",
       "sourceFile": "src/report.ts",
       "sourceLocation": "L22",
-      "centrality": 0.011,
-      "community": 72
+      "centrality": 0.01,
+      "community": 73
     },
     {
       "id": "src_report_findSurprises",
@@ -593,8 +602,8 @@
       "type": "function",
       "sourceFile": "src/report.ts",
       "sourceLocation": "L124",
-      "centrality": 0.008,
-      "community": 72
+      "centrality": 0.007,
+      "community": 73
     },
     {
       "id": "src_report_suggestQuestions",
@@ -602,8 +611,8 @@
       "type": "function",
       "sourceFile": "src/report.ts",
       "sourceLocation": "L150",
-      "centrality": 0.008,
-      "community": 72
+      "centrality": 0.007,
+      "community": 73
     },
     {
       "id": "src_tools_mindplace-build_file",
@@ -611,7 +620,7 @@
       "type": "file",
       "sourceFile": "src/tools/mindplace-build.ts",
       "centrality": 0.007,
-      "community": 68
+      "community": 69
     },
     {
       "id": "src_tools_mindplace-explain_file",
@@ -619,7 +628,7 @@
       "type": "file",
       "sourceFile": "src/tools/mindplace-explain.ts",
       "centrality": 0.007,
-      "community": 68
+      "community": 69
     },
     {
       "id": "src_tools_mindplace-query_file",
@@ -627,15 +636,15 @@
       "type": "file",
       "sourceFile": "src/tools/mindplace-query.ts",
       "centrality": 0.007,
-      "community": 68
+      "community": 69
     },
     {
       "id": "src_types_file",
       "label": "src/types.ts",
       "type": "file",
       "sourceFile": "src/types.ts",
-      "centrality": 0.04,
-      "community": 72
+      "centrality": 0.037,
+      "community": 73
     },
     {
       "id": "src_types_GraphNode",
@@ -643,8 +652,8 @@
       "type": "interface",
       "sourceFile": "src/types.ts",
       "sourceLocation": "L5",
-      "centrality": 0.005,
-      "community": 72
+      "centrality": 0.004,
+      "community": 73
     },
     {
       "id": "src_types_GraphEdge",
@@ -652,8 +661,8 @@
       "type": "interface",
       "sourceFile": "src/types.ts",
       "sourceLocation": "L16",
-      "centrality": 0.005,
-      "community": 72
+      "centrality": 0.004,
+      "community": 73
     },
     {
       "id": "src_types_ExtractionResult",
@@ -661,8 +670,8 @@
       "type": "interface",
       "sourceFile": "src/types.ts",
       "sourceLocation": "L24",
-      "centrality": 0.005,
-      "community": 72
+      "centrality": 0.004,
+      "community": 73
     },
     {
       "id": "src_types_DetectResult",
@@ -670,8 +679,8 @@
       "type": "interface",
       "sourceFile": "src/types.ts",
       "sourceLocation": "L29",
-      "centrality": 0.005,
-      "community": 72
+      "centrality": 0.004,
+      "community": 73
     },
     {
       "id": "src_types_QueryResult",
@@ -679,8 +688,8 @@
       "type": "interface",
       "sourceFile": "src/types.ts",
       "sourceLocation": "L36",
-      "centrality": 0.005,
-      "community": 72
+      "centrality": 0.004,
+      "community": 73
     },
     {
       "id": "src_types_GraphStats",
@@ -688,16 +697,16 @@
       "type": "interface",
       "sourceFile": "src/types.ts",
       "sourceLocation": "L46",
-      "centrality": 0.005,
-      "community": 72
+      "centrality": 0.004,
+      "community": 73
     },
     {
       "id": "src_viz_file",
       "label": "src/viz.ts",
       "type": "file",
       "sourceFile": "src/viz.ts",
-      "centrality": 0.009,
-      "community": 72
+      "centrality": 0.008,
+      "community": 73
     },
     {
       "id": "src_viz_generateHtml",
@@ -706,7 +715,7 @@
       "sourceFile": "src/viz.ts",
       "sourceLocation": "L13",
       "centrality": 0.005,
-      "community": 72
+      "community": 73
     },
     {
       "id": "tests_detect.test_file",
@@ -714,7 +723,7 @@
       "type": "file",
       "sourceFile": "tests/detect.test.ts",
       "centrality": 0.002,
-      "community": 80
+      "community": 81
     },
     {
       "id": "tests_extract.test_file",
@@ -722,15 +731,68 @@
       "type": "file",
       "sourceFile": "tests/extract.test.ts",
       "centrality": 0.002,
-      "community": 81
+      "community": 82
+    },
+    {
+      "id": "tests_fixtures_sample-project_src-java_AuthService_file",
+      "label": "tests/fixtures/sample-project/src-java/AuthService.java",
+      "type": "file",
+      "sourceFile": "tests/fixtures/sample-project/src-java/AuthService.java",
+      "centrality": 0.024,
+      "community": 84
+    },
+    {
+      "id": "tests_fixtures_sample-project_src-java_AuthService_AuthService",
+      "label": "AuthService",
+      "type": "class",
+      "sourceFile": "tests/fixtures/sample-project/src-java/AuthService.java",
+      "sourceLocation": "L3",
+      "centrality": 0.006,
+      "community": 84
+    },
+    {
+      "id": "tests_fixtures_sample-project_src-java_AuthService_authenticate",
+      "label": "authenticate",
+      "type": "function",
+      "sourceFile": "tests/fixtures/sample-project/src-java/AuthService.java",
+      "sourceLocation": "L6",
+      "centrality": 0.01,
+      "community": 84
+    },
+    {
+      "id": "tests_fixtures_sample-project_src-java_AuthService_validatePassword",
+      "label": "validatePassword",
+      "type": "function",
+      "sourceFile": "tests/fixtures/sample-project/src-java/AuthService.java",
+      "sourceLocation": "L11",
+      "centrality": 0.01,
+      "community": 84
+    },
+    {
+      "id": "tests_fixtures_sample-project_src-java_AuthService_UserRepository",
+      "label": "UserRepository",
+      "type": "interface",
+      "sourceFile": "tests/fixtures/sample-project/src-java/AuthService.java",
+      "sourceLocation": "L16",
+      "centrality": 0.006,
+      "community": 84
+    },
+    {
+      "id": "tests_fixtures_sample-project_src-java_AuthService_findByUsername",
+      "label": "findByUsername",
+      "type": "function",
+      "sourceFile": "tests/fixtures/sample-project/src-java/AuthService.java",
+      "sourceLocation": "L17",
+      "centrality": 0.006,
+      "community": 84
     },
     {
       "id": "tests_fixtures_sample-project_src_auth_file",
       "label": "tests/fixtures/sample-project/src/auth.ts",
       "type": "file",
       "sourceFile": "tests/fixtures/sample-project/src/auth.ts",
-      "centrality": 0.016,
-      "community": 84
+      "centrality": 0.015,
+      "community": 91
     },
     {
       "id": "tests_fixtures_sample-project_src_auth_authenticateUser",
@@ -738,8 +800,8 @@
       "type": "function",
       "sourceFile": "tests/fixtures/sample-project/src/auth.ts",
       "sourceLocation": "L2",
-      "centrality": 0.012,
-      "community": 83
+      "centrality": 0.011,
+      "community": 90
     },
     {
       "id": "tests_fixtures_sample-project_src_auth_validateCredentials",
@@ -748,7 +810,7 @@
       "sourceFile": "tests/fixtures/sample-project/src/auth.ts",
       "sourceLocation": "L6",
       "centrality": 0.008,
-      "community": 84
+      "community": 91
     },
     {
       "id": "tests_fixtures_sample-project_src_auth_createSession",
@@ -757,15 +819,15 @@
       "sourceFile": "tests/fixtures/sample-project/src/auth.ts",
       "sourceLocation": "L10",
       "centrality": 0.008,
-      "community": 83
+      "community": 90
     },
     {
       "id": "tests_fixtures_sample-project_src_controller_file",
       "label": "tests/fixtures/sample-project/src/controller.ts",
       "type": "file",
       "sourceFile": "tests/fixtures/sample-project/src/controller.ts",
-      "centrality": 0.013,
-      "community": 84
+      "centrality": 0.012,
+      "community": 91
     },
     {
       "id": "tests_fixtures_sample-project_src_controller_UserController",
@@ -773,8 +835,8 @@
       "type": "class",
       "sourceFile": "tests/fixtures/sample-project/src/controller.ts",
       "sourceLocation": "L3",
-      "centrality": 0.009,
-      "community": 84
+      "centrality": 0.008,
+      "community": 91
     },
     {
       "id": "tests_fixtures_sample-project_src_controller_UserController_login",
@@ -782,16 +844,16 @@
       "type": "method",
       "sourceFile": "tests/fixtures/sample-project/src/controller.ts",
       "sourceLocation": "L4",
-      "centrality": 0.009,
-      "community": 84
+      "centrality": 0.008,
+      "community": 91
     },
     {
       "id": "tests_graph.test_file",
       "label": "tests/graph.test.ts",
       "type": "file",
       "sourceFile": "tests/graph.test.ts",
-      "centrality": 0.011,
-      "community": 90
+      "centrality": 0.01,
+      "community": 97
     },
     {
       "id": "tests_graph.test_sampleExtraction",
@@ -799,16 +861,16 @@
       "type": "function",
       "sourceFile": "tests/graph.test.ts",
       "sourceLocation": "L10",
-      "centrality": 0.011,
-      "community": 90
+      "centrality": 0.01,
+      "community": 97
     },
     {
       "id": "tests_query.test_file",
       "label": "tests/query.test.ts",
       "type": "file",
       "sourceFile": "tests/query.test.ts",
-      "centrality": 0.011,
-      "community": 92
+      "centrality": 0.01,
+      "community": 99
     },
     {
       "id": "tests_query.test_sampleGraph",
@@ -816,8 +878,8 @@
       "type": "function",
       "sourceFile": "tests/query.test.ts",
       "sourceLocation": "L11",
-      "centrality": 0.011,
-      "community": 92
+      "centrality": 0.01,
+      "community": 99
     }
   ],
   "edges": [
@@ -1186,6 +1248,47 @@
     },
     {
       "source": "src_extract_file",
+      "target": "src_extract_extractGeneric",
+      "relation": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "src_extract_extractGeneric",
+      "target": "src_extract_nodeId",
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidenceScore": 0.85
+    },
+    {
+      "source": "src_extract_extractGeneric",
+      "target": "src_extract_nodeId",
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidenceScore": 0.85
+    },
+    {
+      "source": "src_extract_extractGeneric",
+      "target": "src_extract_nodeId",
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidenceScore": 0.85
+    },
+    {
+      "source": "src_extract_extractGeneric",
+      "target": "src_extract_nodeId",
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidenceScore": 0.85
+    },
+    {
+      "source": "src_extract_extractGeneric",
+      "target": "src_extract_nodeId",
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidenceScore": 0.85
+    },
+    {
+      "source": "src_extract_file",
       "target": "src_extract_extractFile",
       "relation": "contains",
       "confidence": "EXTRACTED"
@@ -1228,6 +1331,13 @@
     {
       "source": "src_extract_extractFile",
       "target": "src_extract_extractJson",
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidenceScore": 0.85
+    },
+    {
+      "source": "src_extract_extractFile",
+      "target": "src_extract_extractGeneric",
       "relation": "calls",
       "confidence": "INFERRED",
       "confidenceScore": 0.85
@@ -1666,6 +1776,43 @@
     {
       "source": "src_viz_file",
       "target": "src_viz_generateHtml",
+      "relation": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "tests_fixtures_sample-project_src-java_AuthService_file",
+      "target": "tests_fixtures_sample-project_src-java_AuthService_AuthService",
+      "relation": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "tests_fixtures_sample-project_src-java_AuthService_file",
+      "target": "tests_fixtures_sample-project_src-java_AuthService_authenticate",
+      "relation": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "tests_fixtures_sample-project_src-java_AuthService_authenticate",
+      "target": "tests_fixtures_sample-project_src-java_AuthService_validatePassword",
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidenceScore": 0.85
+    },
+    {
+      "source": "tests_fixtures_sample-project_src-java_AuthService_file",
+      "target": "tests_fixtures_sample-project_src-java_AuthService_validatePassword",
+      "relation": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "tests_fixtures_sample-project_src-java_AuthService_file",
+      "target": "tests_fixtures_sample-project_src-java_AuthService_UserRepository",
+      "relation": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "tests_fixtures_sample-project_src-java_AuthService_file",
+      "target": "tests_fixtures_sample-project_src-java_AuthService_findByUsername",
       "relation": "contains",
       "confidence": "EXTRACTED"
     },

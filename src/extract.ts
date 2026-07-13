@@ -23,6 +23,18 @@ import Go from "tree-sitter-go";
 import Bash from "tree-sitter-bash";
 // @ts-expect-error WASM
 import Json from "tree-sitter-json";
+// @ts-expect-error WASM
+import Java from "tree-sitter-java";
+// @ts-expect-error WASM
+import Rust from "tree-sitter-rust";
+// @ts-expect-error WASM
+import Cpp from "tree-sitter-cpp";
+// @ts-expect-error WASM
+import Ruby from "tree-sitter-ruby";
+// @ts-expect-error WASM
+import Kotlin from "tree-sitter-kotlin";
+// @ts-expect-error WASM
+import Scala from "tree-sitter-scala";
 
 import type { ExtractionResult, GraphEdge, GraphNode } from "./types.ts";
 import { CODE_EXTENSIONS } from "./types.ts";
@@ -37,6 +49,12 @@ const GRAMMARS: Record<string, { grammar: Parser.Language; exts: Set<string> }> 
   go: { grammar: Go as unknown as Parser.Language, exts: new Set([".go"]) },
   bash: { grammar: Bash as unknown as Parser.Language, exts: new Set([".sh", ".bash", ".zsh"]) },
   json: { grammar: Json as unknown as Parser.Language, exts: new Set([".json"]) },
+  java: { grammar: Java as unknown as Parser.Language, exts: new Set([".java"]) },
+  rust: { grammar: Rust as unknown as Parser.Language, exts: new Set([".rs"]) },
+  cpp: { grammar: Cpp as unknown as Parser.Language, exts: new Set([".cpp", ".cc", ".cxx", ".hpp", ".hh", ".hxx"]) },
+  ruby: { grammar: Ruby as unknown as Parser.Language, exts: new Set([".rb"]) },
+  kotlin: { grammar: Kotlin as unknown as Parser.Language, exts: new Set([".kt", ".kts"]) },
+  scala: { grammar: Scala as unknown as Parser.Language, exts: new Set([".scala", ".sc"]) },
 };
 
 // ── SHA256 Cache ──────────────────────────────────────────────────────────────
@@ -430,6 +448,94 @@ function extractJson(filePath: string, source: string, _root: string): Extractio
   return { nodes, edges };
 }
 
+// ── Generic extractor (Java, C++, Rust, Ruby, Kotlin, Scala) ───────────────
+
+/** Node types that represent named definitions across languages */
+const CALL_EXPR_TYPES = new Set(["call_expression", "method_invocation", "call"]);
+
+function extractGeneric(filePath: string, source: string, tree: Parser.Tree): ExtractionResult {
+  const nodes: GraphNode[] = [];
+  const edges: GraphEdge[] = [];
+  const seenIds = new Set<string>();
+  const fileNodeId = nodeId(filePath, "file");
+  nodes.push({ id: fileNodeId, label: filePath, type: "file", sourceFile: filePath });
+  seenIds.add(fileNodeId);
+
+  function addNode(name: string, type: string, node: Parser.SyntaxNode): string {
+    const id = nodeId(filePath, name);
+    if (seenIds.has(id)) return id;
+    seenIds.add(id);
+    nodes.push({ id, label: name, type, sourceFile: filePath, sourceLocation: `L${node.startPosition.row + 1}` });
+    edges.push({ source: fileNodeId, target: id, relation: "contains", confidence: "EXTRACTED" });
+    return id;
+  }
+
+  function walk(n: Parser.SyntaxNode): void {
+    const t = n.type;
+
+    // Named function/method
+    if (t === "function_declaration" || t === "method_declaration" || t === "function_definition" || t === "constructor_declaration") {
+      const name = n.childForFieldName?.("name")?.text ?? n.descendantsOfType("identifier")[0]?.text ?? "anonymous";
+      const id = addNode(name, "function", n);
+      // Find call expressions within this function
+      for (const ct of CALL_EXPR_TYPES) {
+        for (const call of n.descendantsOfType(ct)) {
+          const callee = call.firstChild;
+          if (callee && callee.type !== "(" && callee.type !== "{") {
+            edges.push({ source: id, target: nodeId(filePath, callee.text), relation: "calls", confidence: "INFERRED", confidenceScore: 0.85 });
+          }
+        }
+      }
+      // Continue walking to find nested declarations
+    }
+
+    // Class / struct / interface / trait / object / enum
+    else if (t === "class_declaration" || t === "class_definition" || t === "struct_item" ||
+        t === "interface_declaration" || t === "trait_item" || t === "object_definition" ||
+        t === "enum_item" || t === "enum_declaration") {
+      const name = n.childForFieldName?.("name")?.text ?? n.firstChild?.text ?? "Anonymous";
+      const kind = t.includes("interface") ? "interface" : t.includes("struct") ? "struct" :
+                   t.includes("enum") ? "enum" : t.includes("trait") ? "trait" :
+                   t.includes("object") ? "object" : "class";
+      const id = addNode(name, kind, n);
+
+      // Inheritance / extends / implements / superclass
+      const INHERIT_TYPES = new Set(["superclass", "super_interfaces", "base_class_clause",
+        "trait_bounds", "template", "extends_clause", "implements_clause"]);
+      for (const child of n.children) {
+        if (INHERIT_TYPES.has(child.type) || child.type.includes("heritage")) {
+          const ID_TYPES = ["identifier", "type_identifier", "scoped_identifier", "scoped_type_identifier", "generic_type"];
+          for (const idt of ID_TYPES) {
+            for (const ref of child.descendantsOfType(idt)) {
+              edges.push({ source: id, target: nodeId(filePath, ref.text), relation: "inherits", confidence: "EXTRACTED" });
+            }
+          }
+        }
+      }
+      // Continue walking to find nested methods/classes
+    }
+
+    // Import/use/mod declarations
+    else if (t === "use_declaration" || t === "import_declaration" || t === "mod_item") {
+      const ID_TYPES = ["identifier", "scoped_identifier", "scoped_type_identifier"];
+      for (const idt of ID_TYPES) {
+        for (const nameNode of n.descendantsOfType(idt)) {
+          const txt = nameNode.text;
+          if (txt !== "use" && txt !== "import" && txt !== "mod" && txt !== "pub" && txt !== "crate") {
+            edges.push({ source: fileNodeId, target: nodeId(filePath, txt), relation: "imports", confidence: "EXTRACTED" });
+          }
+        }
+      }
+      return;
+    }
+
+    for (const child of n.children) walk(child);
+  }
+
+  walk(tree.rootNode);
+  return { nodes, edges };
+}
+
 // ── Dispatch ──────────────────────────────────────────────────────────────────
 
 function extractFile(filePath: string, root: string): ExtractionResult {
@@ -471,6 +577,13 @@ function extractFile(filePath: string, root: string): ExtractionResult {
       return extractBash(filePath, source, root);
     case "json":
       return extractJson(filePath, source, root);
+    case "java":
+    case "rust":
+    case "cpp":
+    case "ruby":
+    case "kotlin":
+    case "scala":
+      return extractGeneric(filePath, source, tree);
     default:
       return { nodes: [], edges: [] };
   }

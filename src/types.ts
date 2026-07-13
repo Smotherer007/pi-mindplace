@@ -73,6 +73,25 @@ export const CODE_EXTENSIONS: Record<string, string> = {
   ".zsh": "bash",
   // Config
   ".json": "json",
+  // Java
+  ".java": "java",
+  // Rust
+  ".rs": "rust",
+  // C++
+  ".cpp": "cpp",
+  ".cc": "cpp",
+  ".cxx": "cpp",
+  ".hpp": "cpp",
+  ".hh": "cpp",
+  ".hxx": "cpp",
+  // Ruby
+  ".rb": "ruby",
+  // Kotlin
+  ".kt": "kotlin",
+  ".kts": "kotlin",
+  // Scala
+  ".scala": "scala",
+  ".sc": "scala",
 };
 
 /** File extensions that may contain useful info but aren't parsed as code */
