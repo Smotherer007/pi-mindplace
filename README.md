@@ -6,17 +6,7 @@ Sherlock's Mind Place for your codebase. A pi extension that builds a queryable 
 
 ## How it works
 
-```
-  Source Code                 Knowledge Graph              Token-Efficient Queries
-  +----------+               +----------------+           +---------------------+
-  | auth.ts  |--+            |  authenticate   |           | "How does auth      |
-  | ctrl.ts  |--| tree-sitter|    +-calls->    |--query-->|  flow work?"        |
-  | util.ts  |--+  AST       |  validate <-----|           | -> 3 nodes, 847 tok  |
-  +----------+               |  hashPassword   |           +---------------------+
-                             +----------------+
-                               graph-out/
-                               +-- graph.json   (persisted across sessions)
-```
+![How pi-mindplace works](how-it-works.png)
 
 1. **`mindplace_build`** parses your source files locally with tree-sitter (zero LLM cost), extracting functions, classes, imports, and call relationships into a knowledge graph
 2. **`mindplace_query`** uses TF-IDF scoring and BFS traversal to find the most relevant subgraph within your token budget
