@@ -23,25 +23,25 @@ export function generateHtml(kg: KnowledgeGraph, title: string = "Mind Place"): 
 // ── Community-aggregated view for large graphs ──────────────────────────────
 
 function communityHtml(kg: KnowledgeGraph, title: string, totalNodes: number): string {
-  // Aggregate: one node per community
+  // Aggregate: one node per community (skip singletons)
   const commMap = new Map<number, { size: number; label: string; topLabels: string[] }>();
   for (const node of kg.nodes.values()) {
     if (node.type === "file" || node.community === undefined) continue;
     const c = commMap.get(node.community) ?? { size: 0, label: "", topLabels: [] };
     c.size++;
     if (c.topLabels.length < 3) c.topLabels.push(node.label);
-    c.label = `Community ${c.topLabels.slice(0, 2).join(", ")}`;
+    c.label = `C${node.community}`;
     commMap.set(node.community, c);
   }
 
-  const commNodes = [...commMap.entries()].map(([id, info]) => ({
-    id: `c${id}`,
-    label: info.label,
-    size: info.size,
-    topLabels: info.topLabels,
-  }));
+  // Only keep communities with >= 5 members
+  const MIN_SIZE = 5;
+  const commNodes = [...commMap.entries()]
+    .filter(([, info]) => info.size >= MIN_SIZE)
+    .map(([id, info]) => ({ id: `c${id}`, label: info.topLabels.slice(0, 2).join(", "), size: info.size, topLabels: info.topLabels }));
 
-  // Cross-community edges
+  // Cross-community edges (only between non-singleton communities)
+  const communityIds = new Set(commNodes.map(n => n.id));
   const crossEdges = new Map<string, number>();
   for (const edge of kg.edges) {
     const sn = kg.nodes.get(edge.source);
@@ -49,12 +49,14 @@ function communityHtml(kg: KnowledgeGraph, title: string, totalNodes: number): s
     if (!sn || !tn || sn.type === "file" || tn.type === "file") continue;
     if (sn.community === undefined || tn.community === undefined) continue;
     if (sn.community === tn.community) continue;
-    const key = `c${Math.min(sn.community, tn.community)}-c${Math.max(sn.community, tn.community)}`;
+    const a = `c${sn.community}`, b = `c${tn.community}`;
+    if (!communityIds.has(a) || !communityIds.has(b)) continue;
+    const key = `${a}<->${b}`;
     crossEdges.set(key, (crossEdges.get(key) ?? 0) + 1);
   }
 
   const commLinks = [...crossEdges.entries()].map(([key, count]) => {
-    const [a, b] = key.split("-");
+    const [a, b] = key.split("<->");
     return { source: a, target: b, count };
   });
 
