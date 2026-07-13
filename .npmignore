@@ -2,5 +2,6 @@
 .gitignore
 tests/
 node_modules/
+graph-out/
 *.log
 .DS_Store
