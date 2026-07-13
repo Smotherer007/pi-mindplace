@@ -1,0 +1,1741 @@
+{
+  "nodes": [
+    {
+      "id": "index_file",
+      "label": "index.ts",
+      "type": "file",
+      "sourceFile": "index.ts",
+      "centrality": 0.026,
+      "community": 68
+    },
+    {
+      "id": "index_graphPath",
+      "label": "graphPath",
+      "type": "function",
+      "sourceFile": "index.ts",
+      "sourceLocation": "L31",
+      "centrality": 0.007,
+      "community": 68
+    },
+    {
+      "id": "package_file",
+      "label": "package.json",
+      "type": "file",
+      "sourceFile": "package.json",
+      "centrality": 0.085,
+      "community": 3
+    },
+    {
+      "id": "package_name",
+      "label": "name",
+      "type": "field",
+      "sourceFile": "package.json",
+      "centrality": 0.006,
+      "community": 3
+    },
+    {
+      "id": "package_version",
+      "label": "version",
+      "type": "field",
+      "sourceFile": "package.json",
+      "centrality": 0.006,
+      "community": 3
+    },
+    {
+      "id": "package_description",
+      "label": "description",
+      "type": "field",
+      "sourceFile": "package.json",
+      "centrality": 0.006,
+      "community": 3
+    },
+    {
+      "id": "package_keywords",
+      "label": "keywords",
+      "type": "field",
+      "sourceFile": "package.json",
+      "centrality": 0.006,
+      "community": 3
+    },
+    {
+      "id": "package_author",
+      "label": "author",
+      "type": "field",
+      "sourceFile": "package.json",
+      "centrality": 0.006,
+      "community": 3
+    },
+    {
+      "id": "package_license",
+      "label": "license",
+      "type": "field",
+      "sourceFile": "package.json",
+      "centrality": 0.006,
+      "community": 3
+    },
+    {
+      "id": "package_type",
+      "label": "type",
+      "type": "field",
+      "sourceFile": "package.json",
+      "centrality": 0.006,
+      "community": 3
+    },
+    {
+      "id": "package_engines",
+      "label": "engines",
+      "type": "field",
+      "sourceFile": "package.json",
+      "centrality": 0.006,
+      "community": 3
+    },
+    {
+      "id": "package_repository",
+      "label": "repository",
+      "type": "field",
+      "sourceFile": "package.json",
+      "centrality": 0.006,
+      "community": 3
+    },
+    {
+      "id": "package_bugs",
+      "label": "bugs",
+      "type": "field",
+      "sourceFile": "package.json",
+      "centrality": 0.006,
+      "community": 3
+    },
+    {
+      "id": "package_scripts",
+      "label": "scripts",
+      "type": "field",
+      "sourceFile": "package.json",
+      "centrality": 0.006,
+      "community": 3
+    },
+    {
+      "id": "package_dependencies",
+      "label": "dependencies",
+      "type": "field",
+      "sourceFile": "package.json",
+      "centrality": 0.006,
+      "community": 3
+    },
+    {
+      "id": "package_peerDependencies",
+      "label": "peerDependencies",
+      "type": "field",
+      "sourceFile": "package.json",
+      "centrality": 0.006,
+      "community": 3
+    },
+    {
+      "id": "package_publishConfig",
+      "label": "publishConfig",
+      "type": "field",
+      "sourceFile": "package.json",
+      "centrality": 0.006,
+      "community": 3
+    },
+    {
+      "id": "package_devDependencies",
+      "label": "devDependencies",
+      "type": "field",
+      "sourceFile": "package.json",
+      "centrality": 0.006,
+      "community": 3
+    },
+    {
+      "id": "package_pi",
+      "label": "pi",
+      "type": "field",
+      "sourceFile": "package.json",
+      "centrality": 0.006,
+      "community": 3
+    },
+    {
+      "id": "release.config_file",
+      "label": "release.config.cjs",
+      "type": "file",
+      "sourceFile": "release.config.cjs",
+      "centrality": 0.002,
+      "community": 19
+    },
+    {
+      "id": "src_detect_file",
+      "label": "src/detect.ts",
+      "type": "file",
+      "sourceFile": "src/detect.ts",
+      "centrality": 0.009,
+      "community": 72
+    },
+    {
+      "id": "src_detect_detect",
+      "label": "detect",
+      "type": "function",
+      "sourceFile": "src/detect.ts",
+      "sourceLocation": "L28",
+      "centrality": 0.006,
+      "community": 72
+    },
+    {
+      "id": "src_extract_file",
+      "label": "src/extract.ts",
+      "type": "file",
+      "sourceFile": "src/extract.ts",
+      "centrality": 0.039,
+      "community": 72
+    },
+    {
+      "id": "src_extract_fileHash",
+      "label": "fileHash",
+      "type": "function",
+      "sourceFile": "src/extract.ts",
+      "sourceLocation": "L44",
+      "centrality": 0.006,
+      "community": 72
+    },
+    {
+      "id": "src_extract_CacheEntry",
+      "label": "CacheEntry",
+      "type": "interface",
+      "sourceFile": "src/extract.ts",
+      "sourceLocation": "L48",
+      "centrality": 0.004,
+      "community": 72
+    },
+    {
+      "id": "src_extract_loadCache",
+      "label": "loadCache",
+      "type": "function",
+      "sourceFile": "src/extract.ts",
+      "sourceLocation": "L54",
+      "centrality": 0.006,
+      "community": 72
+    },
+    {
+      "id": "src_extract_saveCache",
+      "label": "saveCache",
+      "type": "function",
+      "sourceFile": "src/extract.ts",
+      "sourceLocation": "L67",
+      "centrality": 0.006,
+      "community": 72
+    },
+    {
+      "id": "src_extract_nodeId",
+      "label": "nodeId",
+      "type": "function",
+      "sourceFile": "src/extract.ts",
+      "sourceLocation": "L76",
+      "centrality": 0.015,
+      "community": 72
+    },
+    {
+      "id": "src_extract_pickGrammar",
+      "label": "pickGrammar",
+      "type": "function",
+      "sourceFile": "src/extract.ts",
+      "sourceLocation": "L82",
+      "centrality": 0.006,
+      "community": 72
+    },
+    {
+      "id": "src_extract_extractJS_TS",
+      "label": "extractJS_TS",
+      "type": "function",
+      "sourceFile": "src/extract.ts",
+      "sourceLocation": "L92",
+      "centrality": 0.011,
+      "community": 72
+    },
+    {
+      "id": "src_extract_extractPython",
+      "label": "extractPython",
+      "type": "function",
+      "sourceFile": "src/extract.ts",
+      "sourceLocation": "L215",
+      "centrality": 0.008,
+      "community": 72
+    },
+    {
+      "id": "src_extract_extractGo",
+      "label": "extractGo",
+      "type": "function",
+      "sourceFile": "src/extract.ts",
+      "sourceLocation": "L321",
+      "centrality": 0.008,
+      "community": 72
+    },
+    {
+      "id": "src_extract_extractBash",
+      "label": "extractBash",
+      "type": "function",
+      "sourceFile": "src/extract.ts",
+      "sourceLocation": "L388",
+      "centrality": 0.008,
+      "community": 72
+    },
+    {
+      "id": "src_extract_extractJson",
+      "label": "extractJson",
+      "type": "function",
+      "sourceFile": "src/extract.ts",
+      "sourceLocation": "L414",
+      "centrality": 0.008,
+      "community": 72
+    },
+    {
+      "id": "src_extract_extractFile",
+      "label": "extractFile",
+      "type": "function",
+      "sourceFile": "src/extract.ts",
+      "sourceLocation": "L435",
+      "centrality": 0.02,
+      "community": 72
+    },
+    {
+      "id": "src_extract_resolveModulePath",
+      "label": "resolveModulePath",
+      "type": "function",
+      "sourceFile": "src/extract.ts",
+      "sourceLocation": "L487",
+      "description": "* Resolve a relative module path to an actual file. @param fromFile The importing file (relative to root) @param modPath The import path (e.g. \"./auth\") @param root Project root for absolute file exis",
+      "centrality": 0.006,
+      "community": 72
+    },
+    {
+      "id": "src_extract_extract",
+      "label": "extract",
+      "type": "function",
+      "sourceFile": "src/extract.ts",
+      "sourceLocation": "L519",
+      "centrality": 0.014,
+      "community": 72
+    },
+    {
+      "id": "src_graph_file",
+      "label": "src/graph.ts",
+      "type": "file",
+      "sourceFile": "src/graph.ts",
+      "centrality": 0.052,
+      "community": 72
+    },
+    {
+      "id": "src_graph_KnowledgeGraph",
+      "label": "KnowledgeGraph",
+      "type": "class",
+      "sourceFile": "src/graph.ts",
+      "sourceLocation": "L15",
+      "centrality": 0.04,
+      "community": 72
+    },
+    {
+      "id": "src_graph_KnowledgeGraph_nodes",
+      "label": "KnowledgeGraph.nodes",
+      "type": "method",
+      "sourceFile": "src/graph.ts",
+      "sourceLocation": "L16",
+      "centrality": 0.006,
+      "community": 72
+    },
+    {
+      "id": "src_graph_KnowledgeGraph_edges",
+      "label": "KnowledgeGraph.edges",
+      "type": "method",
+      "sourceFile": "src/graph.ts",
+      "sourceLocation": "L17",
+      "centrality": 0.006,
+      "community": 72
+    },
+    {
+      "id": "src_graph_KnowledgeGraph_adjacency",
+      "label": "KnowledgeGraph.adjacency",
+      "type": "method",
+      "sourceFile": "src/graph.ts",
+      "sourceLocation": "L19",
+      "description": "Adjacency: nodeId → set of connected nodeIds",
+      "centrality": 0.006,
+      "community": 72
+    },
+    {
+      "id": "src_graph_KnowledgeGraph_outgoing",
+      "label": "KnowledgeGraph.outgoing",
+      "type": "method",
+      "sourceFile": "src/graph.ts",
+      "sourceLocation": "L21",
+      "description": "Outgoing edges: nodeId → set of target nodeIds (for directed mode)",
+      "centrality": 0.006,
+      "community": 72
+    },
+    {
+      "id": "src_graph_KnowledgeGraph_isDirected",
+      "label": "KnowledgeGraph.isDirected",
+      "type": "method",
+      "sourceFile": "src/graph.ts",
+      "sourceLocation": "L23",
+      "description": "Whether the graph preserves edge direction",
+      "centrality": 0.006,
+      "community": 72
+    },
+    {
+      "id": "src_graph_KnowledgeGraph_fromExtraction",
+      "label": "KnowledgeGraph.fromExtraction",
+      "type": "method",
+      "sourceFile": "src/graph.ts",
+      "sourceLocation": "L26",
+      "description": "Build graph from extraction results",
+      "centrality": 0.006,
+      "community": 72
+    },
+    {
+      "id": "src_graph_KnowledgeGraph_merge",
+      "label": "KnowledgeGraph.merge",
+      "type": "method",
+      "sourceFile": "src/graph.ts",
+      "sourceLocation": "L53",
+      "description": "Add nodes/edges from another extraction (for incremental updates)",
+      "centrality": 0.006,
+      "community": 72
+    },
+    {
+      "id": "src_graph_KnowledgeGraph_computeCentrality",
+      "label": "KnowledgeGraph.computeCentrality",
+      "type": "method",
+      "sourceFile": "src/graph.ts",
+      "sourceLocation": "L70",
+      "description": "Compute PageRank centrality scores (power iteration, no numpy needed)",
+      "centrality": 0.006,
+      "community": 72
+    },
+    {
+      "id": "src_graph_KnowledgeGraph_detectCommunities",
+      "label": "KnowledgeGraph.detectCommunities",
+      "type": "method",
+      "sourceFile": "src/graph.ts",
+      "sourceLocation": "L113",
+      "description": "Louvain community detection",
+      "centrality": 0.006,
+      "community": 72
+    },
+    {
+      "id": "src_graph_KnowledgeGraph_topNodes",
+      "label": "KnowledgeGraph.topNodes",
+      "type": "method",
+      "sourceFile": "src/graph.ts",
+      "sourceLocation": "L183",
+      "description": "God nodes — highest degree nodes",
+      "centrality": 0.006,
+      "community": 72
+    },
+    {
+      "id": "src_graph_KnowledgeGraph_stats",
+      "label": "KnowledgeGraph.stats",
+      "type": "method",
+      "sourceFile": "src/graph.ts",
+      "sourceLocation": "L195",
+      "description": "Stats summary",
+      "centrality": 0.006,
+      "community": 72
+    },
+    {
+      "id": "src_graph_KnowledgeGraph_toJSON",
+      "label": "KnowledgeGraph.toJSON",
+      "type": "method",
+      "sourceFile": "src/graph.ts",
+      "sourceLocation": "L209",
+      "description": "Serialize to JSON-serializable object",
+      "centrality": 0.006,
+      "community": 72
+    },
+    {
+      "id": "src_graph_KnowledgeGraph_fromJSON",
+      "label": "KnowledgeGraph.fromJSON",
+      "type": "method",
+      "sourceFile": "src/graph.ts",
+      "sourceLocation": "L217",
+      "description": "Deserialize from JSON",
+      "centrality": 0.006,
+      "community": 72
+    },
+    {
+      "id": "src_query_file",
+      "label": "src/query.ts",
+      "type": "file",
+      "sourceFile": "src/query.ts",
+      "centrality": 0.036,
+      "community": 72
+    },
+    {
+      "id": "src_query_tokenize",
+      "label": "tokenize",
+      "type": "function",
+      "sourceFile": "src/query.ts",
+      "sourceLocation": "L22",
+      "description": "Tokenize text: split camelCase and snake_case",
+      "centrality": 0.007,
+      "community": 72
+    },
+    {
+      "id": "src_query_estimateTokens",
+      "label": "estimateTokens",
+      "type": "function",
+      "sourceFile": "src/query.ts",
+      "sourceLocation": "L40",
+      "description": "Estimate tokens in a string",
+      "centrality": 0.007,
+      "community": 72
+    },
+    {
+      "id": "src_query_TfIdfScorer",
+      "label": "TfIdfScorer",
+      "type": "class",
+      "sourceFile": "src/query.ts",
+      "sourceLocation": "L45",
+      "description": "TF-IDF scorer",
+      "centrality": 0.016,
+      "community": 72
+    },
+    {
+      "id": "src_query_TfIdfScorer_idf",
+      "label": "TfIdfScorer.idf",
+      "type": "method",
+      "sourceFile": "src/query.ts",
+      "sourceLocation": "L46",
+      "centrality": 0.007,
+      "community": 72
+    },
+    {
+      "id": "src_query_TfIdfScorer_docs",
+      "label": "TfIdfScorer.docs",
+      "type": "method",
+      "sourceFile": "src/query.ts",
+      "sourceLocation": "L47",
+      "centrality": 0.007,
+      "community": 72
+    },
+    {
+      "id": "src_query_TfIdfScorer_constructor",
+      "label": "TfIdfScorer.constructor",
+      "type": "method",
+      "sourceFile": "src/query.ts",
+      "sourceLocation": "L49",
+      "centrality": 0.007,
+      "community": 72
+    },
+    {
+      "id": "src_query_TfIdfScorer_score",
+      "label": "TfIdfScorer.score",
+      "type": "method",
+      "sourceFile": "src/query.ts",
+      "sourceLocation": "L80",
+      "description": "Score a node against query tokens. Returns 0..1",
+      "centrality": 0.007,
+      "community": 72
+    },
+    {
+      "id": "src_query_formatNode",
+      "label": "formatNode",
+      "type": "function",
+      "sourceFile": "src/query.ts",
+      "sourceLocation": "L133",
+      "description": "Format a single node as markdown",
+      "centrality": 0.01,
+      "community": 72
+    },
+    {
+      "id": "src_query_query",
+      "label": "query",
+      "type": "function",
+      "sourceFile": "src/query.ts",
+      "sourceLocation": "L153",
+      "centrality": 0.013,
+      "community": 72
+    },
+    {
+      "id": "src_query_formatQueryResult",
+      "label": "formatQueryResult",
+      "type": "function",
+      "sourceFile": "src/query.ts",
+      "sourceLocation": "L272",
+      "centrality": 0.007,
+      "community": 72
+    },
+    {
+      "id": "src_report_file",
+      "label": "src/report.ts",
+      "type": "file",
+      "sourceFile": "src/report.ts",
+      "centrality": 0.021,
+      "community": 72
+    },
+    {
+      "id": "src_report_Surprise",
+      "label": "Surprise",
+      "type": "interface",
+      "sourceFile": "src/report.ts",
+      "sourceLocation": "L15",
+      "centrality": 0.005,
+      "community": 72
+    },
+    {
+      "id": "src_report_generateReport",
+      "label": "generateReport",
+      "type": "function",
+      "sourceFile": "src/report.ts",
+      "sourceLocation": "L22",
+      "centrality": 0.011,
+      "community": 72
+    },
+    {
+      "id": "src_report_findSurprises",
+      "label": "findSurprises",
+      "type": "function",
+      "sourceFile": "src/report.ts",
+      "sourceLocation": "L124",
+      "centrality": 0.008,
+      "community": 72
+    },
+    {
+      "id": "src_report_suggestQuestions",
+      "label": "suggestQuestions",
+      "type": "function",
+      "sourceFile": "src/report.ts",
+      "sourceLocation": "L150",
+      "centrality": 0.008,
+      "community": 72
+    },
+    {
+      "id": "src_tools_mindplace-build_file",
+      "label": "src/tools/mindplace-build.ts",
+      "type": "file",
+      "sourceFile": "src/tools/mindplace-build.ts",
+      "centrality": 0.007,
+      "community": 68
+    },
+    {
+      "id": "src_tools_mindplace-explain_file",
+      "label": "src/tools/mindplace-explain.ts",
+      "type": "file",
+      "sourceFile": "src/tools/mindplace-explain.ts",
+      "centrality": 0.007,
+      "community": 68
+    },
+    {
+      "id": "src_tools_mindplace-query_file",
+      "label": "src/tools/mindplace-query.ts",
+      "type": "file",
+      "sourceFile": "src/tools/mindplace-query.ts",
+      "centrality": 0.007,
+      "community": 68
+    },
+    {
+      "id": "src_types_file",
+      "label": "src/types.ts",
+      "type": "file",
+      "sourceFile": "src/types.ts",
+      "centrality": 0.04,
+      "community": 72
+    },
+    {
+      "id": "src_types_GraphNode",
+      "label": "GraphNode",
+      "type": "interface",
+      "sourceFile": "src/types.ts",
+      "sourceLocation": "L5",
+      "centrality": 0.005,
+      "community": 72
+    },
+    {
+      "id": "src_types_GraphEdge",
+      "label": "GraphEdge",
+      "type": "interface",
+      "sourceFile": "src/types.ts",
+      "sourceLocation": "L16",
+      "centrality": 0.005,
+      "community": 72
+    },
+    {
+      "id": "src_types_ExtractionResult",
+      "label": "ExtractionResult",
+      "type": "interface",
+      "sourceFile": "src/types.ts",
+      "sourceLocation": "L24",
+      "centrality": 0.005,
+      "community": 72
+    },
+    {
+      "id": "src_types_DetectResult",
+      "label": "DetectResult",
+      "type": "interface",
+      "sourceFile": "src/types.ts",
+      "sourceLocation": "L29",
+      "centrality": 0.005,
+      "community": 72
+    },
+    {
+      "id": "src_types_QueryResult",
+      "label": "QueryResult",
+      "type": "interface",
+      "sourceFile": "src/types.ts",
+      "sourceLocation": "L36",
+      "centrality": 0.005,
+      "community": 72
+    },
+    {
+      "id": "src_types_GraphStats",
+      "label": "GraphStats",
+      "type": "interface",
+      "sourceFile": "src/types.ts",
+      "sourceLocation": "L46",
+      "centrality": 0.005,
+      "community": 72
+    },
+    {
+      "id": "src_viz_file",
+      "label": "src/viz.ts",
+      "type": "file",
+      "sourceFile": "src/viz.ts",
+      "centrality": 0.009,
+      "community": 72
+    },
+    {
+      "id": "src_viz_generateHtml",
+      "label": "generateHtml",
+      "type": "function",
+      "sourceFile": "src/viz.ts",
+      "sourceLocation": "L13",
+      "centrality": 0.005,
+      "community": 72
+    },
+    {
+      "id": "tests_detect.test_file",
+      "label": "tests/detect.test.ts",
+      "type": "file",
+      "sourceFile": "tests/detect.test.ts",
+      "centrality": 0.002,
+      "community": 80
+    },
+    {
+      "id": "tests_extract.test_file",
+      "label": "tests/extract.test.ts",
+      "type": "file",
+      "sourceFile": "tests/extract.test.ts",
+      "centrality": 0.002,
+      "community": 81
+    },
+    {
+      "id": "tests_fixtures_sample-project_src_auth_file",
+      "label": "tests/fixtures/sample-project/src/auth.ts",
+      "type": "file",
+      "sourceFile": "tests/fixtures/sample-project/src/auth.ts",
+      "centrality": 0.016,
+      "community": 84
+    },
+    {
+      "id": "tests_fixtures_sample-project_src_auth_authenticateUser",
+      "label": "authenticateUser",
+      "type": "function",
+      "sourceFile": "tests/fixtures/sample-project/src/auth.ts",
+      "sourceLocation": "L2",
+      "centrality": 0.012,
+      "community": 83
+    },
+    {
+      "id": "tests_fixtures_sample-project_src_auth_validateCredentials",
+      "label": "validateCredentials",
+      "type": "function",
+      "sourceFile": "tests/fixtures/sample-project/src/auth.ts",
+      "sourceLocation": "L6",
+      "centrality": 0.008,
+      "community": 84
+    },
+    {
+      "id": "tests_fixtures_sample-project_src_auth_createSession",
+      "label": "createSession",
+      "type": "function",
+      "sourceFile": "tests/fixtures/sample-project/src/auth.ts",
+      "sourceLocation": "L10",
+      "centrality": 0.008,
+      "community": 83
+    },
+    {
+      "id": "tests_fixtures_sample-project_src_controller_file",
+      "label": "tests/fixtures/sample-project/src/controller.ts",
+      "type": "file",
+      "sourceFile": "tests/fixtures/sample-project/src/controller.ts",
+      "centrality": 0.013,
+      "community": 84
+    },
+    {
+      "id": "tests_fixtures_sample-project_src_controller_UserController",
+      "label": "UserController",
+      "type": "class",
+      "sourceFile": "tests/fixtures/sample-project/src/controller.ts",
+      "sourceLocation": "L3",
+      "centrality": 0.009,
+      "community": 84
+    },
+    {
+      "id": "tests_fixtures_sample-project_src_controller_UserController_login",
+      "label": "UserController.login",
+      "type": "method",
+      "sourceFile": "tests/fixtures/sample-project/src/controller.ts",
+      "sourceLocation": "L4",
+      "centrality": 0.009,
+      "community": 84
+    },
+    {
+      "id": "tests_graph.test_file",
+      "label": "tests/graph.test.ts",
+      "type": "file",
+      "sourceFile": "tests/graph.test.ts",
+      "centrality": 0.011,
+      "community": 90
+    },
+    {
+      "id": "tests_graph.test_sampleExtraction",
+      "label": "sampleExtraction",
+      "type": "function",
+      "sourceFile": "tests/graph.test.ts",
+      "sourceLocation": "L10",
+      "centrality": 0.011,
+      "community": 90
+    },
+    {
+      "id": "tests_query.test_file",
+      "label": "tests/query.test.ts",
+      "type": "file",
+      "sourceFile": "tests/query.test.ts",
+      "centrality": 0.011,
+      "community": 92
+    },
+    {
+      "id": "tests_query.test_sampleGraph",
+      "label": "sampleGraph",
+      "type": "function",
+      "sourceFile": "tests/query.test.ts",
+      "sourceLocation": "L11",
+      "centrality": 0.011,
+      "community": 92
+    }
+  ],
+  "edges": [
+    {
+      "source": "index_file",
+      "target": "src_tools_mindplace-build_file",
+      "relation": "imports",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "index_file",
+      "target": "src_tools_mindplace-query_file",
+      "relation": "imports",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "index_file",
+      "target": "src_tools_mindplace-explain_file",
+      "relation": "imports",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "index_file",
+      "target": "index_graphPath",
+      "relation": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "package_file",
+      "target": "package_name",
+      "relation": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "package_file",
+      "target": "package_version",
+      "relation": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "package_file",
+      "target": "package_description",
+      "relation": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "package_file",
+      "target": "package_keywords",
+      "relation": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "package_file",
+      "target": "package_author",
+      "relation": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "package_file",
+      "target": "package_license",
+      "relation": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "package_file",
+      "target": "package_type",
+      "relation": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "package_file",
+      "target": "package_engines",
+      "relation": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "package_file",
+      "target": "package_repository",
+      "relation": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "package_file",
+      "target": "package_bugs",
+      "relation": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "package_file",
+      "target": "package_scripts",
+      "relation": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "package_file",
+      "target": "package_dependencies",
+      "relation": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "package_file",
+      "target": "package_peerDependencies",
+      "relation": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "package_file",
+      "target": "package_publishConfig",
+      "relation": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "package_file",
+      "target": "package_devDependencies",
+      "relation": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "package_file",
+      "target": "package_pi",
+      "relation": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "src_detect_file",
+      "target": "src_types_file",
+      "relation": "imports",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "src_detect_file",
+      "target": "src_types_file",
+      "relation": "imports",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "src_detect_file",
+      "target": "src_detect_detect",
+      "relation": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "src_extract_file",
+      "target": "src_types_file",
+      "relation": "imports",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "src_extract_file",
+      "target": "src_types_file",
+      "relation": "imports",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "src_extract_file",
+      "target": "src_extract_fileHash",
+      "relation": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "src_extract_file",
+      "target": "src_extract_CacheEntry",
+      "relation": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "src_extract_file",
+      "target": "src_extract_loadCache",
+      "relation": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "src_extract_file",
+      "target": "src_extract_saveCache",
+      "relation": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "src_extract_file",
+      "target": "src_extract_nodeId",
+      "relation": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "src_extract_file",
+      "target": "src_extract_pickGrammar",
+      "relation": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "src_extract_file",
+      "target": "src_extract_extractJS_TS",
+      "relation": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "src_extract_extractJS_TS",
+      "target": "src_extract_nodeId",
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidenceScore": 0.85
+    },
+    {
+      "source": "src_extract_extractJS_TS",
+      "target": "src_extract_nodeId",
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidenceScore": 0.85
+    },
+    {
+      "source": "src_extract_extractJS_TS",
+      "target": "src_extract_nodeId",
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidenceScore": 0.85
+    },
+    {
+      "source": "src_extract_extractJS_TS",
+      "target": "src_extract_nodeId",
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidenceScore": 0.85
+    },
+    {
+      "source": "src_extract_extractJS_TS",
+      "target": "src_extract_resolveModulePath",
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidenceScore": 0.85
+    },
+    {
+      "source": "src_extract_extractJS_TS",
+      "target": "src_extract_nodeId",
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidenceScore": 0.85
+    },
+    {
+      "source": "src_extract_extractJS_TS",
+      "target": "src_extract_nodeId",
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidenceScore": 0.85
+    },
+    {
+      "source": "src_extract_file",
+      "target": "src_extract_extractPython",
+      "relation": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "src_extract_extractPython",
+      "target": "src_extract_nodeId",
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidenceScore": 0.85
+    },
+    {
+      "source": "src_extract_extractPython",
+      "target": "src_extract_nodeId",
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidenceScore": 0.85
+    },
+    {
+      "source": "src_extract_extractPython",
+      "target": "src_extract_nodeId",
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidenceScore": 0.85
+    },
+    {
+      "source": "src_extract_extractPython",
+      "target": "src_extract_nodeId",
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidenceScore": 0.85
+    },
+    {
+      "source": "src_extract_extractPython",
+      "target": "src_extract_nodeId",
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidenceScore": 0.85
+    },
+    {
+      "source": "src_extract_extractPython",
+      "target": "src_extract_nodeId",
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidenceScore": 0.85
+    },
+    {
+      "source": "src_extract_file",
+      "target": "src_extract_extractGo",
+      "relation": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "src_extract_extractGo",
+      "target": "src_extract_nodeId",
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidenceScore": 0.85
+    },
+    {
+      "source": "src_extract_extractGo",
+      "target": "src_extract_nodeId",
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidenceScore": 0.85
+    },
+    {
+      "source": "src_extract_extractGo",
+      "target": "src_extract_nodeId",
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidenceScore": 0.85
+    },
+    {
+      "source": "src_extract_extractGo",
+      "target": "src_extract_nodeId",
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidenceScore": 0.85
+    },
+    {
+      "source": "src_extract_file",
+      "target": "src_extract_extractBash",
+      "relation": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "src_extract_extractBash",
+      "target": "src_extract_nodeId",
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidenceScore": 0.85
+    },
+    {
+      "source": "src_extract_extractBash",
+      "target": "src_extract_nodeId",
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidenceScore": 0.85
+    },
+    {
+      "source": "src_extract_file",
+      "target": "src_extract_extractJson",
+      "relation": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "src_extract_extractJson",
+      "target": "src_extract_nodeId",
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidenceScore": 0.85
+    },
+    {
+      "source": "src_extract_extractJson",
+      "target": "src_extract_nodeId",
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidenceScore": 0.85
+    },
+    {
+      "source": "src_extract_file",
+      "target": "src_extract_extractFile",
+      "relation": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "src_extract_extractFile",
+      "target": "src_extract_pickGrammar",
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidenceScore": 0.85
+    },
+    {
+      "source": "src_extract_extractFile",
+      "target": "src_extract_extractJS_TS",
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidenceScore": 0.85
+    },
+    {
+      "source": "src_extract_extractFile",
+      "target": "src_extract_extractPython",
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidenceScore": 0.85
+    },
+    {
+      "source": "src_extract_extractFile",
+      "target": "src_extract_extractGo",
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidenceScore": 0.85
+    },
+    {
+      "source": "src_extract_extractFile",
+      "target": "src_extract_extractBash",
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidenceScore": 0.85
+    },
+    {
+      "source": "src_extract_extractFile",
+      "target": "src_extract_extractJson",
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidenceScore": 0.85
+    },
+    {
+      "source": "src_extract_file",
+      "target": "src_extract_resolveModulePath",
+      "relation": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "src_extract_file",
+      "target": "src_extract_extract",
+      "relation": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "src_extract_extract",
+      "target": "src_extract_loadCache",
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidenceScore": 0.85
+    },
+    {
+      "source": "src_extract_extract",
+      "target": "src_extract_fileHash",
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidenceScore": 0.85
+    },
+    {
+      "source": "src_extract_extract",
+      "target": "src_extract_extractFile",
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidenceScore": 0.85
+    },
+    {
+      "source": "src_extract_extract",
+      "target": "src_extract_saveCache",
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidenceScore": 0.85
+    },
+    {
+      "source": "src_graph_file",
+      "target": "src_types_file",
+      "relation": "imports",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "src_graph_file",
+      "target": "src_graph_KnowledgeGraph",
+      "relation": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "src_graph_file",
+      "target": "src_graph_KnowledgeGraph_nodes",
+      "relation": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "src_graph_KnowledgeGraph",
+      "target": "src_graph_KnowledgeGraph_nodes",
+      "relation": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "src_graph_file",
+      "target": "src_graph_KnowledgeGraph_edges",
+      "relation": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "src_graph_KnowledgeGraph",
+      "target": "src_graph_KnowledgeGraph_edges",
+      "relation": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "src_graph_file",
+      "target": "src_graph_KnowledgeGraph_adjacency",
+      "relation": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "src_graph_KnowledgeGraph",
+      "target": "src_graph_KnowledgeGraph_adjacency",
+      "relation": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "src_graph_file",
+      "target": "src_graph_KnowledgeGraph_outgoing",
+      "relation": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "src_graph_KnowledgeGraph",
+      "target": "src_graph_KnowledgeGraph_outgoing",
+      "relation": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "src_graph_file",
+      "target": "src_graph_KnowledgeGraph_isDirected",
+      "relation": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "src_graph_KnowledgeGraph",
+      "target": "src_graph_KnowledgeGraph_isDirected",
+      "relation": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "src_graph_file",
+      "target": "src_graph_KnowledgeGraph_fromExtraction",
+      "relation": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "src_graph_KnowledgeGraph",
+      "target": "src_graph_KnowledgeGraph_fromExtraction",
+      "relation": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "src_graph_file",
+      "target": "src_graph_KnowledgeGraph_merge",
+      "relation": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "src_graph_KnowledgeGraph",
+      "target": "src_graph_KnowledgeGraph_merge",
+      "relation": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "src_graph_file",
+      "target": "src_graph_KnowledgeGraph_computeCentrality",
+      "relation": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "src_graph_KnowledgeGraph",
+      "target": "src_graph_KnowledgeGraph_computeCentrality",
+      "relation": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "src_graph_file",
+      "target": "src_graph_KnowledgeGraph_detectCommunities",
+      "relation": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "src_graph_KnowledgeGraph",
+      "target": "src_graph_KnowledgeGraph_detectCommunities",
+      "relation": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "src_graph_file",
+      "target": "src_graph_KnowledgeGraph_topNodes",
+      "relation": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "src_graph_KnowledgeGraph",
+      "target": "src_graph_KnowledgeGraph_topNodes",
+      "relation": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "src_graph_file",
+      "target": "src_graph_KnowledgeGraph_stats",
+      "relation": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "src_graph_KnowledgeGraph",
+      "target": "src_graph_KnowledgeGraph_stats",
+      "relation": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "src_graph_file",
+      "target": "src_graph_KnowledgeGraph_toJSON",
+      "relation": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "src_graph_KnowledgeGraph",
+      "target": "src_graph_KnowledgeGraph_toJSON",
+      "relation": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "src_graph_file",
+      "target": "src_graph_KnowledgeGraph_fromJSON",
+      "relation": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "src_graph_KnowledgeGraph",
+      "target": "src_graph_KnowledgeGraph_fromJSON",
+      "relation": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "src_query_file",
+      "target": "src_types_file",
+      "relation": "imports",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "src_query_file",
+      "target": "src_graph_file",
+      "relation": "imports",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "src_query_file",
+      "target": "src_query_tokenize",
+      "relation": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "src_query_file",
+      "target": "src_query_estimateTokens",
+      "relation": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "src_query_file",
+      "target": "src_query_TfIdfScorer",
+      "relation": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "src_query_file",
+      "target": "src_query_TfIdfScorer_idf",
+      "relation": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "src_query_TfIdfScorer",
+      "target": "src_query_TfIdfScorer_idf",
+      "relation": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "src_query_file",
+      "target": "src_query_TfIdfScorer_docs",
+      "relation": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "src_query_TfIdfScorer",
+      "target": "src_query_TfIdfScorer_docs",
+      "relation": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "src_query_file",
+      "target": "src_query_TfIdfScorer_constructor",
+      "relation": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "src_query_TfIdfScorer",
+      "target": "src_query_TfIdfScorer_constructor",
+      "relation": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "src_query_file",
+      "target": "src_query_TfIdfScorer_score",
+      "relation": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "src_query_TfIdfScorer",
+      "target": "src_query_TfIdfScorer_score",
+      "relation": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "src_query_file",
+      "target": "src_query_formatNode",
+      "relation": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "src_query_file",
+      "target": "src_query_query",
+      "relation": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "src_query_query",
+      "target": "src_query_tokenize",
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidenceScore": 0.85
+    },
+    {
+      "source": "src_query_query",
+      "target": "src_query_estimateTokens",
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidenceScore": 0.85
+    },
+    {
+      "source": "src_query_query",
+      "target": "src_query_formatNode",
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidenceScore": 0.85
+    },
+    {
+      "source": "src_query_query",
+      "target": "src_query_estimateTokens",
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidenceScore": 0.85
+    },
+    {
+      "source": "src_query_file",
+      "target": "src_query_formatQueryResult",
+      "relation": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "src_query_formatQueryResult",
+      "target": "src_query_formatNode",
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidenceScore": 0.85
+    },
+    {
+      "source": "src_report_file",
+      "target": "src_graph_file",
+      "relation": "imports",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "src_report_file",
+      "target": "src_types_file",
+      "relation": "imports",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "src_report_file",
+      "target": "src_report_Surprise",
+      "relation": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "src_report_file",
+      "target": "src_report_generateReport",
+      "relation": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "src_report_generateReport",
+      "target": "src_report_findSurprises",
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidenceScore": 0.85
+    },
+    {
+      "source": "src_report_generateReport",
+      "target": "src_report_suggestQuestions",
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidenceScore": 0.85
+    },
+    {
+      "source": "src_report_file",
+      "target": "src_report_findSurprises",
+      "relation": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "src_report_file",
+      "target": "src_report_suggestQuestions",
+      "relation": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "src_types_file",
+      "target": "src_types_GraphNode",
+      "relation": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "src_types_file",
+      "target": "src_types_GraphEdge",
+      "relation": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "src_types_file",
+      "target": "src_types_ExtractionResult",
+      "relation": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "src_types_file",
+      "target": "src_types_DetectResult",
+      "relation": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "src_types_file",
+      "target": "src_types_QueryResult",
+      "relation": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "src_types_file",
+      "target": "src_types_GraphStats",
+      "relation": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "src_viz_file",
+      "target": "src_graph_file",
+      "relation": "imports",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "src_viz_file",
+      "target": "src_viz_generateHtml",
+      "relation": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "tests_fixtures_sample-project_src_auth_file",
+      "target": "tests_fixtures_sample-project_src_auth_authenticateUser",
+      "relation": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "tests_fixtures_sample-project_src_auth_authenticateUser",
+      "target": "tests_fixtures_sample-project_src_auth_validateCredentials",
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidenceScore": 0.85
+    },
+    {
+      "source": "tests_fixtures_sample-project_src_auth_authenticateUser",
+      "target": "tests_fixtures_sample-project_src_auth_createSession",
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidenceScore": 0.85
+    },
+    {
+      "source": "tests_fixtures_sample-project_src_auth_file",
+      "target": "tests_fixtures_sample-project_src_auth_validateCredentials",
+      "relation": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "tests_fixtures_sample-project_src_auth_file",
+      "target": "tests_fixtures_sample-project_src_auth_createSession",
+      "relation": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "tests_fixtures_sample-project_src_controller_file",
+      "target": "tests_fixtures_sample-project_src_auth_file",
+      "relation": "imports",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "tests_fixtures_sample-project_src_controller_file",
+      "target": "tests_fixtures_sample-project_src_controller_UserController",
+      "relation": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "tests_fixtures_sample-project_src_controller_file",
+      "target": "tests_fixtures_sample-project_src_controller_UserController_login",
+      "relation": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "tests_fixtures_sample-project_src_controller_UserController",
+      "target": "tests_fixtures_sample-project_src_controller_UserController_login",
+      "relation": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "tests_graph.test_file",
+      "target": "tests_graph.test_sampleExtraction",
+      "relation": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "tests_query.test_file",
+      "target": "tests_query.test_sampleGraph",
+      "relation": "contains",
+      "confidence": "EXTRACTED"
+    }
+  ]
+}

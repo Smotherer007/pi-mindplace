@@ -28,7 +28,7 @@ export function generateReport(
 ): string {
   const lines: string[] = [];
 
-  lines.push("# 🧠 Mind Place Report");
+  lines.push("# Mind Place Report");
   lines.push("");
   lines.push(`Generated from \`${root}\``);
   lines.push("");
@@ -54,9 +54,9 @@ export function generateReport(
   lines.push("");
 
   // God nodes
-  lines.push("## 🏛️ God Nodes");
+  lines.push("## God Nodes");
   lines.push("");
-  lines.push("The most-connected entities — these are the architectural pillars:");
+  lines.push("The most-connected entities - these are the architectural pillars:");
   lines.push("");
   lines.push("| # | Node | Type | Connections | File |");
   lines.push("|---|------|------|-------------|------|");
@@ -69,7 +69,7 @@ export function generateReport(
 
   // Community overview
   if (stats.communityCount > 1) {
-    lines.push("## 📦 Communities");
+    lines.push("## Communities");
     lines.push("");
     lines.push("The graph was partitioned into these subsystems:");
 
@@ -95,7 +95,7 @@ export function generateReport(
   // Surprising connections
   const surprises = findSurprises(kg);
   if (surprises.length > 0) {
-    lines.push("## ⚡ Surprising Connections");
+    lines.push("## Surprising Connections");
     lines.push("");
     for (const s of surprises.slice(0, 10)) {
       lines.push(`- **${s.source}** → \`${s.relation}\` → **${s.target}**: ${s.reason}`);
@@ -106,7 +106,7 @@ export function generateReport(
   // Suggested questions
   const questions = suggestQuestions(kg, stats);
   if (questions.length > 0) {
-    lines.push("## ❓ Suggested Questions");
+    lines.push("## Suggested Questions");
     lines.push("");
     for (const q of questions.slice(0, 8)) {
       lines.push(`- ${q}`);
