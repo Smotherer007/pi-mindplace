@@ -5,7 +5,7 @@
       "label": "index.ts",
       "type": "file",
       "sourceFile": "index.ts",
-      "centrality": 0.024,
+      "centrality": 0.025,
       "community": 69
     },
     {
@@ -22,7 +22,7 @@
       "label": "package.json",
       "type": "file",
       "sourceFile": "package.json",
-      "centrality": 0.079,
+      "centrality": 0.082,
       "community": 3
     },
     {
@@ -183,7 +183,7 @@
       "label": "src/extract.ts",
       "type": "file",
       "sourceFile": "src/extract.ts",
-      "centrality": 0.038,
+      "centrality": 0.039,
       "community": 73
     },
     {
@@ -228,7 +228,7 @@
       "type": "function",
       "sourceFile": "src/extract.ts",
       "sourceLocation": "L94",
-      "centrality": 0.016,
+      "centrality": 0.017,
       "community": 73
     },
     {
@@ -237,7 +237,7 @@
       "type": "function",
       "sourceFile": "src/extract.ts",
       "sourceLocation": "L100",
-      "centrality": 0.005,
+      "centrality": 0.006,
       "community": 73
     },
     {
@@ -255,7 +255,7 @@
       "type": "function",
       "sourceFile": "src/extract.ts",
       "sourceLocation": "L233",
-      "centrality": 0.007,
+      "centrality": 0.008,
       "community": 73
     },
     {
@@ -264,7 +264,7 @@
       "type": "function",
       "sourceFile": "src/extract.ts",
       "sourceLocation": "L339",
-      "centrality": 0.007,
+      "centrality": 0.008,
       "community": 73
     },
     {
@@ -273,7 +273,7 @@
       "type": "function",
       "sourceFile": "src/extract.ts",
       "sourceLocation": "L406",
-      "centrality": 0.007,
+      "centrality": 0.008,
       "community": 73
     },
     {
@@ -282,7 +282,7 @@
       "type": "function",
       "sourceFile": "src/extract.ts",
       "sourceLocation": "L432",
-      "centrality": 0.007,
+      "centrality": 0.008,
       "community": 73
     },
     {
@@ -291,7 +291,7 @@
       "type": "function",
       "sourceFile": "src/extract.ts",
       "sourceLocation": "L456",
-      "centrality": 0.007,
+      "centrality": 0.008,
       "community": 73
     },
     {
@@ -327,7 +327,7 @@
       "label": "src/graph.ts",
       "type": "file",
       "sourceFile": "src/graph.ts",
-      "centrality": 0.048,
+      "centrality": 0.049,
       "community": 73
     },
     {
@@ -336,7 +336,7 @@
       "type": "class",
       "sourceFile": "src/graph.ts",
       "sourceLocation": "L15",
-      "centrality": 0.037,
+      "centrality": 0.038,
       "community": 73
     },
     {
@@ -472,7 +472,7 @@
       "label": "src/query.ts",
       "type": "file",
       "sourceFile": "src/query.ts",
-      "centrality": 0.033,
+      "centrality": 0.034,
       "community": 73
     },
     {
@@ -482,7 +482,7 @@
       "sourceFile": "src/query.ts",
       "sourceLocation": "L22",
       "description": "Tokenize text: split camelCase and snake_case",
-      "centrality": 0.006,
+      "centrality": 0.007,
       "community": 73
     },
     {
@@ -492,7 +492,7 @@
       "sourceFile": "src/query.ts",
       "sourceLocation": "L40",
       "description": "Estimate tokens in a string",
-      "centrality": 0.006,
+      "centrality": 0.007,
       "community": 73
     },
     {
@@ -511,7 +511,7 @@
       "type": "method",
       "sourceFile": "src/query.ts",
       "sourceLocation": "L46",
-      "centrality": 0.006,
+      "centrality": 0.007,
       "community": 73
     },
     {
@@ -520,7 +520,7 @@
       "type": "method",
       "sourceFile": "src/query.ts",
       "sourceLocation": "L47",
-      "centrality": 0.006,
+      "centrality": 0.007,
       "community": 73
     },
     {
@@ -529,7 +529,7 @@
       "type": "method",
       "sourceFile": "src/query.ts",
       "sourceLocation": "L49",
-      "centrality": 0.006,
+      "centrality": 0.007,
       "community": 73
     },
     {
@@ -539,7 +539,7 @@
       "sourceFile": "src/query.ts",
       "sourceLocation": "L80",
       "description": "Score a node against query tokens. Returns 0..1",
-      "centrality": 0.006,
+      "centrality": 0.007,
       "community": 73
     },
     {
@@ -567,7 +567,7 @@
       "type": "function",
       "sourceFile": "src/query.ts",
       "sourceLocation": "L272",
-      "centrality": 0.006,
+      "centrality": 0.007,
       "community": 73
     },
     {
@@ -575,7 +575,7 @@
       "label": "src/report.ts",
       "type": "file",
       "sourceFile": "src/report.ts",
-      "centrality": 0.019,
+      "centrality": 0.02,
       "community": 73
     },
     {
@@ -593,7 +593,7 @@
       "type": "function",
       "sourceFile": "src/report.ts",
       "sourceLocation": "L22",
-      "centrality": 0.01,
+      "centrality": 0.011,
       "community": 73
     },
     {
@@ -643,7 +643,7 @@
       "label": "src/types.ts",
       "type": "file",
       "sourceFile": "src/types.ts",
-      "centrality": 0.037,
+      "centrality": 0.038,
       "community": 73
     },
     {
@@ -652,7 +652,7 @@
       "type": "interface",
       "sourceFile": "src/types.ts",
       "sourceLocation": "L5",
-      "centrality": 0.004,
+      "centrality": 0.005,
       "community": 73
     },
     {
@@ -661,7 +661,7 @@
       "type": "interface",
       "sourceFile": "src/types.ts",
       "sourceLocation": "L16",
-      "centrality": 0.004,
+      "centrality": 0.005,
       "community": 73
     },
     {
@@ -670,7 +670,7 @@
       "type": "interface",
       "sourceFile": "src/types.ts",
       "sourceLocation": "L24",
-      "centrality": 0.004,
+      "centrality": 0.005,
       "community": 73
     },
     {
@@ -679,7 +679,7 @@
       "type": "interface",
       "sourceFile": "src/types.ts",
       "sourceLocation": "L29",
-      "centrality": 0.004,
+      "centrality": 0.005,
       "community": 73
     },
     {
@@ -688,7 +688,7 @@
       "type": "interface",
       "sourceFile": "src/types.ts",
       "sourceLocation": "L36",
-      "centrality": 0.004,
+      "centrality": 0.005,
       "community": 73
     },
     {
@@ -697,7 +697,7 @@
       "type": "interface",
       "sourceFile": "src/types.ts",
       "sourceLocation": "L46",
-      "centrality": 0.004,
+      "centrality": 0.005,
       "community": 73
     },
     {
@@ -705,7 +705,7 @@
       "label": "src/viz.ts",
       "type": "file",
       "sourceFile": "src/viz.ts",
-      "centrality": 0.008,
+      "centrality": 0.013,
       "community": 73
     },
     {
@@ -713,8 +713,26 @@
       "label": "generateHtml",
       "type": "function",
       "sourceFile": "src/viz.ts",
-      "sourceLocation": "L13",
-      "centrality": 0.005,
+      "sourceLocation": "L14",
+      "centrality": 0.011,
+      "community": 73
+    },
+    {
+      "id": "src_viz_communityHtml",
+      "label": "communityHtml",
+      "type": "function",
+      "sourceFile": "src/viz.ts",
+      "sourceLocation": "L25",
+      "centrality": 0.007,
+      "community": 73
+    },
+    {
+      "id": "src_viz_fullGraphHtml",
+      "label": "fullGraphHtml",
+      "type": "function",
+      "sourceFile": "src/viz.ts",
+      "sourceLocation": "L160",
+      "centrality": 0.007,
       "community": 73
     },
     {
@@ -723,7 +741,7 @@
       "type": "file",
       "sourceFile": "tests/detect.test.ts",
       "centrality": 0.002,
-      "community": 81
+      "community": 83
     },
     {
       "id": "tests_extract.test_file",
@@ -731,59 +749,6 @@
       "type": "file",
       "sourceFile": "tests/extract.test.ts",
       "centrality": 0.002,
-      "community": 82
-    },
-    {
-      "id": "tests_fixtures_sample-project_src-java_AuthService_file",
-      "label": "tests/fixtures/sample-project/src-java/AuthService.java",
-      "type": "file",
-      "sourceFile": "tests/fixtures/sample-project/src-java/AuthService.java",
-      "centrality": 0.024,
-      "community": 84
-    },
-    {
-      "id": "tests_fixtures_sample-project_src-java_AuthService_AuthService",
-      "label": "AuthService",
-      "type": "class",
-      "sourceFile": "tests/fixtures/sample-project/src-java/AuthService.java",
-      "sourceLocation": "L3",
-      "centrality": 0.006,
-      "community": 84
-    },
-    {
-      "id": "tests_fixtures_sample-project_src-java_AuthService_authenticate",
-      "label": "authenticate",
-      "type": "function",
-      "sourceFile": "tests/fixtures/sample-project/src-java/AuthService.java",
-      "sourceLocation": "L6",
-      "centrality": 0.01,
-      "community": 84
-    },
-    {
-      "id": "tests_fixtures_sample-project_src-java_AuthService_validatePassword",
-      "label": "validatePassword",
-      "type": "function",
-      "sourceFile": "tests/fixtures/sample-project/src-java/AuthService.java",
-      "sourceLocation": "L11",
-      "centrality": 0.01,
-      "community": 84
-    },
-    {
-      "id": "tests_fixtures_sample-project_src-java_AuthService_UserRepository",
-      "label": "UserRepository",
-      "type": "interface",
-      "sourceFile": "tests/fixtures/sample-project/src-java/AuthService.java",
-      "sourceLocation": "L16",
-      "centrality": 0.006,
-      "community": 84
-    },
-    {
-      "id": "tests_fixtures_sample-project_src-java_AuthService_findByUsername",
-      "label": "findByUsername",
-      "type": "function",
-      "sourceFile": "tests/fixtures/sample-project/src-java/AuthService.java",
-      "sourceLocation": "L17",
-      "centrality": 0.006,
       "community": 84
     },
     {
@@ -792,7 +757,7 @@
       "type": "file",
       "sourceFile": "tests/fixtures/sample-project/src/auth.ts",
       "centrality": 0.015,
-      "community": 91
+      "community": 87
     },
     {
       "id": "tests_fixtures_sample-project_src_auth_authenticateUser",
@@ -800,8 +765,8 @@
       "type": "function",
       "sourceFile": "tests/fixtures/sample-project/src/auth.ts",
       "sourceLocation": "L2",
-      "centrality": 0.011,
-      "community": 90
+      "centrality": 0.012,
+      "community": 86
     },
     {
       "id": "tests_fixtures_sample-project_src_auth_validateCredentials",
@@ -810,7 +775,7 @@
       "sourceFile": "tests/fixtures/sample-project/src/auth.ts",
       "sourceLocation": "L6",
       "centrality": 0.008,
-      "community": 91
+      "community": 87
     },
     {
       "id": "tests_fixtures_sample-project_src_auth_createSession",
@@ -819,7 +784,7 @@
       "sourceFile": "tests/fixtures/sample-project/src/auth.ts",
       "sourceLocation": "L10",
       "centrality": 0.008,
-      "community": 90
+      "community": 86
     },
     {
       "id": "tests_fixtures_sample-project_src_controller_file",
@@ -827,7 +792,7 @@
       "type": "file",
       "sourceFile": "tests/fixtures/sample-project/src/controller.ts",
       "centrality": 0.012,
-      "community": 91
+      "community": 87
     },
     {
       "id": "tests_fixtures_sample-project_src_controller_UserController",
@@ -835,8 +800,8 @@
       "type": "class",
       "sourceFile": "tests/fixtures/sample-project/src/controller.ts",
       "sourceLocation": "L3",
-      "centrality": 0.008,
-      "community": 91
+      "centrality": 0.009,
+      "community": 87
     },
     {
       "id": "tests_fixtures_sample-project_src_controller_UserController_login",
@@ -844,8 +809,8 @@
       "type": "method",
       "sourceFile": "tests/fixtures/sample-project/src/controller.ts",
       "sourceLocation": "L4",
-      "centrality": 0.008,
-      "community": 91
+      "centrality": 0.009,
+      "community": 87
     },
     {
       "id": "tests_graph.test_file",
@@ -853,7 +818,7 @@
       "type": "file",
       "sourceFile": "tests/graph.test.ts",
       "centrality": 0.01,
-      "community": 97
+      "community": 93
     },
     {
       "id": "tests_graph.test_sampleExtraction",
@@ -862,7 +827,7 @@
       "sourceFile": "tests/graph.test.ts",
       "sourceLocation": "L10",
       "centrality": 0.01,
-      "community": 97
+      "community": 93
     },
     {
       "id": "tests_query.test_file",
@@ -870,7 +835,7 @@
       "type": "file",
       "sourceFile": "tests/query.test.ts",
       "centrality": 0.01,
-      "community": 99
+      "community": 95
     },
     {
       "id": "tests_query.test_sampleGraph",
@@ -879,7 +844,7 @@
       "sourceFile": "tests/query.test.ts",
       "sourceLocation": "L11",
       "centrality": 0.01,
-      "community": 99
+      "community": 95
     }
   ],
   "edges": [
@@ -1780,39 +1745,28 @@
       "confidence": "EXTRACTED"
     },
     {
-      "source": "tests_fixtures_sample-project_src-java_AuthService_file",
-      "target": "tests_fixtures_sample-project_src-java_AuthService_AuthService",
-      "relation": "contains",
-      "confidence": "EXTRACTED"
-    },
-    {
-      "source": "tests_fixtures_sample-project_src-java_AuthService_file",
-      "target": "tests_fixtures_sample-project_src-java_AuthService_authenticate",
-      "relation": "contains",
-      "confidence": "EXTRACTED"
-    },
-    {
-      "source": "tests_fixtures_sample-project_src-java_AuthService_authenticate",
-      "target": "tests_fixtures_sample-project_src-java_AuthService_validatePassword",
+      "source": "src_viz_generateHtml",
+      "target": "src_viz_communityHtml",
       "relation": "calls",
       "confidence": "INFERRED",
       "confidenceScore": 0.85
     },
     {
-      "source": "tests_fixtures_sample-project_src-java_AuthService_file",
-      "target": "tests_fixtures_sample-project_src-java_AuthService_validatePassword",
+      "source": "src_viz_generateHtml",
+      "target": "src_viz_fullGraphHtml",
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidenceScore": 0.85
+    },
+    {
+      "source": "src_viz_file",
+      "target": "src_viz_communityHtml",
       "relation": "contains",
       "confidence": "EXTRACTED"
     },
     {
-      "source": "tests_fixtures_sample-project_src-java_AuthService_file",
-      "target": "tests_fixtures_sample-project_src-java_AuthService_UserRepository",
-      "relation": "contains",
-      "confidence": "EXTRACTED"
-    },
-    {
-      "source": "tests_fixtures_sample-project_src-java_AuthService_file",
-      "target": "tests_fixtures_sample-project_src-java_AuthService_findByUsername",
+      "source": "src_viz_file",
+      "target": "src_viz_fullGraphHtml",
       "relation": "contains",
       "confidence": "EXTRACTED"
     },
