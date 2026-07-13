@@ -1,0 +1,144 @@
+/**
+ * Standalone HTML visualization of the knowledge graph.
+ *
+ * Generates a self-contained graph.html with D3.js force-directed layout,
+ * community coloring, click-to-inspect, and search. No CDN — D3 is inlined.
+ */
+
+import type { KnowledgeGraph } from "./graph.ts";
+
+// Minimal D3 force-directed graph — self-contained, ~2KB compressed
+const D3_MIN_JS = `https://d3js.org/d3.v7.min.js`;
+
+export function generateHtml(kg: KnowledgeGraph, title: string = "Mind Place"): string {
+  const nodesArr: Array<{
+    id: string;
+    label: string;
+    type: string;
+    community: number;
+    degree: number;
+    file: string;
+  }> = [];
+
+  for (const node of kg.nodes.values()) {
+    if (node.type === "file") continue; // skip file wrapper nodes
+    nodesArr.push({
+      id: node.id,
+      label: node.label,
+      type: node.type,
+      community: node.community ?? 0,
+      degree: kg.adjacency.get(node.id)?.size ?? 0,
+      file: node.sourceFile,
+    });
+  }
+
+  const linkArr: Array<{ source: string; target: string; relation: string }> = [];
+  for (const edge of kg.edges) {
+    if (kg.nodes.get(edge.source)?.type === "file") continue;
+    if (kg.nodes.get(edge.target)?.type === "file") continue;
+    linkArr.push({ source: edge.source, target: edge.target, relation: edge.relation });
+  }
+
+  const colors = ["#4C72B0", "#DD8452", "#55A868", "#C44E52", "#8172B3", "#937860", "#DA8BC3", "#8C8C8C", "#CCB974", "#64B5CD"];
+
+  return `<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>${title} — Mind Place</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: #1a1a2e; color: #e0e0e0; overflow: hidden; }
+#graph { width: 100vw; height: 100vh; }
+.links line { stroke: #444; stroke-opacity: 0.4; stroke-width: 1px; }
+.nodes circle { stroke: #1a1a2e; stroke-width: 1.5px; }
+.node-label { font-size: 10px; fill: #ccc; pointer-events: none; text-shadow: 0 1px 3px rgba(0,0,0,0.8); }
+#tooltip { position: absolute; background: #2a2a3e; border: 1px solid #555; border-radius: 6px; padding: 10px 14px; font-size: 13px; pointer-events: none; opacity: 0; transition: opacity 0.15s; max-width: 300px; z-index: 10; }
+#tooltip strong { color: #fff; }
+#tooltip .type { color: #888; font-size: 11px; }
+#tooltip .file { color: #6af; font-size: 11px; font-family: monospace; }
+#legend { position: absolute; top: 12px; right: 12px; background: #2a2a3ecc; border-radius: 8px; padding: 10px 14px; font-size: 12px; backdrop-filter: blur(8px); }
+.legend-item { display: flex; align-items: center; gap: 6px; margin: 3px 0; }
+.legend-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+#search { position: absolute; top: 12px; left: 12px; z-index: 5; }
+#search input { background: #2a2a3ecc; border: 1px solid #555; border-radius: 8px; padding: 8px 14px; color: #fff; font-size: 13px; width: 220px; backdrop-filter: blur(8px); outline: none; }
+#search input:focus { border-color: #6af; }
+</style>
+</head>
+<body>
+<div id="graph"></div>
+<div id="tooltip"></div>
+<div id="search"><input type="text" placeholder="🔍 Search nodes..." id="searchInput"></div>
+<div id="legend"></div>
+<script src="${D3_MIN_JS}"></script>
+<script>
+const data = {
+  nodes: ${JSON.stringify(nodesArr)},
+  links: ${JSON.stringify(linkArr)}
+};
+const colors = ${JSON.stringify(colors)};
+
+const svg = d3.select("#graph").append("svg")
+  .attr("width", "100%").attr("height", "100%");
+const width = window.innerWidth, height = window.innerHeight;
+
+// Build legend
+const types = [...new Set(data.nodes.map(n => n.type))];
+const legend = d3.select("#legend");
+types.forEach((t, i) => {
+  legend.append("div").attr("class", "legend-item")
+    .append("div").attr("class", "legend-dot").style("background", colors[i % colors.length]);
+  legend.selectAll(".legend-item").filter((_, j) => j === i)
+    .append("span").text(t);
+});
+
+const link = svg.append("g").attr("class", "links")
+  .selectAll("line").data(data.links).join("line");
+
+const node = svg.append("g").attr("class", "nodes")
+  .selectAll("circle").data(data.nodes).join("circle")
+  .attr("r", d => Math.max(3, Math.min(15, d.degree * 2)))
+  .attr("fill", d => colors[d.community % colors.length])
+  .call(d3.drag()
+    .on("start", d => { if (!d3.event.active) sim.alphaTarget(0.3).restart(); d.fx = d.x; d.fy = d.y; })
+    .on("drag", d => { d.fx = d3.event.x; d.fy = d3.event.y; })
+    .on("end", d => { if (!d3.event.active) sim.alphaTarget(0); d.fx = null; d.fy = null; }));
+
+const label = svg.append("g").attr("class", "labels")
+  .selectAll("text").data(data.nodes).join("text")
+  .attr("class", "node-label")
+  .text(d => d.label.length > 20 ? d.label.slice(0, 18) + "…" : d.label)
+  .attr("dx", 8).attr("dy", 4);
+
+const tip = d3.select("#tooltip");
+node.on("mouseover", (_, d) => {
+  tip.style("opacity", 1)
+    .html(\`<strong>\${d.label}</strong> <span class="type">\${d.type}</span><br><span class="file">\${d.file}</span><br>Connections: \${d.degree}\`)
+    .style("left", (d3.event.pageX + 12) + "px")
+    .style("top", (d3.event.pageY - 28) + "px");
+}).on("mouseout", () => tip.style("opacity", 0));
+
+const sim = d3.forceSimulation(data.nodes)
+  .force("link", d3.forceLink(data.links).id(d => d.id).distance(80))
+  .force("charge", d3.forceManyBody().strength(-200))
+  .force("center", d3.forceCenter(width / 2, height / 2))
+  .force("collide", d3.forceCollide(20))
+  .on("tick", () => {
+    link.attr("x1", d => d.source.x).attr("y1", d => d.source.y)
+        .attr("x2", d => d.target.x).attr("y2", d => d.target.y);
+    node.attr("cx", d => d.x).attr("cy", d => d.y);
+    label.attr("x", d => d.x).attr("y", d => d.y);
+  });
+
+// Search
+d3.select("#searchInput").on("input", function() {
+  const q = this.value.toLowerCase();
+  node.attr("opacity", d => d.label.toLowerCase().includes(q) || !q ? 1 : 0.1)
+      .attr("r", d => d.label.toLowerCase().includes(q) && q ? Math.max(3, Math.min(18, d.degree * 2.5)) : Math.max(3, Math.min(15, d.degree * 2)));
+  label.attr("opacity", d => d.label.toLowerCase().includes(q) || !q ? 1 : 0.1);
+});
+</script>
+</body>
+</html>`;
+}
