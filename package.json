@@ -1,6 +1,6 @@
 {
   "name": "@patimweb/pi-mindplace",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Sherlock's Mind Place for your codebase — build a queryable knowledge graph that saves tokens on every session. Maps code structure via tree-sitter AST into a navigable graph with community detection and token-budget-aware queries.",
   "keywords": [
     "pi-package",
