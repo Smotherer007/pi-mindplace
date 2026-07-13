@@ -1,184 +1,84 @@
 /**
  * Standalone HTML visualization of the knowledge graph.
  *
- * For graphs with <= 200 nodes: renders every node with D3.js force layout.
- * For larger graphs: auto-aggregates to community view (one circle per community).
- * Supports zoom, pan, drag, search, and tooltips.
+ * Uses vis.js (vis-network) for interactive graph visualization with:
+ *   - ForceAtlas2 physics for natural clustering
+ *   - Sidebar with node details on click
+ *   - Community-based coloring
+ *   - Search with dropdown
+ *   - Legend with toggle per community
+ *   - Node/edge caps for large graphs
  */
 
 import type { KnowledgeGraph } from "./graph.ts";
 
-const D3_JS = "https://d3js.org/d3.v7.min.js";
-const COMMUNITY_THRESHOLD = 200;
+const VIS_JS = "https://unpkg.com/vis-network@9.1.6/dist/vis-network.min.js";
+const VIS_CSS = "https://unpkg.com/vis-network@9.1.6/dist/vis-network.min.css";
+const MAX_VIZ_NODES = 1500;
+const MAX_EDGES = 4000;
 
 export function generateHtml(kg: KnowledgeGraph, title: string = "Mind Place"): string {
-  const totalNodes = [...kg.nodes.values()].filter(n => n.type !== "file").length;
+  // Sort non-file nodes by degree, take top
+  const nonFileNodes = [...kg.nodes.values()]
+    .filter(n => n.type !== "file")
+    .map(n => ({ node: n, degree: kg.adjacency.get(n.id)?.size ?? 0 }))
+    .sort((a, b) => b.degree - a.degree);
 
-  if (totalNodes > COMMUNITY_THRESHOLD) {
-    return communityHtml(kg, title, totalNodes);
-  }
-  return fullGraphHtml(kg, title);
-}
+  const cappedNodes = nonFileNodes.slice(0, MAX_VIZ_NODES);
+  const cappedIds = new Set(cappedNodes.map(n => n.node.id));
 
-// ── Community-aggregated view for large graphs ──────────────────────────────
+  // Colors from graphify's palette
+  const COLORS = [
+    "#4E79A7","#F28E2B","#E15759","#76B7B2","#59A14F",
+    "#EDC948","#B07AA1","#FF9DA7","#9C755F","#BAB0AC",
+    "#6A3D9A","#FF7F00","#33A02C","#1F78B4","#E31A1C",
+    "#FDBF6F","#A6CEE3","#B2DF8A","#FB9A99","#CAB2D6",
+    "#FFFF99","#B15928","#8DD3C7","#FFFFB3","#BEBADA",
+  ];
 
-function communityHtml(kg: KnowledgeGraph, title: string, totalNodes: number): string {
-  // Aggregate: one node per community (skip singletons)
-  const commMap = new Map<number, { size: number; label: string; topLabels: string[] }>();
-  for (const node of kg.nodes.values()) {
-    if (node.type === "file" || node.community === undefined) continue;
-    const c = commMap.get(node.community) ?? { size: 0, label: "", topLabels: [] };
-    c.size++;
-    if (c.topLabels.length < 3) c.topLabels.push(node.label);
-    c.label = `C${node.community}`;
-    commMap.set(node.community, c);
-  }
+  // Build nodes
+  const nodes = cappedNodes.map(n => {
+    const node = n.node;
+    const comm = node.community ?? 0;
+    return {
+      id: node.id, label: node.label, color: COLORS[comm % COLORS.length],
+      size: Math.max(5, Math.min(25, Math.log2(n.degree + 2) * 8)),
+      font: { size: 10, color: "#ddd" },
+      title: `<b>${node.label}</b> (${node.type})<br>${node.sourceFile}${node.sourceLocation ? " " + node.sourceLocation : ""}<br>${n.degree} connections`,
+      community: comm,
+      sourceFile: node.sourceFile, fileType: node.type, degree: n.degree,
+    };
+  });
 
-  // Only keep communities with >= 5 members
-  const MIN_SIZE = 5;
-  const commNodes = [...commMap.entries()]
-    .filter(([, info]) => info.size >= MIN_SIZE)
-    .map(([id, info]) => ({ id: `c${id}`, label: info.topLabels.slice(0, 2).join(", "), size: info.size, topLabels: info.topLabels }));
-
-  // Cross-community edges (only between non-singleton communities)
-  const communityIds = new Set(commNodes.map(n => n.id));
-  const crossEdges = new Map<string, number>();
+  // Build edges (only between capped nodes)
+  const edges = [];
   for (const edge of kg.edges) {
-    const sn = kg.nodes.get(edge.source);
-    const tn = kg.nodes.get(edge.target);
-    if (!sn || !tn || sn.type === "file" || tn.type === "file") continue;
-    if (sn.community === undefined || tn.community === undefined) continue;
-    if (sn.community === tn.community) continue;
-    const a = `c${sn.community}`, b = `c${tn.community}`;
-    if (!communityIds.has(a) || !communityIds.has(b)) continue;
-    const key = `${a}<->${b}`;
-    crossEdges.set(key, (crossEdges.get(key) ?? 0) + 1);
-  }
-
-  const commLinks = [...crossEdges.entries()].map(([key, count]) => {
-    const [a, b] = key.split("<->");
-    return { source: a, target: b, count };
-  });
-
-  const colors = ["#4C72B0", "#DD8452", "#55A868", "#C44E52", "#8172B3", "#937860", "#DA8BC3", "#8C8C8C", "#CCB974", "#64B5CD"];
-
-  return `<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>${title} - Mind Place (Community View)</title>
-<style>
-*{margin:0;padding:0;box-sizing:border-box}
-body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#1a1a2e;color:#e0e0e0;overflow:hidden}
-#graph{width:100vw;height:100vh}
-.links line{stroke:#444;stroke-opacity:.3;stroke-width:1px}
-.nodes circle{stroke:#1a1a2e;stroke-width:2px;cursor:pointer}
-.node-label{font-size:11px;fill:#ccc;pointer-events:none;text-shadow:0 1px 3px rgba(0,0,0,.9)}
-.node-sublabel{font-size:9px;fill:#999;pointer-events:none}
-#tooltip{position:absolute;background:#2a2a3e;border:1px solid #555;border-radius:6px;padding:10px 14px;font-size:13px;pointer-events:none;opacity:0;transition:opacity .15s;max-width:300px;z-index:10}
-#tooltip strong{color:#fff}
-#tooltip .count{color:#6af;font-size:11px}
-#info{position:absolute;top:12px;left:50%;transform:translateX(-50%);background:#2a2a3ecc;border-radius:8px;padding:8px 16px;font-size:12px;backdrop-filter:blur(8px);color:#888}
-#search{position:absolute;top:12px;left:12px;z-index:5}
-#search input{background:#2a2a3ecc;border:1px solid #555;border-radius:8px;padding:8px 14px;color:#fff;font-size:13px;width:220px;backdrop-filter:blur(8px);outline:none}
-#search input:focus{border-color:#6af}
-</style>
-</head>
-<body>
-<div id="graph"></div>
-<div id="tooltip"></div>
-<div id="info">${totalNodes} nodes aggregated into ${commNodes.length} communities - scroll to zoom, drag to pan</div>
-<div id="search"><input type="text" placeholder="Search communities..." id="searchInput"></div>
-<script src="${D3_JS}"></script>
-<script>
-const data = { nodes: ${JSON.stringify(commNodes)}, links: ${JSON.stringify(commLinks)} };
-const colors = ${JSON.stringify(colors)};
-const w = window.innerWidth, h = window.innerHeight;
-
-const svg = d3.select("#graph").append("svg").attr("width","100%").attr("height","100%");
-const g = svg.append("g");
-
-const zoom = d3.zoom().scaleExtent([0.1,8]).on("zoom", (e) => g.attr("transform", e.transform));
-svg.call(zoom);
-
-const link = g.append("g").attr("class","links").selectAll("line").data(data.links).join("line")
-  .attr("stroke-width", d => Math.max(1, Math.min(6, d.count / 2)));
-
-const node = g.append("g").attr("class","nodes").selectAll("circle").data(data.nodes).join("circle")
-  .attr("r", d => Math.max(10, Math.min(60, Math.sqrt(d.size) * 3)))
-  .attr("fill", d => colors[d.id.charCodeAt(1) % colors.length])
-  .call(d3.drag().on("start", (e,d) => { if(!e.active) sim.alphaTarget(.3).restart(); d.fx=d.x; d.fy=d.y; })
-                    .on("drag", (e,d) => { d.fx=e.x; d.fy=e.y; })
-                    .on("end", (e,d) => { if(!e.active) sim.alphaTarget(0); d.fx=null; d.fy=null; }));
-
-const label = g.append("g").selectAll("text.main").data(data.nodes).join("text")
-  .attr("class","node-label").text(d => d.label.length > 28 ? d.label.slice(0,26)+".." : d.label)
-  .attr("text-anchor","middle").attr("dy",-8);
-
-const sublabel = g.append("g").selectAll("text.sub").data(data.nodes).join("text")
-  .attr("class","node-sublabel").text(d => d.size + " items").attr("text-anchor","middle").attr("dy",10);
-
-const tip = d3.select("#tooltip");
-node.on("mouseover", (e,d) => {
-  tip.style("opacity",1).html("<strong>"+d.label+"</strong><br><span class='count'>"+d.size+" entities</span><br>"+d.topLabels.slice(0,5).join("<br>"))
-     .style("left",(e.pageX+12)+"px").style("top",(e.pageY-28)+"px");
-}).on("mouseout", () => tip.style("opacity",0));
-
-const sim = d3.forceSimulation(data.nodes)
-  .force("link", d3.forceLink(data.links).id(d => d.id).distance(150))
-  .force("charge", d3.forceManyBody().strength(-400))
-  .force("center", d3.forceCenter(w/2, h/2))
-  .force("collide", d3.forceCollide(d => Math.max(15, Math.sqrt(d.size)*3 + 5)))
-  .on("tick", () => {
-    link.attr("x1",d=>d.source.x).attr("y1",d=>d.source.y).attr("x2",d=>d.target.x).attr("y2",d=>d.target.y);
-    node.attr("cx",d=>d.x).attr("cy",d=>d.y);
-    label.attr("x",d=>d.x).attr("y",d=>d.y);
-    sublabel.attr("x",d=>d.x).attr("y",d=>d.y);
-  });
-
-d3.select("#searchInput").on("input", function() {
-  const q = this.value.toLowerCase();
-  node.attr("opacity", d => d.label.toLowerCase().includes(q) || !q ? 1 : .15)
-      .attr("r", d => d.label.toLowerCase().includes(q) && q ? Math.max(12, Math.min(70, Math.sqrt(d.size)*3.5)) : Math.max(10, Math.min(60, Math.sqrt(d.size)*3)));
-  label.attr("opacity", d => d.label.toLowerCase().includes(q) || !q ? 1 : .15);
-  sublabel.attr("opacity", d => d.label.toLowerCase().includes(q) || !q ? 1 : .15);
-});
-
-// Auto-zoom to fit
-setTimeout(() => {
-  const b = g.node().getBBox();
-  const dx = b.width, dy = b.height, x = b.x + dx/2, y = b.y + dy/2;
-  const scale = Math.min(.8, Math.min(w/(dx+100), h/(dy+100)));
-  svg.transition().duration(750).call(zoom.transform, d3.zoomIdentity.translate(w/2-scale*x, h/2-scale*y).scale(scale));
-}, 2000);
-</script>
-</body>
-</html>`;
-}
-
-// ── Full graph view for smaller graphs ─────────────────────────────────────
-
-function fullGraphHtml(kg: KnowledgeGraph, title: string): string {
-  const nodesArr: Array<{ id: string; label: string; type: string; community: number; degree: number; file: string }> = [];
-  for (const node of kg.nodes.values()) {
-    if (node.type === "file") continue;
-    nodesArr.push({
-      id: node.id, label: node.label, type: node.type,
-      community: node.community ?? 0,
-      degree: kg.adjacency.get(node.id)?.size ?? 0,
-      file: node.sourceFile,
+    if (edges.length >= MAX_EDGES) break;
+    if (!cappedIds.has(edge.source) || !cappedIds.has(edge.target)) continue;
+    edges.push({
+      from: edge.source, to: edge.target,
+      title: `${edge.relation} [${edge.confidence}]`,
+      dashes: edge.confidence !== "EXTRACTED",
+      width: edge.confidence === "EXTRACTED" ? 1 : 0.5,
+      color: { color: edge.confidence === "EXTRACTED" ? "#555" : "#444", opacity: edge.confidence === "EXTRACTED" ? 0.4 : 0.25 },
     });
   }
 
-  const linkArr: Array<{ source: string; target: string; relation: string }> = [];
-  for (const edge of kg.edges) {
-    if (kg.nodes.get(edge.source)?.type === "file") continue;
-    if (kg.nodes.get(edge.target)?.type === "file") continue;
-    linkArr.push({ source: edge.source, target: edge.target, relation: edge.relation });
+  // Legend
+  const legend = new Map<number, { label: string; color: string; count: number }>();
+  for (const n of cappedNodes) {
+    const comm = n.node.community ?? 0;
+    const c = legend.get(comm) ?? { label: `Community ${comm}`, color: COLORS[comm % COLORS.length], count: 0 };
+    c.count++;
+    if (c.label === `Community ${comm}`) c.label = n.node.label;
+    legend.set(comm, c);
   }
+  const legendArr = [...legend.entries()].sort((a, b) => b[1].count - a[1].count).slice(0, 50);
 
-  const colors = ["#4C72B0","#DD8452","#55A868","#C44E52","#8172B3","#937860","#DA8BC3","#8C8C8C","#CCB974","#64B5CD"];
+  const totalNodes = kg.nodes.size;
+  const shownInfo = cappedNodes.length < nonFileNodes.length
+    ? `Showing ${cappedNodes.length} of ${nonFileNodes.length} nodes (top by connections)`
+    : `${cappedNodes.length} nodes`;
 
   return `<!DOCTYPE html>
 <html lang="en">
@@ -186,88 +86,128 @@ function fullGraphHtml(kg: KnowledgeGraph, title: string): string {
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>${title} - Mind Place</title>
+<link rel="stylesheet" href="${VIS_CSS}">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#1a1a2e;color:#e0e0e0;overflow:hidden}
-#graph{width:100vw;height:100vh}
-.links line{stroke:#444;stroke-opacity:.3;stroke-width:1px}
-.nodes circle{stroke:#1a1a2e;stroke-width:1.5px;cursor:pointer}
-.node-label{font-size:10px;fill:#ccc;pointer-events:none;text-shadow:0 1px 3px rgba(0,0,0,.8)}
-#tooltip{position:absolute;background:#2a2a3e;border:1px solid #555;border-radius:6px;padding:10px 14px;font-size:13px;pointer-events:none;opacity:0;transition:opacity .15s;max-width:300px;z-index:10}
-#tooltip strong{color:#fff}
-#tooltip .type{color:#888;font-size:11px}
-#tooltip .file{color:#6af;font-size:11px;font-family:monospace}
-#legend{position:absolute;top:12px;right:12px;background:#2a2a3ecc;border-radius:8px;padding:10px 14px;font-size:12px;backdrop-filter:blur(8px)}
-.legend-item{display:flex;align-items:center;gap:6px;margin:3px 0}
-.legend-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
-#search{position:absolute;top:12px;left:12px;z-index:5}
-#search input{background:#2a2a3ecc;border:1px solid #555;border-radius:8px;padding:8px 14px;color:#fff;font-size:13px;width:220px;backdrop-filter:blur(8px);outline:none}
-#search input:focus{border-color:#6af}
+body{background:#0f0f1a;color:#e0e0e0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;display:flex;height:100vh;overflow:hidden}
+#graph{flex:1}
+#sidebar{width:280px;background:#1a1a2e;border-left:1px solid #2a2a4e;display:flex;flex-direction:column;overflow:hidden}
+#search-wrap{padding:12px;border-bottom:1px solid #2a2a4e}
+#search{width:100%;background:#0f0f1a;border:1px solid #3a3a5e;color:#e0e0e0;padding:7px 10px;border-radius:6px;font-size:13px;outline:none}
+#search:focus{border-color:#4E79A7}
+#search-results{max-height:140px;overflow-y:auto;padding:4px 12px;border-bottom:1px solid #2a2a4e;display:none}
+.search-item{padding:4px 6px;cursor:pointer;border-radius:4px;font-size:12px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.search-item:hover{background:#2a2a4e}
+#info-panel{padding:14px;border-bottom:1px solid #2a2a4e;min-height:100px}
+#info-panel h3{font-size:13px;color:#aaa;margin-bottom:8px;text-transform:uppercase;letter-spacing:.05em}
+#info-content{font-size:13px;color:#ccc;line-height:1.6}
+#info-content .field{margin-bottom:5px}
+#info-content .field b{color:#e0e0e0}
+#info-content .empty{color:#555;font-style:italic}
+.neighbor-link{display:block;padding:2px 6px;margin:2px 0;border-radius:3px;cursor:pointer;font-size:12px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;border-left:3px solid #333}
+.neighbor-link:hover{background:#2a2a4e}
+#neighbors-list{max-height:160px;overflow-y:auto;margin-top:4px}
+#legend-wrap{flex:1;overflow-y:auto;padding:12px}
+#legend-wrap h3{font-size:13px;color:#aaa;margin-bottom:10px;text-transform:uppercase;letter-spacing:.05em}
+.legend-item{display:flex;align-items:center;gap:8px;padding:4px 0;cursor:pointer;border-radius:4px;font-size:12px}
+.legend-item:hover{background:#2a2a4e}
+.legend-item.dimmed{opacity:.35}
+.legend-dot{width:12px;height:12px;border-radius:50%;flex-shrink:0}
+.legend-label{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.legend-count{color:#666;font-size:11px}
+#legend-controls{margin-bottom:8px}
+#legend-controls label{cursor:pointer;font-size:12px;color:#aaa;user-select:none}
+#legend-controls label:hover{color:#e0e0e0}
+#stats{padding:10px 14px;border-top:1px solid #2a2a4e;font-size:11px;color:#555}
 </style>
 </head>
 <body>
 <div id="graph"></div>
-<div id="tooltip"></div>
-<div id="search"><input type="text" placeholder="Search nodes..." id="searchInput"></div>
-<div id="legend"></div>
-<script src="${D3_JS}"></script>
+<div id="sidebar">
+  <div id="search-wrap"><input type="text" id="search" placeholder="Search nodes..."></div>
+  <div id="search-results"></div>
+  <div id="info-panel">
+    <h3>Node Details</h3>
+    <div id="info-content"><span class="empty">Click a node to inspect it</span></div>
+  </div>
+  <div id="legend-wrap">
+    <div id="legend-controls"><label><input type="checkbox" id="select-all-cb" checked onclick="toggleAll(this.checked)"> Show all</label></div>
+    <h3>Communities</h3>
+    <div id="legend-list"></div>
+  </div>
+  <div id="stats">${shownInfo} · ${edges.length} edges · ${totalNodes} total</div>
+</div>
+<script src="${VIS_JS}"></script>
 <script>
-const data = { nodes: ${JSON.stringify(nodesArr)}, links: ${JSON.stringify(linkArr)} };
-const colors = ${JSON.stringify(colors)};
-const w = window.innerWidth, h = window.innerHeight;
+const RAW_NODES = ${JSON.stringify(nodes)};
+const RAW_EDGES = ${JSON.stringify(edges)};
+const LEGEND = ${JSON.stringify(legendArr)};
+const COLORS = ${JSON.stringify(COLORS)};
 
-const svg = d3.select("#graph").append("svg").attr("width","100%").attr("height","100%");
-const g = svg.append("g");
-const zoom = d3.zoom().scaleExtent([0.1,8]).on("zoom", (e) => g.attr("transform", e.transform));
-svg.call(zoom);
+function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');}
 
-const types = [...new Set(data.nodes.map(n => n.type))];
-const legend = d3.select("#legend");
-types.forEach((t,i) => { legend.append("div").attr("class","legend-item").append("div").attr("class","legend-dot").style("background",colors[i%colors.length]); legend.selectAll(".legend-item").filter((_,j)=>j===i).append("span").text(t); });
+const nodesDS = new vis.DataSet(RAW_NODES.map(n=>({
+  id:n.id,label:n.label,color:n.color,size:n.size,font:n.font,title:n.title,
+  _c:n.community,_f:n.sourceFile,_t:n.fileType,_d:n.degree
+})));
+const edgesDS = new vis.DataSet(RAW_EDGES.map((e,i)=>({
+  id:i,from:e.from,to:e.to,title:e.title,dashes:e.dashes,width:e.width,color:e.color,
+  arrows:{to:{enabled:true,scaleFactor:.5}}
+})));
 
-const link = g.append("g").attr("class","links").selectAll("line").data(data.links).join("line");
-
-const node = g.append("g").attr("class","nodes").selectAll("circle").data(data.nodes).join("circle")
-  .attr("r", d => Math.max(3, Math.min(15, d.degree * 2)))
-  .attr("fill", d => colors[d.community % colors.length])
-  .call(d3.drag().on("start", (e,d) => { if(!e.active) sim.alphaTarget(.3).restart(); d.fx=d.x; d.fy=d.y; })
-                    .on("drag", (e,d) => { d.fx=e.x; d.fy=e.y; })
-                    .on("end", (e,d) => { if(!e.active) sim.alphaTarget(0); d.fx=null; d.fy=null; }));
-
-const label = g.append("g").selectAll("text").data(data.nodes).join("text")
-  .attr("class","node-label").text(d => d.label.length > 20 ? d.label.slice(0,18)+".." : d.label)
-  .attr("dx",8).attr("dy",4);
-
-const tip = d3.select("#tooltip");
-node.on("mouseover", (e,d) => {
-  tip.style("opacity",1).html("<strong>"+d.label+"</strong> <span class='type'>"+d.type+"</span><br><span class='file'>"+d.file+"</span><br>Connections: "+d.degree)
-     .style("left",(e.pageX+12)+"px").style("top",(e.pageY-28)+"px");
-}).on("mouseout", () => tip.style("opacity",0));
-
-const sim = d3.forceSimulation(data.nodes)
-  .force("link", d3.forceLink(data.links).id(d=>d.id).distance(80))
-  .force("charge", d3.forceManyBody().strength(-200))
-  .force("center", d3.forceCenter(w/2, h/2))
-  .force("collide", d3.forceCollide(20))
-  .on("tick", () => {
-    link.attr("x1",d=>d.source.x).attr("y1",d=>d.source.y).attr("x2",d=>d.target.x).attr("y2",d=>d.target.y);
-    node.attr("cx",d=>d.x).attr("cy",d=>d.y);
-    label.attr("x",d=>d.x).attr("y",d=>d.y);
-  });
-
-d3.select("#searchInput").on("input", function() {
-  const q = this.value.toLowerCase();
-  node.attr("opacity", d => d.label.toLowerCase().includes(q) || !q ? 1 : .1)
-      .attr("r", d => d.label.toLowerCase().includes(q) && q ? Math.max(3, Math.min(18, d.degree*2.5)) : Math.max(3, Math.min(15, d.degree*2)));
-  label.attr("opacity", d => d.label.toLowerCase().includes(q) || !q ? 1 : .1);
+const network = new vis.Network(document.getElementById('graph'),{nodes:nodesDS,edges:edgesDS},{
+  physics:{enabled:true,solver:'forceAtlas2Based',
+    forceAtlas2Based:{gravitationalConstant:-60,centralGravity:.005,springLength:120,springConstant:.08,damping:.4,avoidOverlap:.8},
+    stabilization:{iterations:200,fit:true}},
+  interaction:{hover:true,tooltipDelay:100,hideEdgesOnDrag:true,navigationButtons:false,keyboard:false},
+  nodes:{shape:'dot',borderWidth:1.5},
+  edges:{smooth:{type:'continuous',roundness:.2},selectionWidth:3}
 });
 
-setTimeout(() => {
-  const b = g.node().getBBox();
-  const dx = b.width, dy = b.height, x = b.x+dx/2, y = b.y+dy/2;
-  const scale = Math.min(.8, Math.min(w/(dx+80), h/(dy+80)));
-  svg.transition().duration(750).call(zoom.transform, d3.zoomIdentity.translate(w/2-scale*x, h/2-scale*y).scale(scale));
-}, 1500);
+network.once('stabilizationIterationsDone',()=>{network.setOptions({physics:{enabled:false}});});
+
+function showInfo(id){
+  const n=nodesDS.get(id);if(!n)return;
+  const nids=network.getConnectedNodes(id);
+  const items=nids.slice(0,30).map(nid=>{
+    const nb=nodesDS.get(nid);
+    return '<span class="neighbor-link" style="border-left-color:'+esc(nb?String(nb.color):'#555')+'" onclick="focusNode(&quot;'+esc(nid)+'&quot;)">'+esc(nb?nb.label:nid)+'</span>';
+  }).join('');
+  document.getElementById('info-content').innerHTML=
+    '<div class="field"><b>'+esc(n.label)+'</b></div>'+
+    '<div class="field">Type: '+esc(n._t||'?')+'</div>'+
+    '<div class="field">File: '+esc((n._f||'').slice(-50))+'</div>'+
+    '<div class="field">Connections: '+n._d+'</div>'+
+    (nids.length?'<div class="field" style="margin-top:8px;color:#aaa;font-size:11px">Neighbors ('+nids.length+')</div><div id="neighbors-list">'+items+'</div>':'');
+}
+function focusNode(id){network.focus(id,{scale:1.4,animation:true});network.selectNodes([id]);showInfo(id);}
+
+let hovered=null;
+network.on('hoverNode',p=>{hovered=p.node;});
+network.on('blurNode',()=>{hovered=null;});
+network.on('click',p=>{if(p.nodes.length>0)showInfo(p.nodes[0]);else if(!hovered)document.getElementById('info-content').innerHTML='<span class="empty">Click a node to inspect it</span>';});
+
+const si=document.getElementById('search'),sr=document.getElementById('search-results');
+si.addEventListener('input',()=>{
+  const q=si.value.toLowerCase();
+  if(!q){sr.style.display='none';return;}
+  const m=RAW_NODES.filter(n=>n.label.toLowerCase().includes(q)).slice(0,15);
+  sr.style.display=m.length?'block':'none';
+  sr.innerHTML=m.map(n=>'<div class="search-item" onclick="focusNode(&quot;'+esc(n.id)+'&quot;)">'+esc(n.label)+' ('+esc(n.fileType)+')</div>').join('');
+});
+
+const ll=document.getElementById('legend-list');
+const hidden=new Set();
+LEGEND.forEach((l,i)=>{
+  const d=document.createElement('div');d.className='legend-item';
+  d.innerHTML='<div class="legend-dot" style="background:'+l[1].color+'"></div><span class="legend-label">'+esc(l[1].label)+'</span><span class="legend-count">'+l[1].count+'</span>';
+  d.onclick=()=>{d.classList.toggle('dimmed');const show=!d.classList.contains('dimmed');if(!show)hidden.add(l[0]);else hidden.delete(l[0]);
+    nodesDS.forEach(n=>{if(n._c>=0&&hidden.has(n._c)){nodesDS.update({id:n.id,hidden:true});}else{nodesDS.update({id:n.id,hidden:false});}});};
+  ll.appendChild(d);
+});
+function toggleAll(show){hidden.clear();nodesDS.forEach(n=>{nodesDS.update({id:n.id,hidden:!show});});
+  document.querySelectorAll('.legend-item').forEach(el=>el.classList.toggle('dimmed',!show));
+  document.getElementById('select-all-cb').indeterminate=false;}
 </script>
 </body>
 </html>`;
