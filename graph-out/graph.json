@@ -2880,6 +2880,1020 @@
       "target": "tests_query.test_sampleGraph",
       "relation": "contains",
       "confidence": "EXTRACTED"
+    },
+    {
+      "source": "index_file",
+      "target": "src_tools_mindplace-build_file",
+      "relation": "imports",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "index_file",
+      "target": "src_tools_mindplace-query_file",
+      "relation": "imports",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "index_file",
+      "target": "src_tools_mindplace-explain_file",
+      "relation": "imports",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "index_file",
+      "target": "src_detect_file",
+      "relation": "imports",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "index_file",
+      "target": "src_graph_file",
+      "relation": "imports",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "index_file",
+      "target": "index_graphPath",
+      "relation": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "index_file",
+      "target": "index_checkStaleness",
+      "relation": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "index_checkStaleness",
+      "target": "index_graphPath",
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidenceScore": 0.85
+    },
+    {
+      "source": "index_file",
+      "target": "index_buildFileContext",
+      "relation": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "index_buildFileContext",
+      "target": "index_graphPath",
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidenceScore": 0.85
+    },
+    {
+      "source": "package_file",
+      "target": "package_name",
+      "relation": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "package_file",
+      "target": "package_version",
+      "relation": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "package_file",
+      "target": "package_description",
+      "relation": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "package_file",
+      "target": "package_keywords",
+      "relation": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "package_file",
+      "target": "package_author",
+      "relation": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "package_file",
+      "target": "package_license",
+      "relation": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "package_file",
+      "target": "package_type",
+      "relation": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "package_file",
+      "target": "package_engines",
+      "relation": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "package_file",
+      "target": "package_repository",
+      "relation": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "package_file",
+      "target": "package_bugs",
+      "relation": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "package_file",
+      "target": "package_scripts",
+      "relation": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "package_file",
+      "target": "package_dependencies",
+      "relation": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "package_file",
+      "target": "package_peerDependencies",
+      "relation": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "package_file",
+      "target": "package_publishConfig",
+      "relation": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "package_file",
+      "target": "package_devDependencies",
+      "relation": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "package_file",
+      "target": "package_pi",
+      "relation": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "src_detect_file",
+      "target": "src_types_file",
+      "relation": "imports",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "src_detect_file",
+      "target": "src_types_file",
+      "relation": "imports",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "src_detect_file",
+      "target": "src_detect_detect",
+      "relation": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "src_extract_file",
+      "target": "src_types_file",
+      "relation": "imports",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "src_extract_file",
+      "target": "src_types_file",
+      "relation": "imports",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "src_extract_file",
+      "target": "src_extract_fileHash",
+      "relation": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "src_extract_file",
+      "target": "src_extract_CacheEntry",
+      "relation": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "src_extract_file",
+      "target": "src_extract_loadCache",
+      "relation": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "src_extract_file",
+      "target": "src_extract_saveCache",
+      "relation": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "src_extract_file",
+      "target": "src_extract_nodeId",
+      "relation": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "src_extract_file",
+      "target": "src_extract_pickGrammar",
+      "relation": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "src_extract_file",
+      "target": "src_extract_extractJS_TS",
+      "relation": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "src_extract_extractJS_TS",
+      "target": "src_extract_nodeId",
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidenceScore": 0.85
+    },
+    {
+      "source": "src_extract_extractJS_TS",
+      "target": "src_extract_nodeId",
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidenceScore": 0.85
+    },
+    {
+      "source": "src_extract_extractJS_TS",
+      "target": "src_extract_nodeId",
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidenceScore": 0.85
+    },
+    {
+      "source": "src_extract_extractJS_TS",
+      "target": "src_extract_nodeId",
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidenceScore": 0.85
+    },
+    {
+      "source": "src_extract_extractJS_TS",
+      "target": "src_extract_resolveModulePath",
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidenceScore": 0.85
+    },
+    {
+      "source": "src_extract_extractJS_TS",
+      "target": "src_extract_nodeId",
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidenceScore": 0.85
+    },
+    {
+      "source": "src_extract_extractJS_TS",
+      "target": "src_extract_nodeId",
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidenceScore": 0.85
+    },
+    {
+      "source": "src_extract_file",
+      "target": "src_extract_extractPython",
+      "relation": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "src_extract_extractPython",
+      "target": "src_extract_nodeId",
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidenceScore": 0.85
+    },
+    {
+      "source": "src_extract_extractPython",
+      "target": "src_extract_nodeId",
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidenceScore": 0.85
+    },
+    {
+      "source": "src_extract_extractPython",
+      "target": "src_extract_nodeId",
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidenceScore": 0.85
+    },
+    {
+      "source": "src_extract_extractPython",
+      "target": "src_extract_nodeId",
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidenceScore": 0.85
+    },
+    {
+      "source": "src_extract_extractPython",
+      "target": "src_extract_nodeId",
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidenceScore": 0.85
+    },
+    {
+      "source": "src_extract_extractPython",
+      "target": "src_extract_nodeId",
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidenceScore": 0.85
+    },
+    {
+      "source": "src_extract_file",
+      "target": "src_extract_extractGo",
+      "relation": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "src_extract_extractGo",
+      "target": "src_extract_nodeId",
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidenceScore": 0.85
+    },
+    {
+      "source": "src_extract_extractGo",
+      "target": "src_extract_nodeId",
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidenceScore": 0.85
+    },
+    {
+      "source": "src_extract_extractGo",
+      "target": "src_extract_nodeId",
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidenceScore": 0.85
+    },
+    {
+      "source": "src_extract_extractGo",
+      "target": "src_extract_nodeId",
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidenceScore": 0.85
+    },
+    {
+      "source": "src_extract_file",
+      "target": "src_extract_extractBash",
+      "relation": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "src_extract_extractBash",
+      "target": "src_extract_nodeId",
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidenceScore": 0.85
+    },
+    {
+      "source": "src_extract_extractBash",
+      "target": "src_extract_nodeId",
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidenceScore": 0.85
+    },
+    {
+      "source": "src_extract_file",
+      "target": "src_extract_extractJson",
+      "relation": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "src_extract_extractJson",
+      "target": "src_extract_nodeId",
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidenceScore": 0.85
+    },
+    {
+      "source": "src_extract_extractJson",
+      "target": "src_extract_nodeId",
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidenceScore": 0.85
+    },
+    {
+      "source": "src_extract_file",
+      "target": "src_extract_extractGeneric",
+      "relation": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "src_extract_extractGeneric",
+      "target": "src_extract_nodeId",
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidenceScore": 0.85
+    },
+    {
+      "source": "src_extract_extractGeneric",
+      "target": "src_extract_nodeId",
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidenceScore": 0.85
+    },
+    {
+      "source": "src_extract_extractGeneric",
+      "target": "src_extract_nodeId",
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidenceScore": 0.85
+    },
+    {
+      "source": "src_extract_extractGeneric",
+      "target": "src_extract_nodeId",
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidenceScore": 0.85
+    },
+    {
+      "source": "src_extract_extractGeneric",
+      "target": "src_extract_nodeId",
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidenceScore": 0.85
+    },
+    {
+      "source": "src_extract_file",
+      "target": "src_extract_extractFile",
+      "relation": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "src_extract_extractFile",
+      "target": "src_extract_pickGrammar",
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidenceScore": 0.85
+    },
+    {
+      "source": "src_extract_extractFile",
+      "target": "src_extract_extractJS_TS",
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidenceScore": 0.85
+    },
+    {
+      "source": "src_extract_extractFile",
+      "target": "src_extract_extractPython",
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidenceScore": 0.85
+    },
+    {
+      "source": "src_extract_extractFile",
+      "target": "src_extract_extractGo",
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidenceScore": 0.85
+    },
+    {
+      "source": "src_extract_extractFile",
+      "target": "src_extract_extractBash",
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidenceScore": 0.85
+    },
+    {
+      "source": "src_extract_extractFile",
+      "target": "src_extract_extractJson",
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidenceScore": 0.85
+    },
+    {
+      "source": "src_extract_extractFile",
+      "target": "src_extract_extractGeneric",
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidenceScore": 0.85
+    },
+    {
+      "source": "src_extract_file",
+      "target": "src_extract_resolveModulePath",
+      "relation": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "src_extract_file",
+      "target": "src_extract_extract",
+      "relation": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "src_extract_extract",
+      "target": "src_extract_loadCache",
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidenceScore": 0.85
+    },
+    {
+      "source": "src_extract_extract",
+      "target": "src_extract_fileHash",
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidenceScore": 0.85
+    },
+    {
+      "source": "src_extract_extract",
+      "target": "src_extract_extractFile",
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidenceScore": 0.85
+    },
+    {
+      "source": "src_extract_extract",
+      "target": "src_extract_saveCache",
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidenceScore": 0.85
+    },
+    {
+      "source": "src_graph_file",
+      "target": "src_types_file",
+      "relation": "imports",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "src_graph_file",
+      "target": "src_graph_KnowledgeGraph",
+      "relation": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "src_graph_file",
+      "target": "src_graph_KnowledgeGraph_nodes",
+      "relation": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "src_graph_KnowledgeGraph",
+      "target": "src_graph_KnowledgeGraph_nodes",
+      "relation": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "src_graph_file",
+      "target": "src_graph_KnowledgeGraph_edges",
+      "relation": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "src_graph_KnowledgeGraph",
+      "target": "src_graph_KnowledgeGraph_edges",
+      "relation": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "src_graph_file",
+      "target": "src_graph_KnowledgeGraph_adjacency",
+      "relation": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "src_graph_KnowledgeGraph",
+      "target": "src_graph_KnowledgeGraph_adjacency",
+      "relation": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "src_graph_file",
+      "target": "src_graph_KnowledgeGraph_outgoing",
+      "relation": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "src_graph_KnowledgeGraph",
+      "target": "src_graph_KnowledgeGraph_outgoing",
+      "relation": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "src_graph_file",
+      "target": "src_graph_KnowledgeGraph_isDirected",
+      "relation": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "src_graph_KnowledgeGraph",
+      "target": "src_graph_KnowledgeGraph_isDirected",
+      "relation": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "src_graph_file",
+      "target": "src_graph_KnowledgeGraph_fromExtraction",
+      "relation": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "src_graph_KnowledgeGraph",
+      "target": "src_graph_KnowledgeGraph_fromExtraction",
+      "relation": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "src_graph_file",
+      "target": "src_graph_KnowledgeGraph_merge",
+      "relation": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "src_graph_KnowledgeGraph",
+      "target": "src_graph_KnowledgeGraph_merge",
+      "relation": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "src_graph_file",
+      "target": "src_graph_KnowledgeGraph_computeCentrality",
+      "relation": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "src_graph_KnowledgeGraph",
+      "target": "src_graph_KnowledgeGraph_computeCentrality",
+      "relation": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "src_graph_file",
+      "target": "src_graph_KnowledgeGraph_detectCommunities",
+      "relation": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "src_graph_KnowledgeGraph",
+      "target": "src_graph_KnowledgeGraph_detectCommunities",
+      "relation": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "src_graph_file",
+      "target": "src_graph_KnowledgeGraph_topNodes",
+      "relation": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "src_graph_KnowledgeGraph",
+      "target": "src_graph_KnowledgeGraph_topNodes",
+      "relation": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "src_graph_file",
+      "target": "src_graph_KnowledgeGraph_stats",
+      "relation": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "src_graph_KnowledgeGraph",
+      "target": "src_graph_KnowledgeGraph_stats",
+      "relation": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "src_graph_file",
+      "target": "src_graph_KnowledgeGraph_fileRanking",
+      "relation": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "src_graph_KnowledgeGraph",
+      "target": "src_graph_KnowledgeGraph_fileRanking",
+      "relation": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "src_graph_file",
+      "target": "src_graph_KnowledgeGraph_toJSON",
+      "relation": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "src_graph_KnowledgeGraph",
+      "target": "src_graph_KnowledgeGraph_toJSON",
+      "relation": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "src_graph_file",
+      "target": "src_graph_KnowledgeGraph_fromJSON",
+      "relation": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "src_graph_KnowledgeGraph",
+      "target": "src_graph_KnowledgeGraph_fromJSON",
+      "relation": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "src_query_file",
+      "target": "src_types_file",
+      "relation": "imports",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "src_query_file",
+      "target": "src_graph_file",
+      "relation": "imports",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "src_query_file",
+      "target": "src_query_tokenize",
+      "relation": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "src_query_file",
+      "target": "src_query_estimateTokens",
+      "relation": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "src_query_file",
+      "target": "src_query_TfIdfScorer",
+      "relation": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "src_query_file",
+      "target": "src_query_TfIdfScorer_idf",
+      "relation": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "src_query_TfIdfScorer",
+      "target": "src_query_TfIdfScorer_idf",
+      "relation": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "src_query_file",
+      "target": "src_query_TfIdfScorer_docs",
+      "relation": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "src_query_TfIdfScorer",
+      "target": "src_query_TfIdfScorer_docs",
+      "relation": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "src_query_file",
+      "target": "src_query_TfIdfScorer_constructor",
+      "relation": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "src_query_TfIdfScorer",
+      "target": "src_query_TfIdfScorer_constructor",
+      "relation": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "src_query_file",
+      "target": "src_query_TfIdfScorer_score",
+      "relation": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "src_query_TfIdfScorer",
+      "target": "src_query_TfIdfScorer_score",
+      "relation": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "src_query_file",
+      "target": "src_query_formatNode",
+      "relation": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "src_query_file",
+      "target": "src_query_query",
+      "relation": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "src_query_query",
+      "target": "src_query_tokenize",
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidenceScore": 0.85
+    },
+    {
+      "source": "src_query_query",
+      "target": "src_query_estimateTokens",
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidenceScore": 0.85
+    },
+    {
+      "source": "src_query_query",
+      "target": "src_query_formatNode",
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidenceScore": 0.85
+    },
+    {
+      "source": "src_query_query",
+      "target": "src_query_estimateTokens",
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidenceScore": 0.85
+    },
+    {
+      "source": "src_query_file",
+      "target": "src_query_formatQueryResult",
+      "relation": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "src_query_formatQueryResult",
+      "target": "src_query_formatNode",
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidenceScore": 0.85
+    },
+    {
+      "source": "src_report_file",
+      "target": "src_graph_file",
+      "relation": "imports",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "src_report_file",
+      "target": "src_types_file",
+      "relation": "imports",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "src_report_file",
+      "target": "src_report_Surprise",
+      "relation": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "src_report_file",
+      "target": "src_report_generateReport",
+      "relation": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "src_report_generateReport",
+      "target": "src_report_findSurprises",
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidenceScore": 0.85
+    },
+    {
+      "source": "src_report_generateReport",
+      "target": "src_report_suggestQuestions",
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidenceScore": 0.85
+    },
+    {
+      "source": "src_report_file",
+      "target": "src_report_findSurprises",
+      "relation": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "src_report_file",
+      "target": "src_report_suggestQuestions",
+      "relation": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "src_types_file",
+      "target": "src_types_GraphNode",
+      "relation": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "src_types_file",
+      "target": "src_types_GraphEdge",
+      "relation": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "src_types_file",
+      "target": "src_types_ExtractionResult",
+      "relation": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "src_types_file",
+      "target": "src_types_DetectResult",
+      "relation": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "src_types_file",
+      "target": "src_types_QueryResult",
+      "relation": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "src_types_file",
+      "target": "src_types_GraphStats",
+      "relation": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "src_viz_file",
+      "target": "src_graph_file",
+      "relation": "imports",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "src_viz_file",
+      "target": "src_viz_generateHtml",
+      "relation": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "tests_fixtures_sample-project_src_auth_file",
+      "target": "tests_fixtures_sample-project_src_auth_authenticateUser",
+      "relation": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "tests_fixtures_sample-project_src_auth_authenticateUser",
+      "target": "tests_fixtures_sample-project_src_auth_validateCredentials",
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidenceScore": 0.85
+    },
+    {
+      "source": "tests_fixtures_sample-project_src_auth_authenticateUser",
+      "target": "tests_fixtures_sample-project_src_auth_createSession",
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidenceScore": 0.85
+    },
+    {
+      "source": "tests_fixtures_sample-project_src_auth_file",
+      "target": "tests_fixtures_sample-project_src_auth_validateCredentials",
+      "relation": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "tests_fixtures_sample-project_src_auth_file",
+      "target": "tests_fixtures_sample-project_src_auth_createSession",
+      "relation": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "tests_fixtures_sample-project_src_controller_file",
+      "target": "tests_fixtures_sample-project_src_auth_file",
+      "relation": "imports",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "tests_fixtures_sample-project_src_controller_file",
+      "target": "tests_fixtures_sample-project_src_controller_UserController",
+      "relation": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "tests_fixtures_sample-project_src_controller_file",
+      "target": "tests_fixtures_sample-project_src_controller_UserController_login",
+      "relation": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "tests_fixtures_sample-project_src_controller_UserController",
+      "target": "tests_fixtures_sample-project_src_controller_UserController_login",
+      "relation": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "tests_graph.test_file",
+      "target": "tests_graph.test_sampleExtraction",
+      "relation": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "tests_query.test_file",
+      "target": "tests_query.test_sampleGraph",
+      "relation": "contains",
+      "confidence": "EXTRACTED"
     }
   ]
 }

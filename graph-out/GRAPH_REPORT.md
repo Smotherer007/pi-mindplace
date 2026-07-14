@@ -12,9 +12,9 @@ Generated from `/Users/patrickweppelmann/Documents/Workspaces/pi-mindplace`
 | Metric | Value |
 |--------|-------|
 | Nodes | 99 |
-| Edges | 318 |
+| Edges | 479 |
 | Communities | 9 |
-| Avg. Degree | 6.4 |
+| Avg. Degree | 9.7 |
 
 ## God Nodes
 
@@ -34,22 +34,24 @@ The graph was partitioned into these subsystems:
 
 | Community | Size | Key Members |
 |-----------|------|-------------|
-| C73 | 68 | index.ts, graphPath, src/detect.ts |
-| C3 | 17 | package.json, name, version |
-| C87 | 5 | tests/fixtures/sample-project/src/auth.ts, validateCredentials, tests/fixtures/sample-project/src/controller.ts |
-| C86 | 2 | authenticateUser, createSession |
-| C93 | 2 | tests/graph.test.ts, sampleExtraction |
-| C95 | 2 | tests/query.test.ts, sampleGraph |
-| C19 | 1 | release.config.cjs |
-| C83 | 1 | tests/detect.test.ts |
-| C84 | 1 | tests/extract.test.ts |
+| **KnowledgeGraph.fileRanking** | 68 | index.ts, graphPath, src/detect.ts |
+| **pi** | 17 | package.json, name, version |
+| **UserController.login** | 5 | tests/fixtures/sample-project/src/auth.ts, validateCredentials, tests/fixtures/sample-project/src/controller.ts |
+| **createSession** | 2 | authenticateUser, createSession |
+| **sampleExtraction** | 2 | tests/graph.test.ts, sampleExtraction |
+| **sampleGraph** | 2 | tests/query.test.ts, sampleGraph |
+| **release.config.cjs** | 1 | release.config.cjs |
+| **tests/detect.test.ts** | 1 | tests/detect.test.ts |
+| **tests/extract.test.ts** | 1 | tests/extract.test.ts |
 
 ## Surprising Connections
 
-- **tests/fixtures/sample-project/src/auth.ts** → `contains` → **authenticateUser**: Cross-community bridge between C87 and C86
-- **tests/fixtures/sample-project/src/auth.ts** → `contains` → **createSession**: Cross-community bridge between C87 and C86
-- **tests/fixtures/sample-project/src/auth.ts** → `contains` → **authenticateUser**: Cross-community bridge between C87 and C86
-- **tests/fixtures/sample-project/src/auth.ts** → `contains` → **createSession**: Cross-community bridge between C87 and C86
+- **tests/fixtures/sample-project/src/auth.ts** → `contains` → **authenticateUser**: Cross-community bridge between "tests/fixtures/sample-project/src/auth.ts" and "authenticateUser"
+- **tests/fixtures/sample-project/src/auth.ts** → `contains` → **createSession**: Cross-community bridge between "tests/fixtures/sample-project/src/auth.ts" and "authenticateUser"
+- **tests/fixtures/sample-project/src/auth.ts** → `contains` → **authenticateUser**: Cross-community bridge between "tests/fixtures/sample-project/src/auth.ts" and "authenticateUser"
+- **tests/fixtures/sample-project/src/auth.ts** → `contains` → **createSession**: Cross-community bridge between "tests/fixtures/sample-project/src/auth.ts" and "authenticateUser"
+- **tests/fixtures/sample-project/src/auth.ts** → `contains` → **authenticateUser**: Cross-community bridge between "tests/fixtures/sample-project/src/auth.ts" and "authenticateUser"
+- **tests/fixtures/sample-project/src/auth.ts** → `contains` → **createSession**: Cross-community bridge between "tests/fixtures/sample-project/src/auth.ts" and "authenticateUser"
 
 ## Suggested Questions
 
