@@ -66,7 +66,10 @@ export const MindplaceBuildTool = {
       const extResult = extract(root, detected.files, cacheDir, params.force, (done) => {
         if (done - lastReported >= 10 || done === totalToExtract) {
           lastReported = done;
-          _onUpdate({ stage: "extracting", done, total: totalToExtract });
+          _onUpdate({
+            content: [{ type: "text" as const, text: `🔍 Extracting... ${done}/${totalToExtract} files` }],
+            details: { stage: "extracting", done, total: totalToExtract },
+          });
         }
       });
 
