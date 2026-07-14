@@ -58,9 +58,17 @@ export const MindplaceBuildTool = {
         };
       }
 
-      // Step 2: Extract with cache
+      // Step 2: Extract with cache — report progress
       const cacheDir = join(root, OUT_DIR, "cache");
-      const extResult = extract(root, detected.files, cacheDir, params.force);
+      const totalToExtract = detected.files.length;
+      let lastReported = 0;
+
+      const extResult = extract(root, detected.files, cacheDir, params.force, (done) => {
+        if (done - lastReported >= 10 || done === totalToExtract) {
+          lastReported = done;
+          _onUpdate({ stage: "extracting", done, total: totalToExtract });
+        }
+      });
 
       // Step 3: Build graph (merge if updating)
       let kg: KnowledgeGraph;

@@ -73,21 +73,25 @@ export function generateReport(
     lines.push("");
     lines.push("The graph was partitioned into these subsystems:");
 
-    // Gather community info
-    const commMap = new Map<number, { size: number; top: string[] }>();
+    // Gather community info with named labels
+    const commMap = new Map<number, { size: number; top: string[]; label: string }>();
     for (const node of kg.nodes.values()) {
       if (node.community === undefined) continue;
-      const c = commMap.get(node.community) ?? { size: 0, top: [] };
+      const c = commMap.get(node.community) ?? { size: 0, top: [], label: "" };
       c.size++;
       if (c.top.length < 3) c.top.push(node.label);
+      // Use the highest-centrality node as the community label
+      if (!c.label || (node.centrality ?? 0) > (kg.nodes.get(c.label)?.centrality ?? 0)) {
+        c.label = node.label;
+      }
       commMap.set(node.community, c);
     }
 
     lines.push("");
     lines.push("| Community | Size | Key Members |");
     lines.push("|-----------|------|-------------|");
-    for (const [cid, info] of [...commMap.entries()].sort((a, b) => b[1].size - a[1].size)) {
-      lines.push(`| C${cid} | ${info.size} | ${info.top.join(", ")} |`);
+    for (const [, info] of [...commMap.entries()].sort((a, b) => b[1].size - a[1].size)) {
+      lines.push(`| **${info.label}** | ${info.size} | ${info.top.join(", ")} |`);
     }
     lines.push("");
   }
@@ -128,6 +132,24 @@ function findSurprises(kg: KnowledgeGraph): Surprise[] {
     if (node.community !== undefined) communities.set(node.id, node.community);
   }
 
+  // Map community ID to its best label
+  const commLabels = new Map<number, string>();
+  for (const node of kg.nodes.values()) {
+    if (node.community === undefined) continue;
+    const best = commLabels.get(node.community);
+    const bestNode = best ? kg.nodes.get(best) : null;
+    if (!best || (node.centrality ?? 0) > (bestNode?.centrality ?? 0)) {
+      commLabels.set(node.community, node.id);
+    }
+  }
+
+  function commName(id: string): string {
+    const c = communities.get(id);
+    if (c === undefined) return "?";
+    const bestId = commLabels.get(c);
+    return bestId ? (kg.nodes.get(bestId)?.label ?? `C${c}`) : `C${c}`;
+  }
+
   for (const edge of kg.edges) {
     const sc = communities.get(edge.source);
     const tc = communities.get(edge.target);
@@ -139,7 +161,7 @@ function findSurprises(kg: KnowledgeGraph): Surprise[] {
         source: srcLabel,
         target: tgtLabel,
         relation: edge.relation,
-        reason: `Cross-community bridge between C${sc} and C${tc}`,
+        reason: `Cross-community bridge between "${commName(edge.source)}" and "${commName(edge.target)}"`,
       });
     }
   }

@@ -634,6 +634,7 @@ export function extract(
   files: string[],
   cacheDir?: string,
   force?: boolean,
+  onProgress?: (done: number) => void,
 ): ExtractionResult & { cached: number; extracted: number } {
   const cache = cacheDir ? loadCache(cacheDir) : new Map<string, CacheEntry>();
   const allNodes: GraphNode[] = [];
@@ -665,6 +666,7 @@ export function extract(
     allEdges.push(...result.edges);
     cache.set(file, { hash, nodes: result.nodes, edges: result.edges });
     extracted++;
+    onProgress?.(cached + extracted);
   }
 
   if (cacheDir) saveCache(cacheDir, cache);

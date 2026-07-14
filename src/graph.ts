@@ -205,6 +205,98 @@ export class KnowledgeGraph {
     };
   }
 
+  /**
+   * File-level ranking via PageRank on the file dependency graph.
+   * Only file-type nodes are scored; edges are import relations.
+   * Returns top files with their contained symbols, ranked by centrality.
+   */
+  fileRanking(
+    limit: number = 40,
+  ): Array<{ file: string; score: number; symbols: Array<{ label: string; type: string; centrality: number }> }> {
+    // Collect file nodes
+    const fileNodes = [...this.nodes.values()].filter(n => n.type === "file");
+    if (fileNodes.length === 0) return [];
+
+    // Build file-level adjacency + lookup: sourceFile → file node ID
+    const fileAdj = new Map<string, Set<string>>();
+    const sourceToId = new Map<string, string>();
+
+    for (const fn of fileNodes) {
+      fileAdj.set(fn.id, new Set());
+      if (fn.sourceFile) sourceToId.set(fn.sourceFile, fn.id);
+    }
+
+    // Add edges: file A imports file B (O(e) with O(1) lookups)
+    for (const edge of this.edges) {
+      if (edge.relation !== "imports") continue;
+      const srcFile = this.nodes.get(edge.source)?.sourceFile;
+      const tgtFile = this.nodes.get(edge.target)?.sourceFile;
+      if (!srcFile || !tgtFile || srcFile === tgtFile) continue;
+
+      const srcId = sourceToId.get(srcFile);
+      const tgtId = sourceToId.get(tgtFile);
+      if (!srcId || !tgtId) continue;
+
+      fileAdj.get(srcId)?.add(tgtId);
+    }
+
+    // PageRank on file graph
+    const N = fileNodes.length;
+    const alpha = 0.85;
+    const epsilon = 1e-6;
+    const nodeIds = fileNodes.map(n => n.id);
+    const idx = new Map<string, number>();
+    nodeIds.forEach((id, i) => idx.set(id, i));
+
+    let scores = new Float64Array(N).fill(1.0 / N);
+
+    for (let iter = 0; iter < 100; iter++) {
+      const newScores = new Float64Array(N).fill((1 - alpha) / N);
+
+      for (let i = 0; i < N; i++) {
+        const neighbors = fileAdj.get(nodeIds[i]);
+        if (!neighbors || neighbors.size === 0) continue;
+        const contribution = (alpha * scores[i]) / neighbors.size;
+        for (const nid of neighbors) {
+          const j = idx.get(nid);
+          if (j !== undefined) newScores[j] += contribution;
+        }
+      }
+
+      let diff = 0;
+      for (let i = 0; i < N; i++) diff += Math.abs(newScores[i] - scores[i]);
+      scores = newScores;
+      if (diff < N * epsilon) break;
+    }
+
+    // Build result: file → score + top symbols
+    const ranked = nodeIds
+      .map((id, i) => ({ id, score: scores[i] }))
+      .sort((a, b) => b.score - a.score);
+
+    const result: Array<{ file: string; score: number; symbols: Array<{ label: string; type: string; centrality: number }> }> = [];
+
+    for (const entry of ranked.slice(0, limit)) {
+      const fileNode = this.nodes.get(entry.id);
+      if (!fileNode) continue;
+
+      // Find symbols contained in this file
+      const symbols = [...this.nodes.values()]
+        .filter(n => n.sourceFile === fileNode.sourceFile && n.type !== "file")
+        .map(n => ({ label: n.label, type: n.type, centrality: n.centrality ?? 0 }))
+        .sort((a, b) => b.centrality - a.centrality)
+        .slice(0, 6);
+
+      result.push({
+        file: fileNode.sourceFile ?? fileNode.label,
+        score: Math.round(entry.score * 1000) / 1000,
+        symbols,
+      });
+    }
+
+    return result;
+  }
+
   /** Serialize to JSON-serializable object */
   toJSON(): object {
     return {

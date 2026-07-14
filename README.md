@@ -119,6 +119,10 @@ pi-mindplace/
     +-- fixtures/
 ```
 
+## Inspiration
+
+pi-mindplace was inspired by [graphify](https://github.com/codelion/graphify) — the original code knowledge graph tool that proved how powerful graph-first code exploration can be. pi-mindplace brings that concept to the pi ecosystem as a zero-dependency TypeScript extension with tree-sitter AST parsing, token-budget-aware queries, and automatic prompt injection.
+
 ## Design decisions
 
 - Zero Python: pure TypeScript/Node.js, no Python required

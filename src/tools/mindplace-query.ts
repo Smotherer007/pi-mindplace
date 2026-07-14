@@ -31,10 +31,16 @@ export const MindplaceQueryTool = {
         default: 4000,
       }),
     ),
+    minScore: Type.Optional(
+      Type.Number({
+        description: "Minimum relevance score 0..1 (default: 0.15). Lower = more results, higher = only strong matches.",
+        default: 0.15,
+      }),
+    ),
   }),
   async execute(
     _toolCallId: string,
-    params: { question: string; budget?: number },
+    params: { question: string; budget?: number; minScore?: number },
     _signal: AbortSignal,
     _onUpdate: (update: unknown) => void,
     ctx: ExtensionContext,
@@ -59,7 +65,7 @@ export const MindplaceQueryTool = {
       const kg = KnowledgeGraph.fromJSON(raw);
 
       const budget = params.budget ?? 4000;
-      const result = query(kg, params.question, budget);
+      const result = query(kg, params.question, budget, "bfs", params.minScore ?? 0.15);
       const formatted = formatQueryResult(result);
 
       return {
