@@ -1,6 +1,6 @@
 {
   "name": "@patimweb/pi-mindplace",
-  "version": "1.3.0",
+  "version": "1.4.0",
   "description": "graphify-style code knowledge graph for pi — build a queryable mind place that saves tokens on every session. Parses your code with tree-sitter into a navigable graph with community detection, PageRank, and token-budget-aware queries.",
   "keywords": [
     "pi-package",
