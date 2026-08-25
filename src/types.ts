@@ -92,6 +92,8 @@ export const CODE_EXTENSIONS: Record<string, string> = {
   // Scala
   ".scala": "scala",
   ".sc": "scala",
+  // C#
+  ".cs": "csharp",
 };
 
 /** File extensions that may contain useful info but aren't parsed as code */
