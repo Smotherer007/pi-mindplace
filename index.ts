@@ -18,13 +18,12 @@
  */
 
 import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
-import { existsSync, statSync, readFileSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 
 import { MindplaceBuildTool } from "./src/tools/mindplace-build.ts";
 import { MindplaceQueryTool } from "./src/tools/mindplace-query.ts";
 import { MindplaceExplainTool } from "./src/tools/mindplace-explain.ts";
-import { detect } from "./src/detect.ts";
 import { KnowledgeGraph } from "./src/graph.ts";
 
 const OUT_DIR = "graph-out";
@@ -32,26 +31,6 @@ const GRAPH_FILE = "graph.json";
 
 function graphPath(cwd: string): string {
   return join(cwd, OUT_DIR, GRAPH_FILE);
-}
-
-function checkStaleness(cwd: string): { stale: boolean; count: number } {
-  const gp = graphPath(cwd);
-  if (!existsSync(gp)) return { stale: false, count: 0 };
-
-  const graphMtime = statSync(gp).mtimeMs;
-  let newerCount = 0;
-
-  try {
-    const detected = detect(cwd);
-    for (const file of detected.files.slice(0, 200)) {
-      try {
-        const fmtime = statSync(join(cwd, file)).mtimeMs;
-        if (fmtime > graphMtime) newerCount++;
-      } catch { /* file gone, ignore */ }
-    }
-  } catch { /* detection failed, assume OK */ }
-
-  return { stale: newerCount > 0, count: newerCount };
 }
 
 /**
@@ -125,15 +104,6 @@ or "how does X work?", query the mind place FIRST. Reading raw files costs 20-10
 more tokens than querying the graph.
 `;
 
-const STALE_GRAPH_INSTRUCTIONS = `
-## ⚠️ Mind Place Graph is STALE
-
-The knowledge graph at \`${OUT_DIR}/${GRAPH_FILE}\` is older than some source files.
-The graph may contain outdated information. Before answering codebase questions,
-run \`mindplace_build\` to refresh it. Use \`update=true\` for a fast incremental
-rebuild that only re-extracts changed files.
-`;
-
 const NO_GRAPH_INSTRUCTIONS = `
 ## Mind Place Knowledge Graph
 
@@ -163,12 +133,8 @@ export default function (pi: ExtensionAPI) {
     const gp = graphPath(ctx.cwd);
 
     if (existsSync(gp)) {
-      const { stale } = checkStaleness(ctx.cwd);
       const fileMap = buildFileContext(ctx.cwd);
       let prompt = GRAPH_FIRST_INSTRUCTIONS;
-      if (stale) {
-        prompt += STALE_GRAPH_INSTRUCTIONS;
-      }
       if (fileMap) {
         prompt += "\n" + fileMap;
       }

@@ -14,9 +14,104 @@
 
 import type { GraphNode, GraphEdge, QueryResult } from "./types.ts";
 import { KnowledgeGraph } from "./graph.ts";
+import { readFileSync } from "node:fs";
+import { join } from "node:path";
 
 /** Approximate tokens per character — conservative estimate */
 const CHARS_PER_TOKEN = 4;
+
+// ── Source snippets ──────────────────────────────────────────────────────────
+// Line-window heuristics — next-symbol end or +30 lines; enough to show real
+// context, not AST-accurate bodies.
+
+const SNIPPET_BUDGET = 1200; // tokens
+const MAX_SNIPPET_LINES = 40;
+
+/**
+ * Verbatim source for the top concrete symbols in a result set.
+ * Reads each file once; bounded by a token budget; never throws.
+ */
+export function buildSourceSnippets(root: string, nodes: GraphNode[], queryBudget: number): string {
+  const budget = Math.min(SNIPPET_BUDGET, Math.floor(queryBudget * 0.25));
+  if (budget < 100) return "";
+
+  // Candidates: concrete code symbols with a numeric source location
+  const candidates = nodes.filter(
+    n => (n.type === "method" || n.type === "function" || n.type === "class") &&
+         n.sourceFile && n.sourceLocation && /L\d+/.test(n.sourceLocation),
+  );
+
+  // Keep up to 3 symbols per file, 3 files total — read each file once
+  const perFile = new Map<string, GraphNode[]>();
+  for (const n of candidates) {
+    const arr = perFile.get(n.sourceFile) ?? [];
+    if (arr.length < 3) arr.push(n);
+    perFile.set(n.sourceFile, arr);
+  }
+
+  const lines: string[] = [];
+  let tokens = 0;
+
+  for (const [file, syms] of [...perFile.entries()].slice(0, 3)) {
+    const abs = join(root, file);
+    let source: string;
+    try {
+      source = readFileSync(abs, "utf-8");
+    } catch {
+      continue;
+    }
+    const srcLines = source.split(/\r?\n/);
+
+    for (const sym of syms) {
+      const m = sym.sourceLocation!.match(/L(\d+)(?:\s*-\s*L?(\d+))?/);
+      if (!m) continue;
+      const start = parseInt(m[1], 10);
+      if (start < 1 || start > srcLines.length) continue;
+
+      let end: number;
+      if (m[2]) {
+        end = parseInt(m[2], 10);
+      } else {
+        // End at the next symbol's start line in this file, else +30
+        const nextLine = syms
+          .map(o => o.sourceLocation?.match(/L(\d+)/)?.[1])
+          .filter(Boolean)
+          .map(Number)
+          .filter(l => l > start)
+          .sort((a, b) => a - b)[0];
+        end = (nextLine ?? start + 31) - 1;
+      }
+      end = Math.min(end, start + MAX_SNIPPET_LINES - 1, srcLines.length);
+      if (end < start) continue;
+
+      const body = srcLines.slice(start - 1, end).join("\n");
+      const cost = Math.ceil(body.length / CHARS_PER_TOKEN);
+      if (tokens + cost > budget) {
+        return lines.length ? "\n" + lines.join("\n") : "";
+      }
+      tokens += cost;
+
+      const lang =
+        file.endsWith(".py") ? "python"
+        : file.endsWith(".go") ? "go"
+        : file.endsWith(".sh") ? "bash"
+        : file.endsWith(".rb") ? "ruby"
+        : file.endsWith(".rs") ? "rust"
+        : file.endsWith(".java") ? "java"
+        : file.endsWith(".kt") ? "kotlin"
+        : file.endsWith(".scala") ? "scala"
+        : file.endsWith(".cpp") || file.endsWith(".cc") || file.endsWith(".hpp") ? "cpp"
+        : "ts";
+      lines.push(`### Source: ${sym.label} (\`${file}:${start}\`)`);
+      lines.push("```" + lang);
+      lines.push(body);
+      lines.push("```");
+      lines.push("");
+    }
+  }
+
+  return lines.length ? "\n" + lines.join("\n") : "";
+}
 
 /** Tokenize text: split camelCase and snake_case */
 function tokenize(text: string): string[] {
@@ -45,6 +140,7 @@ function estimateTokens(text: string): number {
 class TfIdfScorer {
   private idf = new Map<string, number>();
   private docs: Map<string, string[]> = new Map();
+  private labels = new Map<string, string>();
 
   constructor(nodes: Map<string, GraphNode>) {
     // Build document corpus: one doc per node (label + description)
@@ -54,6 +150,7 @@ class TfIdfScorer {
       const tokens = tokenize(text);
       if (tokens.length > 0) {
         this.docs.set(id, tokens);
+        this.labels.set(id, node.label);
         docCount++;
       }
     }
@@ -125,7 +222,32 @@ class TfIdfScorer {
     if (docNorm === 0) return 0;
 
     const cosine = dotProduct / (queryNorm * docNorm);
-    return Math.min(1, cosine + substringBonus);
+    let score = Math.min(1, cosine + substringBonus);
+
+    // Exact-label boost: naming a symbol verbatim must outrank lexical
+    // partials. Rules:
+    //   1. query contains the FULL label (>=8 chars) → 0.95
+    //      (long labels are specific; short generic words stay lexical)
+    //   2. label contains the WHOLE query (>=4 chars, not a stopword)
+    //      and isn't much longer → 0.9  (query "login" → "AuthController.login")
+    const EXACT_STOP = new Set([
+      "get", "set", "put", "add", "new", "list", "show", "find", "use",
+      "with", "from", "into", "what", "how", "the", "for", "and", "are",
+      "all", "any", "this", "that", "route", "routes", "file", "files",
+    ]);
+    const normLabel = (this.labels.get(nodeId) ?? "").toLowerCase().replace(/[^a-z0-9]/g, "");
+    const normQuery = queryTokens.join("");
+    if (normLabel.length >= 8 && normQuery.includes(normLabel)) {
+      score = Math.max(score, 0.95);
+    } else if (
+      normQuery.length >= 4 &&
+      !EXACT_STOP.has(normQuery) &&
+      normLabel.includes(normQuery) &&
+      normLabel.length <= normQuery.length + 12
+    ) {
+      score = Math.max(score, 0.9);
+    }
+    return score;
   }
 }
 

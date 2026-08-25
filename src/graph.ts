@@ -12,6 +12,9 @@
 
 import type { GraphNode, GraphEdge, ExtractionResult, GraphStats } from "./types.ts";
 
+/** Test/spec path pattern — de-weighted in ranking so tests don't dominate */
+const TEST_RE = /(^|[\\/])tests?[\\/]|\.test\.|\.spec\./i;
+
 export class KnowledgeGraph {
   nodes: Map<string, GraphNode> = new Map();
   edges: GraphEdge[] = [];
@@ -57,8 +60,34 @@ export class KnowledgeGraph {
         this.adjacency.set(node.id, new Set());
       }
     }
+
+    // Deduplicate edges: re-extracting a file whose edges already exist must
+    // not grow the edges array (it used to double graph.json on every watcher
+    // sync). Undirected graphs key on the unordered pair + relation so A→B and
+    // B→A collapse to one row, matching the full build (fromExtraction). Also
+    // cleans up already-doubled graphs.
+    const keyOf = (e: GraphEdge): string => {
+      const [a, b] = e.source < e.target ? [e.source, e.target] : [e.target, e.source];
+      const pair = this.isDirected ? `${e.source}\u0000${e.target}` : `${a}\u0000${b}`;
+      return `${pair}\u0000${e.relation}`;
+    };
+
+    const seen = new Set<string>();
+    const deduped: GraphEdge[] = [];
+    for (const e of this.edges) {
+      const k = keyOf(e);
+      if (!seen.has(k)) {
+        seen.add(k);
+        deduped.push(e);
+      }
+    }
+    this.edges = deduped;
+
     for (const edge of result.edges) {
       if (this.nodes.has(edge.source) && this.nodes.has(edge.target)) {
+        const k = keyOf(edge);
+        if (seen.has(k)) continue;
+        seen.add(k);
         this.edges.push({ ...edge });
         this.adjacency.get(edge.source)?.add(edge.target);
         this.adjacency.get(edge.target)?.add(edge.source);
@@ -106,6 +135,14 @@ export class KnowledgeGraph {
     for (const [i, id] of nodeIds.entries()) {
       const node = this.nodes.get(id);
       if (node) node.centrality = Math.round(scores[i] * 1000) / 1000;
+    }
+
+    // De-weight test/spec nodes so ranking and god nodes reflect
+    // production code. 0.1 keeps a weak signal — tune if tests matter.
+    for (const [, node] of this.nodes) {
+      if (node.sourceFile && TEST_RE.test(node.sourceFile)) {
+        node.centrality = Math.round((node.centrality ?? 0) * 0.1 * 1000) / 1000;
+      }
     }
   }
 
@@ -182,6 +219,7 @@ export class KnowledgeGraph {
   /** God nodes — highest degree nodes */
   topNodes(limit: number = 10): Array<{ id: string; label: string; degree: number }> {
     return [...this.nodes.values()]
+      .filter(n => !n.sourceFile || !TEST_RE.test(n.sourceFile))
       .map(n => ({
         id: n.id,
         label: n.label,

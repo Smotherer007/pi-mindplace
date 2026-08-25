@@ -111,4 +111,34 @@ describe("KnowledgeGraph", () => {
     assert.equal(kg.nodes.size, 7);
     assert.equal(kg.edges.length, 6);
   });
+
+  it("deduplicates edges on repeated merges (watcher sync must not double graph.json)", () => {
+    const kg = KnowledgeGraph.fromExtraction(sampleExtraction());
+    const edgeCount = kg.edges.length;
+    const extra: ExtractionResult = {
+      nodes: [
+        { id: "c_helper", label: "helper", type: "function", sourceFile: "c.ts", sourceLocation: "L1" },
+        { id: "mod_c", label: "moduleC", type: "file", sourceFile: "c.ts" },
+      ],
+      edges: [
+        { source: "mod_c", target: "c_helper", relation: "contains", confidence: "EXTRACTED" as const },
+      ],
+    };
+
+    // Merge the same extraction twice (simulating a watcher re-extracting a
+    // file whose edges are already in the graph).
+    kg.merge(extra);
+    kg.merge(extra);
+    assert.equal(kg.edges.length, edgeCount + 1, "duplicate edges must not accumulate");
+
+    // Reverse-direction edges collapse to the same row in an undirected graph.
+    const reverse: ExtractionResult = {
+      nodes: [],
+      edges: [
+        { source: "c_helper", target: "mod_c", relation: "contains", confidence: "EXTRACTED" as const },
+      ],
+    };
+    kg.merge(reverse);
+    assert.equal(kg.edges.length, edgeCount + 1, "A→B and B→A must collapse to one row");
+  });
 });

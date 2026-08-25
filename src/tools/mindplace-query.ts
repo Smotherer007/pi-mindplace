@@ -8,7 +8,9 @@ import { readFileSync, existsSync } from "node:fs";
 import { join } from "node:path";
 
 import { KnowledgeGraph } from "../graph.ts";
-import { query, formatQueryResult } from "../query.ts";
+import { query, formatQueryResult, buildSourceSnippets } from "../query.ts";
+import { refreshGraphIfStale } from "../refresh.ts";
+import { stalenessBanner } from "../watcher.ts";
 
 const OUT_DIR = "graph-out";
 
@@ -45,14 +47,18 @@ export const MindplaceQueryTool = {
     _onUpdate: (update: unknown) => void,
     ctx: ExtensionContext,
   ) {
-    const graphPath = join(ctx.cwd, OUT_DIR, "graph.json");
+    const root = ctx.cwd;
+    const graphPath = join(root, OUT_DIR, "graph.json");
+
+    // Auto-refresh graph if stale before querying
+    await refreshGraphIfStale(root);
 
     if (!existsSync(graphPath)) {
       return {
         content: [
           {
             type: "text" as const,
-            text: `No knowledge graph found. Run mindplace_build first to scan the codebase.`,
+            text: `No knowledge graph found. Pi-mindplace attempted to build it automatically but failed. Try running mindplace_build manually.`,
           },
         ],
         details: { graphExists: false },
@@ -66,7 +72,13 @@ export const MindplaceQueryTool = {
 
       const budget = params.budget ?? 4000;
       const result = query(kg, params.question, budget, "bfs", params.minScore ?? 0.15);
-      const formatted = formatQueryResult(result);
+      let formatted = formatQueryResult(result);
+
+      // Verbatim source for the top symbols — no need to read the files again
+      formatted += buildSourceSnippets(root, result.nodes, budget);
+
+      // Staleness banner: edits still inside the watcher's debounce window
+      formatted += stalenessBanner(root);
 
       return {
         content: [{ type: "text" as const, text: formatted }],

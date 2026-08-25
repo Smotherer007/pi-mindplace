@@ -9,6 +9,9 @@ import { join } from "node:path";
 
 import { KnowledgeGraph } from "../graph.ts";
 import type { GraphEdge } from "../types.ts";
+import { refreshGraphIfStale } from "../refresh.ts";
+import { stalenessBanner } from "../watcher.ts";
+import { buildSourceSnippets } from "../query.ts";
 
 const OUT_DIR = "graph-out";
 
@@ -30,7 +33,11 @@ export const MindplaceExplainTool = {
     _onUpdate: (update: unknown) => void,
     ctx: ExtensionContext,
   ) {
-    const graphPath = join(ctx.cwd, OUT_DIR, "graph.json");
+    const root = ctx.cwd;
+    const graphPath = join(root, OUT_DIR, "graph.json");
+
+    // Auto-refresh graph if stale before explaining
+    await refreshGraphIfStale(root);
 
     if (!existsSync(graphPath)) {
       return {
@@ -118,8 +125,9 @@ export const MindplaceExplainTool = {
         }
       }
 
+      const snippet = buildSourceSnippets(root, [node], 1200);
       return {
-        content: [{ type: "text" as const, text: lines.join("\n") }],
+        content: [{ type: "text" as const, text: stalenessBanner(root) + lines.join("\n") + snippet }],
         details: {
           nodeId: node.id,
           connections: neighbors.size,
