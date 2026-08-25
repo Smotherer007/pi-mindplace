@@ -4,17 +4,17 @@ Generated from `/Users/patrickweppelmann/Documents/Workspaces/pi-mindplace`
 
 ## Corpus
 
-- **Files scanned:** 20
-- **Languages:** 17 .ts, 2 .json, 1 .cjs
+- **Files scanned:** 23
+- **Languages:** 20 .ts, 2 .json, 1 .cjs
 
 ## Graph Statistics
 
 | Metric | Value |
 |--------|-------|
-| Nodes | 99 |
-| Edges | 479 |
-| Communities | 9 |
-| Avg. Degree | 9.7 |
+| Nodes | 113 |
+| Edges | 191 |
+| Communities | 11 |
+| Avg. Degree | 3.4 |
 
 ## God Nodes
 
@@ -22,11 +22,11 @@ The most-connected entities - these are the architectural pillars:
 
 | # | Node | Type | Connections | File |
 |---|------|------|-------------|------|
-| 1 | **src/graph.ts** | file | 20 | `src/graph.ts` |
-| 2 | **package.json** | file | 16 | `package.json` |
-| 3 | **src/extract.ts** | file | 16 | `src/extract.ts` |
+| 1 | **src/graph.ts** | file | 21 | `src/graph.ts` |
+| 2 | **src/extract.ts** | file | 18 | `src/extract.ts` |
+| 3 | **package.json** | file | 16 | `package.json` |
 | 4 | **KnowledgeGraph** | class | 15 | `src/graph.ts` |
-| 5 | **src/query.ts** | file | 12 | `src/query.ts` |
+| 5 | **src/query.ts** | file | 14 | `src/query.ts` |
 
 ## Communities
 
@@ -34,9 +34,11 @@ The graph was partitioned into these subsystems:
 
 | Community | Size | Key Members |
 |-----------|------|-------------|
-| **KnowledgeGraph.fileRanking** | 68 | index.ts, graphPath, src/detect.ts |
+| **stalenessBanner** | 50 | index.ts, graphPath, buildFileContext |
+| **generateHtml** | 30 | src/graph.ts, KnowledgeGraph, KnowledgeGraph.nodes |
 | **pi** | 17 | package.json, name, version |
 | **UserController.login** | 5 | tests/fixtures/sample-project/src/auth.ts, validateCredentials, tests/fixtures/sample-project/src/controller.ts |
+| **createCSharpProject** | 2 | tests/csharp.test.ts, createCSharpProject |
 | **createSession** | 2 | authenticateUser, createSession |
 | **sampleExtraction** | 2 | tests/graph.test.ts, sampleExtraction |
 | **sampleGraph** | 2 | tests/query.test.ts, sampleGraph |
@@ -46,18 +48,22 @@ The graph was partitioned into these subsystems:
 
 ## Surprising Connections
 
+- **index.ts** → `imports` → **src/graph.ts**: Cross-community bridge between "src/extract.ts" and "src/graph.ts"
+- **src/detect.ts** → `imports` → **src/types.ts**: Cross-community bridge between "src/extract.ts" and "src/graph.ts"
+- **src/detect.ts** → `imports` → **src/types.ts**: Cross-community bridge between "src/extract.ts" and "src/graph.ts"
+- **src/extract.ts** → `imports` → **src/types.ts**: Cross-community bridge between "src/extract.ts" and "src/graph.ts"
+- **src/extract.ts** → `imports` → **src/types.ts**: Cross-community bridge between "src/extract.ts" and "src/graph.ts"
+- **src/query.ts** → `imports` → **src/types.ts**: Cross-community bridge between "src/extract.ts" and "src/graph.ts"
+- **src/query.ts** → `imports` → **src/graph.ts**: Cross-community bridge between "src/extract.ts" and "src/graph.ts"
+- **src/refresh.ts** → `imports` → **src/graph.ts**: Cross-community bridge between "src/extract.ts" and "src/graph.ts"
+- **src/watcher.ts** → `imports` → **src/types.ts**: Cross-community bridge between "src/extract.ts" and "src/graph.ts"
 - **tests/fixtures/sample-project/src/auth.ts** → `contains` → **authenticateUser**: Cross-community bridge between "tests/fixtures/sample-project/src/auth.ts" and "authenticateUser"
-- **tests/fixtures/sample-project/src/auth.ts** → `contains` → **createSession**: Cross-community bridge between "tests/fixtures/sample-project/src/auth.ts" and "authenticateUser"
-- **tests/fixtures/sample-project/src/auth.ts** → `contains` → **authenticateUser**: Cross-community bridge between "tests/fixtures/sample-project/src/auth.ts" and "authenticateUser"
-- **tests/fixtures/sample-project/src/auth.ts** → `contains` → **createSession**: Cross-community bridge between "tests/fixtures/sample-project/src/auth.ts" and "authenticateUser"
-- **tests/fixtures/sample-project/src/auth.ts** → `contains` → **authenticateUser**: Cross-community bridge between "tests/fixtures/sample-project/src/auth.ts" and "authenticateUser"
-- **tests/fixtures/sample-project/src/auth.ts** → `contains` → **createSession**: Cross-community bridge between "tests/fixtures/sample-project/src/auth.ts" and "authenticateUser"
 
 ## Suggested Questions
 
-- How does **src/graph.ts** connect to **package.json**?
+- How does **src/graph.ts** connect to **src/extract.ts**?
 - What calls **src/graph.ts** and what does it depend on?
-- Trace the data flow between **index.ts** and **package.json**
+- Trace the data flow between **index.ts** and **src/graph.ts**
 - Which modules have the most dependencies?
 - Show me the architecture of the `src/graph.ts` subsystem
 - What is the most heavily connected module in the codebase?
