@@ -22,9 +22,13 @@ When `graph-out/graph.json` exists, the extension injects graph-first instructio
 
 This mirrors graphify's PreToolUse hook but adapted to pi's extension model via `before_agent_start`. The graph is built once (one-time token cost) and every subsequent codebase question is answered from the graph instead of re-reading files.
 
+### Automatic freshness
+
+The graph stays up to date without manual rebuilds. A file watcher keeps the graph in sync while you code (2s debounce), and every query auto-refreshes the graph when source files are newer than the graph — so queries are never stale. A staleness banner warns about edits still inside the debounce window. Query results also include verbatim source snippets for the top symbols, so you usually don't need to re-read the files.
+
 ## Supported languages
 
-JavaScript, TypeScript, Python, Go, Java, Rust, C++, Ruby, Kotlin, Scala, Bash, JSON
+JavaScript, TypeScript, Python, Go, Java, Rust, C++, Ruby, Kotlin, Scala, Bash, JSON, C#
 
 ## Install
 
@@ -105,6 +109,8 @@ pi-mindplace/
 |   +-- extract.ts            tree-sitter AST extraction with SHA256 caching
 |   +-- graph.ts              KnowledgeGraph class (PageRank, Louvain, directed mode)
 |   +-- query.ts              TF-IDF scorer + BFS/DFS traversal with token budget
+|   +-- refresh.ts            Auto-refresh (staleness check + incremental rebuild)
+|   +-- watcher.ts            File watcher (keeps the graph in sync while coding)
 |   +-- report.ts             GRAPH_REPORT.md generator
 |   +-- viz.ts                D3.js standalone graph.html generator
 |   +-- tools/
@@ -116,6 +122,7 @@ pi-mindplace/
     +-- extract.test.ts
     +-- graph.test.ts
     +-- query.test.ts
+    +-- csharp.test.ts
     +-- fixtures/
 ```
 
