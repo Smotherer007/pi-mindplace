@@ -1,192 +1,105 @@
 /**
- * AST extraction using tree-sitter with SHA256 caching.
+ * AST extraction using web-tree-sitter (WebAssembly) with SHA256 caching.
  *
- * Supports: JavaScript, TypeScript, Python, Go, Bash, JSON, C#
+ * WASM grammars are platform-independent — no native `.node` binaries, no
+ * glibc / libstdc++ dependency. This works on Debian 11 and any Node runtime.
+ *
+ * Supports: JavaScript, TypeScript, Python, Go, Bash, JSON, C#, Java, Rust,
+ * C++, Ruby, Kotlin, Scala.
  * Each file is hashed — unchanged files skip re-extraction.
  */
 
 import { readFileSync, writeFileSync, mkdirSync, existsSync, statSync } from "node:fs";
 import { resolve, join, dirname } from "node:path";
+import { fileURLToPath } from "node:url";
 import { createHash } from "node:crypto";
-import { createRequire } from "node:module";
-import { spawnSync } from "node:child_process";
-import Parser from "tree-sitter";
+import { Parser, Language } from "web-tree-sitter";
+import type { SyntaxNode, Tree } from "web-tree-sitter";
 
 import type { ExtractionResult, GraphEdge, GraphNode } from "./types.ts";
 import { CODE_EXTENSIONS } from "./types.ts";
 
-const parser = new Parser();
+// ═══ web-tree-sitter setup ══════════════════════════════════════════════════
 
-// ── Lazy + self-building grammar loading ────────────────────────────────────
-//
-// Tree-sitter grammar packages ship native `.node` addons resolved via
-// `node-gyp-build`. Some grammars do not publish a prebuilt binary for every
-// platform/Node ABI (e.g. tree-sitter-kotlin has no linux-x64 prebuild for
-// Node 26 / ABI 147), so importing one at module scope would crash the whole
-// extension on install. On top of that, npm v12 blocks install scripts by
-// default (the `allowScripts` allowlist is governed by the *root* project, which
-// pi controls), so a `postinstall` in this package would never run. Therefore:
-//   - We load each grammar lazily.
-//   - If the native addon is missing, we compile it from source on demand with
-//     node-gyp (the same thing the package's install script would have done).
-//   - If the build can't run (no compiler / no node-gyp / timeout), we degrade
-//     gracefully: skip only that language, keep everything else working.
-const _require = createRequire(import.meta.url);
+/** Directory holding the bundled WASM grammar files (ships with the package). */
+const GRAMMAR_DIR = join(dirname(fileURLToPath(import.meta.url)), "grammars");
 
-interface GrammarSpec {
-  /** CJS module path that resolves to the grammar binding */
-  module: string;
-  /** File extensions this grammar can parse */
-  exts: string[];
+/** Maps a file extension to the bundled WASM grammar filename. */
+const GRAMMAR_BY_EXT: Record<string, string> = {
+  // JavaScript
+  ".js": "javascript.wasm",
+  ".mjs": "javascript.wasm",
+  ".cjs": "javascript.wasm",
+  ".jsx": "tsx.wasm", // JSX is handled by the TSX grammar
+  // TypeScript
+  ".ts": "typescript.wasm",
+  ".mts": "typescript.wasm",
+  ".cts": "typescript.wasm",
+  ".tsx": "tsx.wasm",
+  // Python
+  ".py": "python.wasm",
+  ".pyi": "python.wasm",
+  // Go
+  ".go": "go.wasm",
+  // Bash
+  ".sh": "bash.wasm",
+  ".bash": "bash.wasm",
+  ".zsh": "bash.wasm",
+  // JSON
+  ".json": "json.wasm",
+  // Java
+  ".java": "java.wasm",
+  // Rust
+  ".rs": "rust.wasm",
+  // C++
+  ".cpp": "cpp.wasm",
+  ".cc": "cpp.wasm",
+  ".cxx": "cpp.wasm",
+  ".hpp": "cpp.wasm",
+  ".hh": "cpp.wasm",
+  ".hxx": "cpp.wasm",
+  // C#
+  ".cs": "csharp.wasm",
+  // Ruby
+  ".rb": "ruby.wasm",
+  // Kotlin
+  ".kt": "kotlin.wasm",
+  ".kts": "kotlin.wasm",
+  // Scala
+  ".scala": "scala.wasm",
+  ".sc": "scala.wasm",
+};
+
+// Loaded grammars are cached so each wasm is compiled only once per session.
+const grammarCache = new Map<string, Language>();
+let parser: Parser | null = null;
+let initPromise: Promise<void> | null = null;
+
+function ensureInit(): Promise<void> {
+  if (!initPromise) initPromise = Parser.init();
+  return initPromise;
 }
 
-const GRAMMAR_SPECS: GrammarSpec[] = [
-  { module: "tree-sitter-javascript", exts: [".js", ".mjs", ".cjs"] },
-  { module: "tree-sitter-typescript/bindings/node/typescript.js", exts: [".ts", ".mts", ".cts"] },
-  { module: "tree-sitter-typescript/bindings/node/tsx.js", exts: [".tsx", ".jsx"] },
-  { module: "tree-sitter-python", exts: [".py", ".pyi"] },
-  { module: "tree-sitter-go", exts: [".go"] },
-  { module: "tree-sitter-bash", exts: [".sh", ".bash", ".zsh"] },
-  { module: "tree-sitter-json", exts: [".json"] },
-  { module: "tree-sitter-java", exts: [".java"] },
-  { module: "tree-sitter-rust", exts: [".rs"] },
-  { module: "tree-sitter-cpp", exts: [".cpp", ".cc", ".cxx", ".hpp", ".hh", ".hxx"] },
-  { module: "tree-sitter-c-sharp", exts: [".cs"] },
-  { module: "tree-sitter-ruby", exts: [".rb"] },
-  { module: "tree-sitter-kotlin", exts: [".kt", ".kts"] },
-  { module: "tree-sitter-scala", exts: [".scala", ".sc"] },
-];
-
-interface LoadedGrammar {
-  grammar: Parser.Language;
-  exts: Set<string>;
+async function getParser(): Promise<Parser> {
+  await ensureInit();
+  if (!parser) parser = new Parser();
+  return parser;
 }
 
-const grammarCache = new Map<string, LoadedGrammar | null>();
-const grammarWarned = new Set<string>();
+async function loadGrammarFor(file: string): Promise<Language | null> {
+  const ext = file.includes(".") ? file.slice(file.lastIndexOf(".")) : "";
+  const wasm = GRAMMAR_BY_EXT[ext];
+  if (!wasm) return null;
 
-/** Time budget (ms) for a single from-source grammar build. */
-const BUILD_TIMEOUT_MS = 180_000;
-
-let nodeGypBinCache: string | null | undefined;
-/**
- * Locate node-gyp, which npm bundles for every platform (Windows/Linux/macOS),
- * so we can compile a grammar from source when no prebuilt binary exists.
- */
-function getNodeGypBin(): string | null {
-  if (nodeGypBinCache !== undefined) return nodeGypBinCache;
-  nodeGypBinCache = null;
-
-  // 1. node-gyp is already in the module resolution path
-  try {
-    const pkgJson = _require.resolve("node-gyp/package.json");
-    const pkg = _require(pkgJson) as { bin?: string | Record<string, string> };
-    const bin = typeof pkg.bin === "string" ? pkg.bin : pkg.bin?.["node-gyp"];
-    if (bin) {
-      nodeGypBinCache = join(dirname(pkgJson), bin);
-      return nodeGypBinCache;
-    }
-  } catch {
-    /* not in module tree */
+  let lang = grammarCache.get(wasm);
+  if (!lang) {
+    lang = await Language.load(join(GRAMMAR_DIR, wasm));
+    grammarCache.set(wasm, lang);
   }
-
-  // 2. npm's bundled node-gyp (npm resolves it on every platform)
-  try {
-    const res = spawnSync("npm", ["root", "-g"], { encoding: "utf-8", stdio: ["ignore", "pipe", "pipe"] });
-    if (res.status === 0) {
-      const npmRoot = (res.stdout || "").trim();
-      for (const cand of [
-        join(npmRoot, "npm", "node_modules", "node-gyp", "bin", "node-gyp.js"),
-        join(npmRoot, "node-gyp", "bin", "node-gyp.js"),
-      ]) {
-        if (existsSync(cand)) {
-          nodeGypBinCache = cand;
-          return cand;
-        }
-      }
-    }
-  } catch {
-    /* npm unavailable */
-  }
-
-  return null;
+  return lang;
 }
 
-/** Resolve the package directory (the dir containing `package.json`) for a grammar spec. */
-function grammarPackageDir(spec: GrammarSpec): string | null {
-  const pkgName = spec.module.split("/")[0];
-  try {
-    return dirname(_require.resolve(`${pkgName}/package.json`));
-  } catch {
-    return null;
-  }
-}
-
-/**
- * Compile a grammar's native addon from source via `node-gyp rebuild` (the same
- * thing the package's `install` script would have run). Cross-platform: node-gyp
- * uses MSVC on Windows and gcc/clang on Linux/macOS.
- */
-function buildGrammar(spec: GrammarSpec): boolean {
-  const pkgDir = grammarPackageDir(spec);
-  const nodeGyp = getNodeGypBin();
-  if (!pkgDir || !nodeGyp) return false;
-
-  try {
-    const res = spawnSync(process.execPath, [nodeGyp, "rebuild"], {
-      cwd: pkgDir,
-      stdio: ["ignore", "pipe", "pipe"],
-      encoding: "utf-8",
-      timeout: BUILD_TIMEOUT_MS,
-      windowsHide: true,
-    });
-    return res.status === 0;
-  } catch {
-    return false;
-  }
-}
-
-/**
- * Synchronously load a grammar via the CJS binding. If the native addon is
- * missing (no prebuild for this platform/ABI, and npm v12 blocks install
- * scripts so nothing was built), try to compile it from source. If that fails
- * too (no compiler / no node-gyp / build timeout), degrade gracefully: warn
- * once and skip just this language instead of failing the whole extension.
- */
-function loadGrammar(spec: GrammarSpec): LoadedGrammar | null {
-  const key = spec.module;
-  if (grammarCache.has(key)) return grammarCache.get(key) ?? null;
-
-  const tryLoad = (): LoadedGrammar | null => {
-    try {
-      const grammar = _require(spec.module) as unknown as Parser.Language;
-      const loaded: LoadedGrammar = { grammar, exts: new Set(spec.exts) };
-      return loaded;
-    } catch {
-      return null;
-    }
-  };
-
-  let loaded = tryLoad();
-  if (!loaded && buildGrammar(spec)) loaded = tryLoad();
-
-  if (loaded) {
-    grammarCache.set(key, loaded);
-    return loaded;
-  }
-
-  grammarCache.set(key, null);
-  if (!grammarWarned.has(key)) {
-    grammarWarned.add(key);
-    console.warn(
-      `[pi-mindplace] Grammar "${spec.module}" unavailable — no native build found and a from-source build failed. ` +
-        `Files with extension(s) ${spec.exts.join(", ")} will be skipped.`,
-    );
-  }
-  return null;
-}
-
-// ── SHA256 Cache ──────────────────────────────────────────────────────────────
+// ═══ SHA256 Cache ════════════════════════════════════════════════════════════
 
 function fileHash(absPath: string): string {
   return createHash("sha256").update(readFileSync(absPath)).digest("hex").slice(0, 16);
@@ -218,7 +131,7 @@ function saveCache(cacheDir: string, cache: Map<string, CacheEntry>): void {
   writeFileSync(join(cacheDir, "cache.json"), JSON.stringify(obj, null, 2), "utf-8");
 }
 
-// ── Node ID helpers ───────────────────────────────────────────────────────────
+// ═══ Node ID helpers ═════════════════════════════════════════════════════════
 
 function nodeId(file: string, name: string): string {
   const clean = file.replace(/[\\/]/g, "_").replace(/\.[^.]+$/, "");
@@ -226,17 +139,9 @@ function nodeId(file: string, name: string): string {
   return `${clean}_${safeName}`;
 }
 
-function pickGrammar(file: string): Parser.Language | null {
-  const ext = file.includes(".") ? file.slice(file.lastIndexOf(".")) : "";
-  for (const spec of GRAMMAR_SPECS) {
-    if (spec.exts.includes(ext)) return loadGrammar(spec)?.grammar ?? null;
-  }
-  return null;
-}
+// ═══ JS/TS Extraction ════════════════════════════════════════════════════════
 
-// ── JS/TS Extraction ──────────────────────────────────────────────────────────
-
-function extractJS_TS(filePath: string, source: string, root: string, tree: Parser.Tree): ExtractionResult {
+function extractJS_TS(filePath: string, source: string, root: string, tree: Tree): ExtractionResult {
   const nodes: GraphNode[] = [];
   const edges: GraphEdge[] = [];
   const seenIds = new Set<string>();
@@ -245,7 +150,7 @@ function extractJS_TS(filePath: string, source: string, root: string, tree: Pars
   nodes.push({ id: fileNodeId, label: filePath, type: "file", sourceFile: filePath });
   seenIds.add(fileNodeId);
 
-  function addNode(name: string, type: string, node: Parser.SyntaxNode): string {
+  function addNode(name: string, type: string, node: SyntaxNode): string {
     const id = nodeId(filePath, name);
     if (seenIds.has(id)) return id;
     seenIds.add(id);
@@ -262,7 +167,7 @@ function extractJS_TS(filePath: string, source: string, root: string, tree: Pars
     return id;
   }
 
-  function walk(node: Parser.SyntaxNode): void {
+  function walk(node: SyntaxNode): void {
     const t = node.type;
 
     if (t === "function_declaration" || t === "generator_function_declaration") {
@@ -357,9 +262,9 @@ function extractJS_TS(filePath: string, source: string, root: string, tree: Pars
   return { nodes, edges };
 }
 
-// ── Python Extraction ─────────────────────────────────────────────────────────
+// ═══ Python Extraction ═══════════════════════════════════════════════════════
 
-function extractPython(filePath: string, source: string, _root: string, tree: Parser.Tree): ExtractionResult {
+function extractPython(filePath: string, source: string, _root: string, tree: Tree): ExtractionResult {
   const nodes: GraphNode[] = [];
   const edges: GraphEdge[] = [];
   const seenIds = new Set<string>();
@@ -367,7 +272,7 @@ function extractPython(filePath: string, source: string, _root: string, tree: Pa
   nodes.push({ id: fileNodeId, label: filePath, type: "file", sourceFile: filePath });
   seenIds.add(fileNodeId);
 
-  function addNode(name: string, type: string, node: Parser.SyntaxNode): string {
+  function addNode(name: string, type: string, node: SyntaxNode): string {
     const id = nodeId(filePath, name);
     if (seenIds.has(id)) return id;
     seenIds.add(id);
@@ -386,7 +291,7 @@ function extractPython(filePath: string, source: string, _root: string, tree: Pa
     return id;
   }
 
-  function walk(node: Parser.SyntaxNode): void {
+  function walk(node: SyntaxNode): void {
     const t = node.type;
 
     if (t === "function_definition") {
@@ -463,9 +368,9 @@ function extractPython(filePath: string, source: string, _root: string, tree: Pa
   return { nodes, edges };
 }
 
-// ── Go Extraction ─────────────────────────────────────────────────────────────
+// ═══ Go Extraction ═══════════════════════════════════════════════════════════
 
-function extractGo(filePath: string, source: string, _root: string, tree: Parser.Tree): ExtractionResult {
+function extractGo(filePath: string, source: string, _root: string, tree: Tree): ExtractionResult {
   const nodes: GraphNode[] = [];
   const edges: GraphEdge[] = [];
   const seenIds = new Set<string>();
@@ -473,7 +378,7 @@ function extractGo(filePath: string, source: string, _root: string, tree: Parser
   nodes.push({ id: fileNodeId, label: filePath, type: "file", sourceFile: filePath });
   seenIds.add(fileNodeId);
 
-  function addNode(name: string, type: string, node: Parser.SyntaxNode): string {
+  function addNode(name: string, type: string, node: SyntaxNode): string {
     const id = nodeId(filePath, name);
     if (seenIds.has(id)) return id;
     seenIds.add(id);
@@ -482,7 +387,7 @@ function extractGo(filePath: string, source: string, _root: string, tree: Parser
     return id;
   }
 
-  function walk(node: Parser.SyntaxNode): void {
+  function walk(node: SyntaxNode): void {
     const t = node.type;
 
     if (t === "function_declaration") {
@@ -530,7 +435,7 @@ function extractGo(filePath: string, source: string, _root: string, tree: Parser
   return { nodes, edges };
 }
 
-// ── Bash Extraction ───────────────────────────────────────────────────────────
+// ═══ Bash Extraction ═════════════════════════════════════════════════════════
 
 function extractBash(filePath: string, _source: string, _root: string): ExtractionResult {
   const nodes: GraphNode[] = [];
@@ -556,7 +461,7 @@ function extractBash(filePath: string, _source: string, _root: string): Extracti
   return { nodes, edges };
 }
 
-// ── JSON Extraction ───────────────────────────────────────────────────────────
+// ═══ JSON Extraction ═════════════════════════════════════════════════════════
 
 function extractJson(filePath: string, source: string, _root: string): ExtractionResult {
   const nodes: GraphNode[] = [];
@@ -577,12 +482,12 @@ function extractJson(filePath: string, source: string, _root: string): Extractio
   return { nodes, edges };
 }
 
-// ── Generic extractor (Java, C++, Rust, Ruby, Kotlin, Scala) ───────────────
+// ═══ Generic extractor (Java, C++, Rust, Ruby, Kotlin, Scala) ════════════════
 
 /** Node types that represent named definitions across languages */
 const CALL_EXPR_TYPES = new Set(["call_expression", "method_invocation", "call"]);
 
-function extractGeneric(filePath: string, source: string, tree: Parser.Tree): ExtractionResult {
+function extractGeneric(filePath: string, source: string, tree: Tree): ExtractionResult {
   const nodes: GraphNode[] = [];
   const edges: GraphEdge[] = [];
   const seenIds = new Set<string>();
@@ -590,7 +495,7 @@ function extractGeneric(filePath: string, source: string, tree: Parser.Tree): Ex
   nodes.push({ id: fileNodeId, label: filePath, type: "file", sourceFile: filePath });
   seenIds.add(fileNodeId);
 
-  function addNode(name: string, type: string, node: Parser.SyntaxNode): string {
+  function addNode(name: string, type: string, node: SyntaxNode): string {
     const id = nodeId(filePath, name);
     if (seenIds.has(id)) return id;
     seenIds.add(id);
@@ -599,7 +504,7 @@ function extractGeneric(filePath: string, source: string, tree: Parser.Tree): Ex
     return id;
   }
 
-  function walk(n: Parser.SyntaxNode): void {
+  function walk(n: SyntaxNode): void {
     const t = n.type;
 
     // Named function/method
@@ -665,9 +570,9 @@ function extractGeneric(filePath: string, source: string, tree: Parser.Tree): Ex
   return { nodes, edges };
 }
 
-// ── C# extraction ───────────────────────────────────────────────────────────
+// ═══ C# extraction ══════════════════════════════════════════════════════════
 
-function extractCSharp(filePath: string, tree: Parser.Tree): ExtractionResult {
+function extractCSharp(filePath: string, tree: Tree): ExtractionResult {
   const nodes: GraphNode[] = [];
   const edges: GraphEdge[] = [];
   const seenNodeIds = new Set<string>();
@@ -691,7 +596,7 @@ function extractCSharp(filePath: string, tree: Parser.Tree): ExtractionResult {
   function addNode(
     name: string,
     type: string,
-    node: Parser.SyntaxNode,
+    node: SyntaxNode,
     parentId: string,
   ): string {
     const id = nodeId(filePath, name);
@@ -709,7 +614,7 @@ function extractCSharp(filePath: string, tree: Parser.Tree): ExtractionResult {
     return id;
   }
 
-  function declarationName(node: Parser.SyntaxNode): string {
+  function declarationName(node: SyntaxNode): string {
     return (
       node.childForFieldName?.("name")?.text ??
       node.descendantsOfType("identifier")[0]?.text ??
@@ -717,7 +622,7 @@ function extractCSharp(filePath: string, tree: Parser.Tree): ExtractionResult {
     );
   }
 
-  function addBaseTypes(node: Parser.SyntaxNode, ownerId: string): void {
+  function addBaseTypes(node: SyntaxNode, ownerId: string): void {
     const baseList =
       node.childForFieldName?.("base_list") ??
       node.children.find((child) => child.type === "base_list");
@@ -733,14 +638,14 @@ function extractCSharp(filePath: string, tree: Parser.Tree): ExtractionResult {
     }
   }
 
-  function addCalls(node: Parser.SyntaxNode, ownerId: string): void {
+  function addCalls(node: SyntaxNode, ownerId: string): void {
     for (const invocation of node.descendantsOfType("invocation_expression")) {
       const target = invocation.childForFieldName?.("function")?.text;
       if (target) addEdge(ownerId, nodeId(filePath, target), "calls", "INFERRED");
     }
   }
 
-  function walk(node: Parser.SyntaxNode, parentId: string, scope: string): void {
+  function walk(node: SyntaxNode, parentId: string, scope: string): void {
     if (node.type === "compilation_unit") {
       let activeParentId = parentId;
       let activeScope = scope;
@@ -841,11 +746,11 @@ function extractCSharp(filePath: string, tree: Parser.Tree): ExtractionResult {
   return { nodes, edges };
 }
 
-// ── Dispatch ──────────────────────────────────────────────────────────────────
+// ═══ Dispatch ════════════════════════════════════════════════════════════════
 
-function extractFile(filePath: string, root: string): ExtractionResult {
+async function extractFile(filePath: string, root: string): Promise<ExtractionResult> {
   const absPath = resolve(root, filePath);
-  const grammar = pickGrammar(filePath);
+  const grammar = await loadGrammarFor(filePath);
   if (!grammar) return { nodes: [], edges: [] };
 
   // Skip files larger than 1MB (e.g. package-lock.json, large data files)
@@ -858,10 +763,11 @@ function extractFile(filePath: string, root: string): ExtractionResult {
 
   const source = readFileSync(absPath, "utf-8");
 
-  let tree: Parser.Tree;
+  let tree: Tree;
   try {
-    parser.setLanguage(grammar);
-    tree = parser.parse(source);
+    const p = await getParser();
+    p.setLanguage(grammar);
+    tree = await p.parse(source);
   } catch {
     // Tree-sitter parse error (corrupt file, unsupported syntax, etc.)
     return { nodes: [], edges: [] };
@@ -896,7 +802,7 @@ function extractFile(filePath: string, root: string): ExtractionResult {
   }
 }
 
-// ── Public API ────────────────────────────────────────────────────────────────
+// ═══ Public API ══════════════════════════════════════════════════════════════
 
 /**
  * Resolve a relative module path to an actual file.
@@ -936,13 +842,16 @@ function resolveModulePath(fromFile: string, modPath: string, root: string): str
  * @param cacheDir Cache directory (null = no cache)
  * @param force Ignore cache
  */
-export function extract(
+export async function extract(
   root: string,
   files: string[],
   cacheDir?: string,
   force?: boolean,
   onProgress?: (done: number) => void,
-): ExtractionResult & { cached: number; extracted: number } {
+): Promise<ExtractionResult & { cached: number; extracted: number }> {
+  // Ensure web-tree-sitter runtime is initialised once before parsing.
+  await ensureInit();
+
   const cache = cacheDir ? loadCache(cacheDir) : new Map<string, CacheEntry>();
   const allNodes: GraphNode[] = [];
   const allEdges: GraphEdge[] = [];
@@ -966,7 +875,7 @@ export function extract(
       continue;
     }
 
-    const result = extractFile(file, root);
+    const result = await extractFile(file, root);
     for (const n of result.nodes) {
       if (!seenIds.has(n.id)) { seenIds.add(n.id); allNodes.push(n); }
     }

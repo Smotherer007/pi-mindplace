@@ -80,7 +80,7 @@ export async function refreshGraphIfStale(cwd: string): Promise<{ refreshed: boo
 
     // No graph or stale — extract incrementally via the file cache
     const cacheDir = join(cwd, OUT_DIR, "cache");
-    const extResult = extract(cwd, detected.files, cacheDir, false);
+    const extResult = await extract(cwd, detected.files, cacheDir, false);
 
     let kg: KnowledgeGraph;
     if (exists) {

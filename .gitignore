@@ -1,4 +1,3 @@
 node_modules/
 graph-out/cache/
-*.wasm
 .DS_Store

@@ -11,9 +11,9 @@ import { resolve } from "node:path";
 const FIXTURES = resolve(import.meta.dirname ?? ".", "fixtures", "sample-project");
 
 describe("extract", () => {
-  it("extracts functions from TypeScript files", () => {
+  it("extracts functions from TypeScript files", async () => {
     const detected = detect(FIXTURES);
-    const result = extract(FIXTURES, detected.files);
+    const result = await extract(FIXTURES, detected.files);
 
     assert.ok(result.nodes.length > 0, "should extract at least one node");
     assert.ok(result.edges.length > 0, "should extract at least one edge");
@@ -25,44 +25,44 @@ describe("extract", () => {
     assert.ok(authFn?.sourceFile.includes("auth.ts"), "should reference correct source file");
   });
 
-  it("extracts classes from TypeScript files", () => {
+  it("extracts classes from TypeScript files", async () => {
     const detected = detect(FIXTURES);
-    const result = extract(FIXTURES, detected.files);
+    const result = await extract(FIXTURES, detected.files);
 
     const controller = result.nodes.find(n => n.label === "UserController" && n.type === "class");
     assert.ok(controller, "should extract UserController class");
     assert.equal(controller?.type, "class");
   });
 
-  it("extracts import edges", () => {
+  it("extracts import edges", async () => {
     const detected = detect(FIXTURES);
-    const result = extract(FIXTURES, detected.files);
+    const result = await extract(FIXTURES, detected.files);
 
     const importEdges = result.edges.filter(e => e.relation === "imports");
     assert.ok(importEdges.length > 0, "should extract import edges");
   });
 
-  it("extracts call edges for known functions", () => {
+  it("extracts call edges for known functions", async () => {
     const detected = detect(FIXTURES);
-    const result = extract(FIXTURES, detected.files);
+    const result = await extract(FIXTURES, detected.files);
 
     const callEdges = result.edges.filter(e => e.relation === "calls");
     // authenticateUser calls validateCredentials
     assert.ok(callEdges.length > 0, "should extract call edges");
   });
 
-  it("assigns unique IDs to all nodes", () => {
+  it("assigns unique IDs to all nodes", async () => {
     const detected = detect(FIXTURES);
-    const result = extract(FIXTURES, detected.files);
+    const result = await extract(FIXTURES, detected.files);
 
     const ids = result.nodes.map(n => n.id);
     const uniqueIds = new Set(ids);
     assert.equal(ids.length, uniqueIds.size, "all node IDs should be unique");
   });
 
-  it("includes source locations", () => {
+  it("includes source locations", async () => {
     const detected = detect(FIXTURES);
-    const result = extract(FIXTURES, detected.files);
+    const result = await extract(FIXTURES, detected.files);
 
     for (const node of result.nodes) {
       if (node.type !== "file") {

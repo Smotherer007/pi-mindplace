@@ -63,7 +63,7 @@ export const MindplaceBuildTool = {
       const totalToExtract = detected.files.length;
       let lastReported = 0;
 
-      const extResult = extract(root, detected.files, cacheDir, params.force, (done) => {
+      const extResult = await extract(root, detected.files, cacheDir, params.force, (done) => {
         if (done - lastReported >= 10 || done === totalToExtract) {
           lastReported = done;
           _onUpdate({

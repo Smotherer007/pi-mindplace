@@ -2,7 +2,8 @@
  * pi-mindplace — Knowledge Graph Extension for pi
  *
  * Sherlock's Mind Place for your codebase. Builds a queryable knowledge graph
- * from your source code using tree-sitter AST parsing.
+ * from your source code using tree-sitter (via web-tree-sitter WASM grammars,
+ * so there are no native binaries / no libstdc++ dependency).
  *
  * KEY TOKEN SAVINGS MECHANISM:
  *   When graph-out/graph.json exists, we inject system prompt instructions

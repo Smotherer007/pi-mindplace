@@ -45,10 +45,10 @@ public delegate void ChangedHandler(object sender);
 }
 
 describe("C# extraction", () => {
-  it("detects C# files and extracts modern declaration and relationship nodes", () => {
+  it("detects C# files and extracts modern declaration and relationship nodes", async () => {
     const root = createCSharpProject();
     const detected = detect(root);
-    const result = extract(root, detected.files);
+    const result = await extract(root, detected.files);
 
     assert.deepEqual(detected.files, ["Greeter.cs", "Program.cs"]);
     assert.ok(
